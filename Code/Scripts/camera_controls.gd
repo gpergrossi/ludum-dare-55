@@ -19,15 +19,23 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta : float):
 	if mouse_capture_handler.is_mouse_captured():
-		if mouse_capture_handler.is_mouse_in_left_margin() or Input.is_key_pressed(KEY_LEFT):
+		if mouse_capture_handler.is_mouse_in_left_margin() or Input.is_action_pressed("move_left"):
 			position.x -= scroll_speed * delta
 			if is_instance_valid(left_edge):
 				position.x = maxf(position.x, left_edge.position.x)
 		
-		if mouse_capture_handler.is_mouse_in_right_margin() or Input.is_key_pressed(KEY_RIGHT):
+		if mouse_capture_handler.is_mouse_in_right_margin() or Input.is_action_pressed("move_right"):
 			position.x += scroll_speed * delta
 			if is_instance_valid(right_edge):
 				position.x = minf(position.x, right_edge.position.x)
+				
+		if Input.is_action_pressed("move_up"):
+			position.y += scroll_speed * delta
+			position.y = minf(position.y, 20.0)
+			
+		if Input.is_action_pressed("move_down"):
+			position.y -= scroll_speed * delta
+			position.y = maxf(position.y, 0.0)
 	
 	if Input.is_action_just_pressed("zoom_in"):
 		_current_zoom_distance -= 10.0
