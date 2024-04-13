@@ -46,8 +46,18 @@ func _input(event : InputEvent) -> void:
 	
 
 func _maybe_add_to_path(vertex_idx : int) -> void:
+	# Edges must be between different vertices.
 	if not _current_path.is_empty() and _current_path.back() == vertex_idx:
-		return  # TODO also forbid repeat edges.
+		return
+	
+	# Edges must not already be in the path.
+	for i in range(_current_path.size() - 1):
+		var new_from : int = _current_path.back()
+		var existing_from := _current_path[i]
+		var existing_to := _current_path[i+1]
+		if (new_from == existing_from and vertex_idx == existing_to) or (new_from == existing_to and vertex_idx == existing_from):
+			return
+	
 	_current_path.push_back(vertex_idx)
 	_line.show()
 	_line.add_point(vertices[vertex_idx].position, _current_path.size() - 1)
