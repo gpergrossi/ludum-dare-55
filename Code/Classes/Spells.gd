@@ -26,6 +26,46 @@ static var definitions = [{
 	'preferredLocation': 'surface',
 	'rune': Rune.new([0, 3, 2, 1]),
 	'castFunc': Spells.dummy, # TODO
+}, {
+	'programmaticName': 'summonWall',
+	'name': 'Summon Lettuce',
+	'level': 3,
+	'manaSecondsAtLevel': 15,
+	'preferredLocation': 'surface',
+	'rune': Rune.new([2, 0, 4, 1, 3]),
+	'castFunc': Spells.dummy, # TODO
+}, {
+	'programmaticName': 'summonBoulder',
+	'name': 'Summon Pumpkin',
+	'level': 3,
+	'manaSecondsAtLevel': 25,
+	'preferredLocation': 'surface',
+	'rune': Rune.new([0, 1, 3, 4, 2, 0]),
+	'castFunc': Spells.dummy, # TODO
+}, {
+	'programmaticName': 'summonFallingSpear',
+	'name': 'Summon Carrot',
+	'level': 3,
+	'manaSecondsAtLevel': 10,
+	'preferredLocation': '*',
+	'rune': Rune.new([0, 1, 4, 0]),
+	'castFunc': Spells.dummy, # TODO
+}, {
+	'programmaticName': 'summonExploder',
+	'name': 'Summon Popcorn',
+	'level': 4,
+	'manaSecondsAtLevel': 15,
+	'preferredLocation': 'ground',
+	'rune': Rune.new([4, 1, 2]),
+	'castFunc': Spells.dummy, # TODO
+}, {
+	'programmaticName': 'summonMeme',
+	'name': 'Summon Potato', # is potato
+	'level': 1,
+	'manaSecondsAtLevel': 100,
+	'preferredLocation': '*',
+	'rune': Rune.new([2, 0, 1, 3, 4, 2, 1, 4, 0, 3, 2]),
+	'castFunc': Spells.dummy, # TODO
 }];
 
 static var summonBasicWalker = Spells.definitions[0];
