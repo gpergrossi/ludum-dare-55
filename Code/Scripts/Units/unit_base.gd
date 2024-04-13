@@ -11,17 +11,21 @@ var team_def : Team
 @export var top_speed := 10
 @export var move_accel := 100.0
 @export var gravity := 40.0
+@export var max_health := 100.0
 
 @onready var body := %Body as MeshInstance3D
 @onready var animation_player := %AnimationPlayer as AnimationPlayer
 
 var _target_speed : float
+var _health : float
 
 
 func _ready():
 	_target_speed = top_speed
+	_health = max_health
 	set_team_str(team)
-	animation_player.play("walk")
+	if is_instance_valid(animation_player):
+		animation_player.play("walk")
 
 
 func _physics_process(delta : float):
@@ -44,21 +48,21 @@ func set_team_str(val : String):
 
 
 # Override if you want to pull stats from the spell definition dictionary
-func consume_spell_def(spell_def : Dictionary):
+func consume_spell_def(_spell_def : Dictionary):
 	pass
 
 
-func on_team_change(team : Team):
+func on_team_change(new_team_def : Team):
 	if is_instance_valid(body):
 		var mat := body.mesh.surface_get_material(0) as StandardMaterial3D
-		if is_instance_valid(team):
-			mat.albedo_color = team.team_color
+		if is_instance_valid(new_team_def):
+			mat.albedo_color = new_team_def.team_color
 		else:
 			mat.albedo_color = Color.GRAY
 	
 	var team_layer : int
 	var other_team_layer : int
-	match team.team_name:
+	match new_team_def.team_name:
 		"Player": 
 			team_layer = LAYER_PLAYER
 			other_team_layer = LAYER_ENEMY
@@ -82,9 +86,9 @@ func on_team_change(team : Team):
 	set_collision_mask_value(team_layer, false)
 	
 	# Make sure art is facing the right way
-	var art_node := %Art2D as Node3D
+	var art_node := find_child("Art2D") as Node3D
 	if is_instance_valid(art_node):
-		art_node.scale.x = team.get_team_move_x()
+		art_node.scale.x = new_team_def.get_team_move_x()
 
 
 func show_red_art(val : bool):
@@ -95,3 +99,34 @@ func show_red_art(val : bool):
 func show_green_art(val : bool):
 	for child in find_children("*Green"):
 		child.visible = val
+
+
+func find_nearest_enemy(max_range : float) -> UnitBase:
+	var nearest_enemy : UnitBase = null
+	var nearest_distance_squared = max_range * max_range
+	
+	var other_units := get_tree().get_nodes_in_group(&"units")
+	print("There are " + str(len(other_units)) + " other units...")
+	
+	for in_group in other_units:  # Could speed up with 1d tree even.
+		var candidate_unit = in_group as UnitBase
+		assert(candidate_unit, "All units should be UnitBase")
+		if team_def == candidate_unit.team_def:
+			print("Same team.")
+			continue
+		
+		var distance_squared = candidate_unit.global_position.distance_squared_to(candidate_unit.global_position)
+		if distance_squared < nearest_distance_squared:
+			nearest_enemy = candidate_unit
+			nearest_distance_squared = distance_squared
+		
+	return nearest_enemy
+
+func take_damage(damage : float) -> void:
+	print("Ouch!")
+	_health -= damage
+	if _health < 0:
+		die()
+
+func die() -> void:
+	queue_free()

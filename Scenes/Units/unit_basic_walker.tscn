@@ -1,22 +1,19 @@
-[gd_scene load_steps=19 format=3 uid="uid://yr25doi8tg73"]
+[gd_scene load_steps=19 format=3 uid="uid://cgnuyso8cokl4"]
 
-[ext_resource type="PackedScene" uid="uid://kkt6g2ery6vj" path="res://Scenes/Units/unit_base.tscn" id="1_d8k6h"]
+[ext_resource type="PackedScene" uid="uid://kkt6g2ery6vj" path="res://Scenes/Units/unit_base.tscn" id="1_dy5r0"]
+[ext_resource type="Script" path="res://Code/Scripts/Units/unit_basic_walker.gd" id="2_c6sqf"]
 [ext_resource type="Texture2D" uid="uid://rdcuybv32pwq" path="res://Assets/mob/broccoli_green.png" id="2_ndrnn"]
 [ext_resource type="Texture2D" uid="uid://bd884vobgkga6" path="res://Assets/mob/broccolispear_green.png" id="3_ukqnd"]
 [ext_resource type="Texture2D" uid="uid://cb3qloqju7q0x" path="res://Assets/mob/broccolispear_red.png" id="4_65lol"]
 [ext_resource type="Texture2D" uid="uid://b6ajukt6chu68" path="res://Assets/mob/broccoli_red.png" id="4_ql6yx"]
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_c33dp"]
-radius = 1.0
-height = 4.0
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_u8e5k"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jpbc7"]
 resource_local_to_scene = true
 albedo_color = Color(0, 0.521569, 0.615686, 1)
 
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_6uw2i"]
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_7kcyo"]
 resource_local_to_scene = true
-material = SubResource("StandardMaterial3D_u8e5k")
+material = SubResource("StandardMaterial3D_jpbc7")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_u8dgj"]
 transparency = 1
@@ -24,7 +21,7 @@ shading_mode = 0
 albedo_texture = ExtResource("2_ndrnn")
 texture_filter = 2
 
-[sub_resource type="QuadMesh" id="QuadMesh_y6fml"]
+[sub_resource type="QuadMesh" id="QuadMesh_rmq5w"]
 material = SubResource("StandardMaterial3D_u8dgj")
 size = Vector2(2.85, 4.08)
 
@@ -34,7 +31,7 @@ shading_mode = 0
 albedo_texture = ExtResource("4_ql6yx")
 texture_filter = 2
 
-[sub_resource type="QuadMesh" id="QuadMesh_qyxh8"]
+[sub_resource type="QuadMesh" id="QuadMesh_ylg3k"]
 material = SubResource("StandardMaterial3D_8e00i")
 size = Vector2(2.85, 4.08)
 
@@ -44,7 +41,7 @@ shading_mode = 0
 albedo_texture = ExtResource("3_ukqnd")
 texture_filter = 2
 
-[sub_resource type="QuadMesh" id="QuadMesh_c15ix"]
+[sub_resource type="QuadMesh" id="QuadMesh_pnwgk"]
 material = SubResource("StandardMaterial3D_kdgua")
 size = Vector2(2.35, 0.87)
 
@@ -54,7 +51,7 @@ shading_mode = 0
 albedo_texture = ExtResource("4_65lol")
 texture_filter = 2
 
-[sub_resource type="QuadMesh" id="QuadMesh_xs6b8"]
+[sub_resource type="QuadMesh" id="QuadMesh_qsi20"]
 material = SubResource("StandardMaterial3D_c4bfe")
 size = Vector2(2.35, 0.87)
 
@@ -94,47 +91,53 @@ _data = {
 "walk": SubResource("Animation_xiaj8")
 }
 
-[node name="UnitBasicWalker" instance=ExtResource("1_d8k6h")]
+[node name="UnitBasicWalker" instance=ExtResource("1_dy5r0")]
+script = ExtResource("2_c6sqf")
+attack_range = 0.0
+damage = 0.0
 unit_name = "basicWalker"
-
-[node name="CollisionShape3D" parent="." index="0"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
-shape = SubResource("CapsuleShape3D_c33dp")
 
 [node name="Body" parent="." index="1"]
 visible = false
-mesh = SubResource("CapsuleMesh_6uw2i")
+mesh = SubResource("CapsuleMesh_7kcyo")
 
-[node name="Art2D" type="Node3D" parent="." index="2"]
+[node name="AttackTimer" type="Timer" parent="." index="2"]
+unique_name_in_owner = true
+wait_time = 2.5
+autostart = true
+
+[node name="Art2D" type="Node3D" parent="." index="3"]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.209154, 0)
 
 [node name="BodyTransform" type="Node3D" parent="Art2D" index="0"]
+transform = Transform3D(0.996325, 0.0856489, 0, -0.0856489, 0.996325, 0, 0, 0, 1, 0, 0, 0)
 
 [node name="BrocolliGreen" type="MeshInstance3D" parent="Art2D/BodyTransform" index="0"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.83654, 0)
-mesh = SubResource("QuadMesh_y6fml")
+mesh = SubResource("QuadMesh_rmq5w")
 skeleton = NodePath("../../..")
 
 [node name="BrocolliRed" type="MeshInstance3D" parent="Art2D/BodyTransform" index="1"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.83654, 0)
 visible = false
-mesh = SubResource("QuadMesh_qyxh8")
+mesh = SubResource("QuadMesh_ylg3k")
 skeleton = NodePath("../../..")
 
 [node name="WeaponTransform" type="Node3D" parent="Art2D" index="1"]
+transform = Transform3D(0.996261, -0.0863974, 0, 0.0863974, 0.996261, 0, 0, 0, 1, 0.157227, 0.0786134, 0)
 
 [node name="BrocolliSpearGreen" type="MeshInstance3D" parent="Art2D/WeaponTransform" index="0"]
 transform = Transform3D(0.838081, -0.545546, 0, 0.545546, 0.838081, 0, 0, 0, 1, 0.805894, 1.26464, 0.337855)
 sorting_offset = 5.0
-mesh = SubResource("QuadMesh_c15ix")
+mesh = SubResource("QuadMesh_pnwgk")
 skeleton = NodePath("../../..")
 
 [node name="BrocolliSpearRed" type="MeshInstance3D" parent="Art2D/WeaponTransform" index="1"]
 transform = Transform3D(0.838081, -0.545546, 0, 0.545546, 0.838081, 0, 0, 0, 1, 0.805894, 1.26464, 0.337855)
 visible = false
 sorting_offset = 5.0
-mesh = SubResource("QuadMesh_xs6b8")
+mesh = SubResource("QuadMesh_qsi20")
 skeleton = NodePath("../../..")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Art2D" index="2"]
