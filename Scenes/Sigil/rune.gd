@@ -11,10 +11,10 @@ func _init(path_ : Array[int]):
 	for i in range(path.size() - 1):
 		var x := path[i]
 		var y := path[i + 1]
-		if y > x:
+		if x > y:
 			# I do not apologize for this.
-			x = x | y
-			y = y | x
-			x = x | y
+			x = x ^ y
+			y = y ^ x
+			x = x ^ y
 		canonical_edge_list.push_back(Vector2i(x, y))
 	canonical_edge_list.sort()
