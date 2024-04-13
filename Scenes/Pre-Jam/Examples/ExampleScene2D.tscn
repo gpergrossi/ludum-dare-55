@@ -1,7 +1,9 @@
-[gd_scene load_steps=12 format=3 uid="uid://dv3kwi7bpu14m"]
+[gd_scene load_steps=13 format=3 uid="uid://dv3kwi7bpu14m"]
 
 [ext_resource type="Texture2D" uid="uid://0ewru1lb3o1d" path="res://Assets/Images/using_tilesets_kenney_abstract_platformer_tile_sheet.webp" id="1_2h0x8"]
-[ext_resource type="PackedScene" uid="uid://cl0ofc8tlaajt" path="res://Scenes/Props/coin/coin.tscn" id="2_d21bs"]
+[ext_resource type="PackedScene" uid="uid://cl0ofc8tlaajt" path="res://Scenes/Pre-Jam/Props/coin/coin.tscn" id="2_d21bs"]
+[ext_resource type="PackedScene" uid="uid://b42t4su0dwe7e" path="res://Scenes/Pre-Jam/CharacterControllers/Platformer2D/platformer_2d_character.tscn" id="3_irhum"]
+[ext_resource type="Texture2D" uid="uid://c4hyvvfvtl8do" path="res://Assets/Images/twig.png" id="4_ka6qe"]
 
 [sub_resource type="Environment" id="Environment_hh1ny"]
 background_mode = 1
@@ -16,7 +18,7 @@ texture_region_size = Vector2i(64, 64)
 1:0/0 = 0
 1:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 1:0/0/physics_layer_0/angular_velocity = 0.0
-1:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(32, -32, -22.5, -32, -32, -22.5, -32, 32, 32, 32)
+1:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(32, -32, -21.5, -32, -32, -22.5, -32, 32, 32, 32)
 1:0/0/physics_layer_0/polygon_0/one_way = true
 1:0/0/physics_layer_0/polygon_0/one_way_margin = 8.0
 2:0/0 = 0
@@ -838,122 +840,37 @@ texture_region_size = Vector2i(64, 64)
 resource_name = "Coin"
 scenes/1/scene = ExtResource("2_d21bs")
 
+[sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_1fxgt"]
+
 [sub_resource type="TileSet" id="TileSet_q2i68"]
 tile_size = Vector2i(64, 64)
 physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetAtlasSource_as7mk")
 sources/1 = SubResource("TileSetScenesCollectionSource_65u7s")
-
-[sub_resource type="GDScript" id="GDScript_kqk3v"]
-resource_name = "ControlPlayer"
-script/source = "extends CharacterBody2D
-
-@export var move_speed = 300.0
-@export var jump_velocity = -400.0
-@export var coyote_time := 0.250
-@export var extra_jumps := 1
-
-# Get the gravity from the project settings to be synced with RigidBody nodes.
-var gravity = ProjectSettings.get_setting(\"physics/2d/default_gravity\")
-
-# Record spawn position for respawn logic.
-var _spawn_pos : Vector2
-
-# Initial state assumes falling.
-var _jumping := false
-var _falling := true
-var _last_floor_time := 0
-var _coyote_jump_used := true
-var _extra_jumps_remaining := 0
-
-@onready var height := (find_child(\"CollisionShape2D\").shape as CapsuleShape2D).height
-
-func _ready():
-	_spawn_pos = position
-
-
-func _physics_process(delta: float):
-	var space_state = get_world_2d().direct_space_state
-	
-	# Add the gravity.
-	if not is_on_floor():
-		# Apply gravity.
-		velocity.y += gravity * delta
-		if velocity.y > 0:
-			_jumping = false
-			_falling = true
-	else:
-		# On the floor again.
-		_jumping = false
-		_falling = false
-		_coyote_jump_used = false
-		_extra_jumps_remaining = extra_jumps
-		_last_floor_time = Time.get_ticks_msec()
-	
-	# Handle jump.
-	if Input.is_action_just_pressed(\"jump\"):
-		var can_jump := is_on_floor() or (not _coyote_jump_used and (Time.get_ticks_msec() - _last_floor_time < (1000 * coyote_time)))
-		var can_extra_jump := _extra_jumps_remaining > 0
-		if can_jump or can_extra_jump:
-			velocity.y = jump_velocity
-			_jumping = true
-			_coyote_jump_used = true
-		if not can_jump and can_extra_jump:
-			_extra_jumps_remaining -= 1
-			print(\"Extra jump used. Remaining: \" + str(_extra_jumps_remaining))
-	
-	# Determine floor slope
-	if not _jumping and not _falling:
-		var slope = try_sample_slope(space_state)
-	
-	# Get the input direction and handle the movement/deceleration.
-	var direction = Input.get_axis(\"move_left\", \"move_right\")
-	if direction:
-		velocity.x = direction * move_speed
-	else:
-		velocity.x = move_toward(velocity.x, 0, move_speed)
-	
-	# Let the physics engine process movement and collisions for this frame.
-	move_and_slide()
-
-
-func _on_kill_zone_body_entered(body):
-	if body != self: return
-	position = _spawn_pos
-
-
-func try_sample_slope(space_state : PhysicsDirectSpaceState2D) -> float:
-	const epsilon := 5.0
-	var left_pos := global_position + Vector2.LEFT * epsilon
-	var right_pos := global_position + Vector2.RIGHT * epsilon
-	var ray := Vector2.DOWN * (floor_snap_length + 0.5 * height)
-	
-	var ray_left := PhysicsRayQueryParameters2D.create(left_pos, left_pos + ray)
-	var ray_right := PhysicsRayQueryParameters2D.create(right_pos, right_pos + ray)
-	var result_left := space_state.intersect_ray(ray_left)
-	var result_right := space_state.intersect_ray(ray_right)
-	
-	if not result_left.is_empty() and not result_right.is_empty():
-		var pos_left := result_left[\"position\"] as Vector2
-		var pos_right := result_right[\"position\"] as Vector2
-		return (pos_right.y - pos_left.y) / (pos_right.x - pos_left.x)
-	
-	return 0.0
-	
-"
-
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ku85h"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lpldx"]
-shading_mode = 0
-albedo_color = Color(0.627451, 0, 0, 1)
-
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_86ssg"]
-material = SubResource("StandardMaterial3D_lpldx")
-radius = 10.0
-height = 30.0
+sources/2 = SubResource("TileSetScenesCollectionSource_1fxgt")
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_iamg8"]
+
+[sub_resource type="GDScript" id="GDScript_6mm0w"]
+resource_name = "hfglkjdsg"
+script/source = "extends Sprite2D
+
+@export var cheese = \"Brie\"
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _physics_process(delta : float) -> void:
+	rotate(delta * 6)
+"
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ibejv"]
+radius = 4.54153
+height = 500.035
 
 [node name="ExampleScene2D" type="Node2D"]
 
@@ -963,33 +880,18 @@ environment = SubResource("Environment_hh1ny")
 [node name="Camera3D" type="Camera3D" parent="."]
 
 [node name="TileMap" type="TileMap" parent="."]
+position = Vector2(0, -1)
 tile_set = SubResource("TileSet_q2i68")
 format = 2
-layer_0/name = "Ground"
-layer_0/tile_data = PackedInt32Array(131068, 65536, 0, 131069, 131072, 0, 131070, 131072, 0, 131071, 131072, 0, 65536, 131072, 0, 65537, 131072, 0, 65538, 131072, 0, 65539, 65536, 2, 3, 65536, 1, -5, 1179648, 1, 65531, 1179648, 2, 131067, 1114112, 4, 196604, 983040, 11, 262140, 983040, 11, 196605, 0, 0, 262141, 983040, 11, 196606, 983040, 11, 262142, 983040, 11, 196607, 983040, 11, 262143, 0, 1, 131072, 983040, 11, 196608, 983040, 11, 131073, 0, 0, 196609, 983040, 11, 131074, 983040, 11, 131075, 983040, 11, 196611, 983040, 11, 65534, 1048576, 10, 5, 131072, 1, 65541, 131072, 2, 131077, 983040, 11, 196613, 983040, 11, -196602, 65536, 0, -131066, 0, 2, 6, 0, 0, 65542, 327680, 1, 131078, 983040, 11, 196614, 983040, 11, -196601, 131072, 0, -131065, 0, 0, -65529, 983040, 11, 7, 983040, 11, 65543, 0, 1, 131079, 983040, 11, 196615, 983040, 11, -196600, 131072, 0, -131064, 983040, 11, 8, 983040, 11, 65544, 393216, 1, 131080, 983040, 11, 196616, 983040, 11, -196599, 131072, 0, -131063, 0, 0, -65527, 983040, 11, 9, 0, 1, 65545, 131072, 0, 131081, 983040, 11, 196617, 0, 1, 65546, 131072, 0, 131082, 983040, 11, 196618, 983040, 11, -196598, 196608, 0, -131062, 983040, 11, -65526, 983040, 11, 10, 983040, 11, 65547, 196608, 0, 131083, 0, 0, 196619, 0, 0, 65540, 983040, 11, 131076, 0, 1, 196612, 983040, 11, 4, 131072, 0, -131069, 458752, 0, -131070, 393216, 0, -65528, 983040, 11, -65530, 983040, 11, -131071, 327680, 0, -196609, 524288, 0, 327676, 0, 1, 327677, 0, 0, 327678, 983040, 11, 327679, 983040, 11, 262144, 983040, 11, 262145, 0, 2, 262147, 0, 0, 262148, 983040, 11, 262149, 983040, 11, 262150, 983040, 11, 262151, 983040, 11, 262152, 983040, 11, 262153, 983040, 11, 262154, 983040, 11, 262155, 0, 2, 327691, 983040, 11, 327690, 0, 0, 327689, 983040, 11, 327688, 983040, 11, 327687, 0, 2, 327686, 0, 0, 327685, 983040, 11, 327684, 0, 1, 327681, 983040, 11, 327680, 0, 0, 393215, 983040, 11, 393214, 983040, 11, 393213, 0, 0, 393212, 983040, 11, 262146, 0, 0, 327682, 0, 0, 327683, 0, 0, 196610, 0, 0, 131086, 65536, 0, 131087, 131072, 0, 131089, 0, 0, 65557, 0, 0, 65558, 0, 0, -65512, 0, 0, -65511, 0, 0, -65510, 0, 0, -131052, 0, 0, -131053, 131072, 0, -131054, 65536, 0, -327653, 65536, 0, -327652, 131072, 0, -327651, 131072, 0, -327650, 131072, 0, -327649, 0, 0, -720867, 65536, 0, -720866, 196608, 0, -589791, 196608, 0, -589792, 65536, 0, -458719, 131072, 0, -458718, 131072, 0, -458721, 0, 0, -458720, 131072, 0, -458717, 196608, 0, -393185, 0, 0, -393184, 0, 0, -393183, 0, 0, -393182, 0, 0, -393181, 0, 0, -524256, 0, 0, -524255, 0, 0, -655331, 0, 0, -589795, 0, 0, -524259, 0, 0, -458723, 0, 0, -393187, 0, 0, -655330, 0, 0, -589794, 0, 0, -524258, 0, 0, -458722, 0, 0, -393186, 0, 0, -327648, 0, 0, -327647, 0, 0, -327646, 0, 0, -327645, 0, 0, -262109, 0, 0, -262110, 0, 0, -262111, 0, 0, -262112, 0, 0, -262113, 0, 0, -262114, 0, 0, -262115, 0, 0, -262116, 0, 0, -262117, 0, 0, 196622, 0, 0, 262158, 0, 0, 327694, 0, 0, 196623, 0, 0, 262159, 0, 0, 327695, 0, 0, 196624, 0, 0, 262160, 0, 0, 327696, 0, 0, 196625, 0, 0, 262161, 0, 0, 327697, 0, 0, 131093, 0, 0, 196629, 0, 0, 262165, 0, 0, 327701, 0, 0, 131094, 0, 0, 196630, 0, 0, 262166, 0, 0, 327702, 0, 0, -65518, 0, 0, 18, 0, 0, 65554, 0, 0, 131090, 0, 0, 196626, 0, 0, 262162, 0, 0, 327698, 0, 0, 327699, 0, 0, 327700, 0, 0, 262164, 0, 0, 196628, 0, 0, 131092, 0, 0, 65556, 0, 0, 20, 0, 0, -65516, 0, 0, -65517, 0, 0, 19, 0, 0, 65555, 0, 0, 131091, 0, 0, 196627, 0, 0, 262163, 0, 0, 24, 0, 0, 65560, 0, 0, 131096, 0, 0, 196632, 0, 0, 262168, 0, 0, 327704, 0, 0, 327705, 0, 0, 262169, 0, 0, 196633, 0, 0, 131097, 0, 0, 65561, 0, 0, 25, 0, 0, 26, 0, 0, 65562, 0, 0, 131098, 0, 0, 196634, 0, 0, 262170, 0, 0, 327706, 0, 0, -196581, 0, 0, -131045, 0, 0, -65509, 0, 0, 27, 0, 0, 65563, 0, 0, 131099, 0, 0, 196635, 0, 0, 262171, 0, 0, 327707, 0, 0, 327708, 0, 0, 327709, 0, 0, 327710, 0, 0, 327711, 0, 0, 327712, 0, 0, 327713, 0, 0, 327714, 0, 0, 327715, 0, 0, 262179, 0, 0, 196643, 0, 0, 131107, 0, 0, 131106, 0, 0, 65570, 0, 0, 34, 0, 0, -65502, 0, 0, -131038, 0, 0, -196574, 0, 0, -196573, 0, 0, -131037, 0, 0, -65501, 0, 0, 35, 0, 0, 65571, 0, 0, 196642, 0, 0, -196575, 0, 0, -131039, 0, 0, -65503, 0, 0, 33, 0, 0, 65569, 0, 0, 131105, 0, 0, 196641, 0, 0, 262177, 0, 0, 262178, 0, 0, 196640, 0, 0, 262176, 0, 0, 131104, 0, 0, 65568, 0, 0, 32, 0, 0, -65504, 0, 0, -131040, 0, 0, -196576, 0, 0, -131041, 0, 0, -65505, 0, 0, 31, 0, 0, 65567, 0, 0, 131103, 0, 0, 196639, 0, 0, 262175, 0, 0, 262174, 0, 0, 196638, 0, 0, 131102, 0, 0, 65566, 0, 0, 30, 0, 0, -196577, 0, 0, -196578, 0, 0, -131043, 0, 0, -65507, 0, 0, 28, 0, 0, 65564, 0, 0, 131100, 0, 0, 196637, 0, 0, 262173, 0, 0, 262172, 0, 0, -65508, 0, 0, -131044, 0, 0, -196580, 0, 0, 196636, 0, 0, -196579, 0, 0, -131042, 0, 0, -65506, 0, 0, 131101, 0, 0, 65565, 0, 0, 29, 0, 0, -131049, 0, 0, -196585, 0, 0, -262121, 196608, 0, -262122, 131072, 0, -196586, 0, 0, -131050, 0, 0, -65514, 0, 0, -65515, 0, 0, -131051, 0, 0, -196587, 0, 0, 21, 0, 0, 22, 0, 0, 23, 0, 0, -65513, 0, 0, 65559, 0, 0, 131095, 0, 0, 196631, 0, 0, 262167, 0, 0, 327703, 0, 0, 131088, 131072, 0, -262123, 131072, 0, -262124, 65536, 0, -196588, 0, 0)
+layer_0/name = "Terrain"
+layer_0/tile_data = PackedInt32Array(131068, 65536, 0, 131069, 131072, 0, 131070, 131072, 0, 131071, 131072, 0, 65536, 131072, 0, 65537, 131072, 0, 65538, 131072, 0, 65539, 65536, 2, 3, 65536, 1, -5, 1179648, 1, 65531, 1179648, 2, 131067, 1114112, 4, 196604, 983040, 11, 262140, 983040, 11, 196605, 0, 0, 262141, 983040, 11, 196606, 983040, 11, 262142, 983040, 11, 196607, 983040, 11, 262143, 0, 1, 131072, 983040, 11, 196608, 983040, 11, 131073, 0, 0, 196609, 983040, 11, 131074, 983040, 11, 131075, 983040, 11, 196611, 983040, 11, 65534, 1048576, 10, 5, 131072, 1, 65541, 131072, 2, 131077, 983040, 11, 196613, 983040, 11, -196602, 65536, 0, -131066, 0, 2, 6, 0, 0, 65542, 327680, 1, 131078, 983040, 11, 196614, 983040, 11, -196601, 131072, 0, -131065, 0, 0, -65529, 983040, 11, 7, 983040, 11, 65543, 0, 1, 131079, 983040, 11, 196615, 983040, 11, -196600, 131072, 0, -131064, 983040, 11, 8, 983040, 11, 65544, 393216, 1, 131080, 983040, 11, 196616, 983040, 11, -196599, 131072, 0, -131063, 0, 0, -65527, 983040, 11, 9, 0, 1, 65545, 131072, 0, 131081, 983040, 11, 196617, 0, 1, 65546, 131072, 0, 131082, 983040, 11, 196618, 983040, 11, -196598, 196608, 0, -131062, 983040, 11, -65526, 983040, 11, 10, 983040, 11, 65547, 196608, 0, 131083, 0, 0, 196619, 0, 0, 65540, 983040, 11, 131076, 0, 1, 196612, 983040, 11, 4, 131072, 0, -131070, 393216, 0, -65528, 983040, 11, -65530, 983040, 11, -131071, 327680, 0, -196609, 524288, 0, 327676, 0, 1, 327677, 0, 0, 327678, 983040, 11, 327679, 983040, 11, 262144, 983040, 11, 262145, 0, 2, 262147, 0, 0, 262148, 983040, 11, 262149, 983040, 11, 262150, 983040, 11, 262151, 983040, 11, 262152, 983040, 11, 262153, 983040, 11, 262154, 983040, 11, 262155, 0, 2, 327691, 983040, 11, 327690, 0, 0, 327689, 983040, 11, 327688, 983040, 11, 327687, 0, 2, 327686, 0, 0, 327685, 983040, 11, 327684, 0, 1, 327681, 983040, 11, 327680, 0, 0, 393215, 983040, 11, 393214, 983040, 11, 393213, 0, 0, 393212, 983040, 11, 262146, 0, 0, 327682, 0, 0, 327683, 0, 0, 196610, 0, 0, 131086, 65536, 0, 131087, 131072, 0, 131089, 0, 0, 65557, 0, 0, 65558, 0, 0, -65512, 0, 0, -65511, 0, 0, -65510, 0, 0, -131052, 0, 0, -131053, 131072, 0, -131054, 65536, 0, -327653, 65536, 0, -327652, 131072, 0, -327651, 131072, 0, -327650, 131072, 0, -327649, 0, 0, -720867, 65536, 0, -720866, 196608, 0, -589791, 196608, 0, -589792, 65536, 0, -458719, 131072, 0, -458718, 131072, 0, -458721, 0, 0, -458720, 131072, 0, -458717, 196608, 0, -393185, 0, 0, -393184, 0, 0, -393183, 0, 0, -393182, 0, 0, -393181, 0, 0, -524256, 0, 0, -524255, 0, 0, -655331, 0, 0, -589795, 0, 0, -524259, 0, 0, -458723, 0, 0, -393187, 0, 0, -655330, 0, 0, -589794, 0, 0, -524258, 0, 0, -458722, 0, 0, -393186, 0, 0, -327648, 0, 0, -327647, 0, 0, -327646, 0, 0, -327645, 0, 0, -262109, 0, 0, -262110, 0, 0, -262111, 0, 0, -262112, 0, 0, -262113, 0, 0, -262114, 0, 0, -262115, 0, 0, -262116, 0, 0, -262117, 0, 0, 196622, 0, 0, 262158, 0, 0, 327694, 0, 0, 196623, 0, 0, 262159, 0, 0, 327695, 0, 0, 196624, 0, 0, 262160, 0, 0, 327696, 0, 0, 196625, 0, 0, 262161, 0, 0, 327697, 0, 0, 131093, 0, 0, 196629, 0, 0, 262165, 0, 0, 327701, 0, 0, 131094, 0, 0, 196630, 0, 0, 262166, 0, 0, 327702, 0, 0, -65518, 0, 0, 18, 0, 0, 65554, 0, 0, 131090, 0, 0, 196626, 0, 0, 262162, 0, 0, 327698, 0, 0, 327699, 0, 0, 327700, 0, 0, 262164, 0, 0, 196628, 0, 0, 131092, 0, 0, 65556, 0, 0, 20, 0, 0, -65516, 0, 0, -65517, 0, 0, 19, 0, 0, 65555, 0, 0, 131091, 0, 0, 196627, 0, 0, 262163, 0, 0, 24, 0, 0, 65560, 0, 0, 131096, 0, 0, 196632, 0, 0, 262168, 0, 0, 327704, 0, 0, 327705, 0, 0, 262169, 0, 0, 196633, 0, 0, 131097, 0, 0, 65561, 0, 0, 25, 0, 0, 26, 0, 0, 65562, 0, 0, 131098, 0, 0, 196634, 0, 0, 262170, 0, 0, 327706, 0, 0, -196581, 0, 0, -131045, 0, 0, -65509, 0, 0, 27, 0, 0, 65563, 0, 0, 131099, 0, 0, 196635, 0, 0, 262171, 0, 0, 327707, 0, 0, 327708, 0, 0, 327709, 0, 0, 327710, 0, 0, 327711, 0, 0, 327712, 0, 0, 327713, 0, 0, 327714, 0, 0, 327715, 0, 0, 262179, 0, 0, 196643, 0, 0, 131107, 0, 0, 131106, 0, 0, 65570, 0, 0, 34, 0, 0, -65502, 0, 0, -131038, 0, 0, -196574, 0, 0, -196573, 0, 0, -131037, 0, 0, -65501, 0, 0, 35, 0, 0, 65571, 0, 0, 196642, 0, 0, -196575, 0, 0, -131039, 0, 0, -65503, 0, 0, 33, 0, 0, 65569, 0, 0, 131105, 0, 0, 196641, 0, 0, 262177, 0, 0, 262178, 0, 0, 196640, 0, 0, 262176, 0, 0, 131104, 0, 0, 65568, 0, 0, 32, 0, 0, -65504, 0, 0, -131040, 0, 0, -196576, 0, 0, -131041, 0, 0, -65505, 0, 0, 31, 0, 0, 65567, 0, 0, 131103, 0, 0, 196639, 0, 0, 262175, 0, 0, 262174, 0, 0, 196638, 0, 0, 131102, 0, 0, 65566, 0, 0, 30, 0, 0, -196577, 0, 0, -196578, 0, 0, -131043, 0, 0, -65507, 0, 0, 28, 0, 0, 65564, 0, 0, 131100, 0, 0, 196637, 0, 0, 262173, 0, 0, 262172, 0, 0, -65508, 0, 0, -131044, 0, 0, -196580, 0, 0, 196636, 0, 0, -196579, 0, 0, -131042, 0, 0, -65506, 0, 0, 131101, 0, 0, 65565, 0, 0, 29, 0, 0, -131049, 0, 0, -196585, 0, 0, -262121, 196608, 0, -262122, 131072, 0, -196586, 0, 0, -131050, 0, 0, -65514, 0, 0, -65515, 0, 0, -131051, 0, 0, -196587, 0, 0, 21, 0, 0, 22, 0, 0, 23, 0, 0, -65513, 0, 0, 65559, 0, 0, 131095, 0, 0, 196631, 0, 0, 262167, 0, 0, 327703, 0, 0, 131088, 131072, 0, -262123, 131072, 0, -262124, 65536, 0, -196588, 0, 0, -131069, 458752, 0)
 layer_1/name = "Details"
 layer_1/tile_data = PackedInt32Array(2, 655360, 1, -262134, 589824, 0, -65532, 720896, 3, -262145, 720896, 1, -262138, 589824, 1, 65533, 655360, 0, -196607, 720896, 0, 262150, 458752, 1, 262152, 524288, 1, 262151, 131072, 0, -327649, 196608, 0, -458721, 327680, 0, -131052, 327680, 1, -65510, 327680, 1, -65512, 393216, 1, -65511, 131072, 0, 131089, 196608, 0, 262167, 327680, 1, 262166, 131072, 0, 262165, 393216, 1, 196630, 720896, 1, -393187, 720896, 1, -524254, 655360, 0, -327659, 655360, 0, -196590, 720896, 0, -524257, 720896, 0, -786402, 589824, 1, 65551, 589824, 1, 65559, 196608, 0, 65557, 65536, 0, 65558, 131072, 0)
 layer_2/name = "Objects"
 layer_2/navigation_enabled = false
 layer_2/tile_data = PackedInt32Array(-327681, 1, 65536, -65535, 1, 65536, -262142, 1, 65536, -262137, 1, 65536, -65529, 1, 65536, -262136, 1, 65536, -262135, 1, 65536, 15, 1, 65536, -65514, 1, 65536, -131046, 1, 65536, -196589, 1, 65536, -393193, 1, 65536, -393188, 1, 65536, -655328, 1, 65536, -786403, 1, 65536, -524253, 1, 65536)
 
-[node name="CharacterBody2D" type="CharacterBody2D" parent="."]
-floor_constant_speed = true
-floor_snap_length = 11.1
-script = SubResource("GDScript_kqk3v")
-coyote_time = 0.1
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
-shape = SubResource("CapsuleShape2D_ku85h")
-
-[node name="Player" type="MeshInstance2D" parent="CharacterBody2D"]
-mesh = SubResource("CapsuleMesh_86ssg")
-
-[node name="Camera2D" type="Camera2D" parent="CharacterBody2D"]
-limit_bottom = 320
-position_smoothing_enabled = true
-editor_draw_screen = false
-editor_draw_limits = true
+[node name="CharacterBody2D" parent="." instance=ExtResource("3_irhum")]
 
 [node name="KillZone" type="Area2D" parent="."]
 position = Vector2(0, 384)
@@ -997,20 +899,33 @@ position = Vector2(0, 384)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="KillZone"]
 shape = SubResource("WorldBoundaryShape2D_iamg8")
 
+[node name="Stick" type="Sprite2D" parent="."]
+position = Vector2(-597, 229)
+texture = ExtResource("4_ka6qe")
+script = SubResource("GDScript_6mm0w")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Stick"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Stick/StaticBody2D"]
+position = Vector2(-63, 28)
+rotation = 0.791589
+scale = Vector2(1.34848, 0.994833)
+shape = SubResource("CapsuleShape2D_ibejv")
+
 [connection signal="body_entered" from="TileMap/Coin" to="TileMap/Coin" method="_on_body_entered"]
-[connection signal="body_entered" from="TileMap/@Area2D@19053" to="TileMap/@Area2D@19053" method="_on_body_entered"]
-[connection signal="body_entered" from="TileMap/@Area2D@19054" to="TileMap/@Area2D@19054" method="_on_body_entered"]
-[connection signal="body_entered" from="TileMap/@Area2D@19055" to="TileMap/@Area2D@19055" method="_on_body_entered"]
-[connection signal="body_entered" from="TileMap/@Area2D@19056" to="TileMap/@Area2D@19056" method="_on_body_entered"]
-[connection signal="body_entered" from="TileMap/@Area2D@19057" to="TileMap/@Area2D@19057" method="_on_body_entered"]
-[connection signal="body_entered" from="TileMap/@Area2D@19058" to="TileMap/@Area2D@19058" method="_on_body_entered"]
-[connection signal="body_entered" from="TileMap/@Area2D@19059" to="TileMap/@Area2D@19059" method="_on_body_entered"]
-[connection signal="body_entered" from="TileMap/@Area2D@19060" to="TileMap/@Area2D@19060" method="_on_body_entered"]
-[connection signal="body_entered" from="TileMap/@Area2D@19061" to="TileMap/@Area2D@19061" method="_on_body_entered"]
-[connection signal="body_entered" from="TileMap/@Area2D@19062" to="TileMap/@Area2D@19062" method="_on_body_entered"]
-[connection signal="body_entered" from="TileMap/@Area2D@19063" to="TileMap/@Area2D@19063" method="_on_body_entered"]
-[connection signal="body_entered" from="TileMap/@Area2D@19064" to="TileMap/@Area2D@19064" method="_on_body_entered"]
-[connection signal="body_entered" from="TileMap/@Area2D@19065" to="TileMap/@Area2D@19065" method="_on_body_entered"]
-[connection signal="body_entered" from="TileMap/@Area2D@19066" to="TileMap/@Area2D@19066" method="_on_body_entered"]
-[connection signal="body_entered" from="TileMap/@Area2D@19067" to="TileMap/@Area2D@19067" method="_on_body_entered"]
+[connection signal="body_entered" from="TileMap/@Area2D@57676" to="TileMap/@Area2D@57676" method="_on_body_entered"]
+[connection signal="body_entered" from="TileMap/@Area2D@57677" to="TileMap/@Area2D@57677" method="_on_body_entered"]
+[connection signal="body_entered" from="TileMap/@Area2D@57678" to="TileMap/@Area2D@57678" method="_on_body_entered"]
+[connection signal="body_entered" from="TileMap/@Area2D@57679" to="TileMap/@Area2D@57679" method="_on_body_entered"]
+[connection signal="body_entered" from="TileMap/@Area2D@57680" to="TileMap/@Area2D@57680" method="_on_body_entered"]
+[connection signal="body_entered" from="TileMap/@Area2D@57681" to="TileMap/@Area2D@57681" method="_on_body_entered"]
+[connection signal="body_entered" from="TileMap/@Area2D@57682" to="TileMap/@Area2D@57682" method="_on_body_entered"]
+[connection signal="body_entered" from="TileMap/@Area2D@57683" to="TileMap/@Area2D@57683" method="_on_body_entered"]
+[connection signal="body_entered" from="TileMap/@Area2D@57684" to="TileMap/@Area2D@57684" method="_on_body_entered"]
+[connection signal="body_entered" from="TileMap/@Area2D@57685" to="TileMap/@Area2D@57685" method="_on_body_entered"]
+[connection signal="body_entered" from="TileMap/@Area2D@57686" to="TileMap/@Area2D@57686" method="_on_body_entered"]
+[connection signal="body_entered" from="TileMap/@Area2D@57687" to="TileMap/@Area2D@57687" method="_on_body_entered"]
+[connection signal="body_entered" from="TileMap/@Area2D@57688" to="TileMap/@Area2D@57688" method="_on_body_entered"]
+[connection signal="body_entered" from="TileMap/@Area2D@57689" to="TileMap/@Area2D@57689" method="_on_body_entered"]
+[connection signal="body_entered" from="TileMap/@Area2D@57690" to="TileMap/@Area2D@57690" method="_on_body_entered"]
 [connection signal="body_entered" from="KillZone" to="CharacterBody2D" method="_on_kill_zone_body_entered"]

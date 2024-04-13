@@ -1,0 +1,87 @@
+[gd_scene load_steps=4 format=3 uid="uid://cxk0yofwgapuw"]
+
+[ext_resource type="PackedScene" uid="uid://1qojxkeq0125" path="res://Scenes/green_box.tscn" id="1_hcom7"]
+
+[sub_resource type="GDScript" id="GDScript_noqqg"]
+script/source = "extends Node3D
+
+@export var green_box_scene : PackedScene
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	for i in range(100):
+		for j in range(100):
+			var box := green_box_scene.instantiate() as MeshInstance3D
+			box.position = Vector3(3.0 * i, 0, 3.0 * j)
+			add_child(box)
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta):
+	pass
+"
+
+[sub_resource type="GDScript" id="GDScript_jsgh5"]
+resource_name = "makemething"
+script/source = "extends MeshInstance3D
+
+func _ready():
+	var vertices = []
+	var indices = []
+
+	var num_samples = 50  # Number of samples along each axis
+	var scale = 5.0  # Scale factor to adjust the size of the mesh
+
+	# Generate vertices
+	for i in range(num_samples + 1):
+		for j in range(num_samples + 1):
+			var u = float(i) / num_samples
+			var v = float(j) / num_samples
+			vertices.append(parametric_function(u, v))
+
+	# Generate indices to form triangles
+	for i in range(num_samples):
+		for j in range(num_samples):
+			var index = i * (num_samples + 1) + j
+			indices.append(index)
+			indices.append(index + 1)
+			indices.append(index + num_samples + 1)
+			indices.append(index + num_samples + 1)
+			indices.append(index + 1)
+			indices.append(index + num_samples + 2)
+
+	# Create the mesh
+	var mesh = ImmediateMesh.new()
+	mesh.begin(Mesh.PRIMITIVE_TRIANGLES)
+
+	# Add vertices to the mesh
+	for vertex in vertices:
+		mesh.add_vertex(vertex)
+
+	# Add triangles to the mesh
+	for i in range(indices.size() / 3):
+		mesh.add_triangle(indices[i * 3], indices[i * 3 + 1], indices[i * 3 + 2])
+
+	mesh.index()
+	self.mesh = mesh
+
+
+# Define the parametric function
+func parametric_function(u, v):
+	var x = u * scale
+	var y = sin(v * PI) * scale
+	var z = cos(u * PI) * cos(v * PI) * scale
+	return Vector3(x, y, z)"
+
+[node name="Node3D" type="Node3D"]
+script = SubResource("GDScript_noqqg")
+green_box_scene = ExtResource("1_hcom7")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(-0.681156, 0, -0.732139, 0, 1, 0, 0.732139, 0, -0.681156, -5.61828, 6.80629, -5.0401)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.724581, 0.644868, -0.243161, 0, 0.352822, 0.935691, 0.68919, 0.677984, -0.255648, 0, 4.08181, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+script = SubResource("GDScript_jsgh5")

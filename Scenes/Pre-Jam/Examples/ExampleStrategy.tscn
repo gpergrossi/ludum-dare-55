@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://dtkg0tuxdehgg"]
 
-[ext_resource type="TileSet" uid="uid://7skky1u3fc1c" path="res://Scenes/Examples/new_tile_set.tres" id="1_mxhtf"]
+[ext_resource type="TileSet" uid="uid://7skky1u3fc1c" path="res://Scenes/Pre-Jam/Examples/new_tile_set.tres" id="1_mxhtf"]
 
 [node name="ExampleStrategy" type="Node2D"]
 

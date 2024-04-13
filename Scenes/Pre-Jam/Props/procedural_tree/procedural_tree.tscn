@@ -1,6 +1,6 @@
 [gd_scene load_steps=12 format=3 uid="uid://crwflmejjt640"]
 
-[ext_resource type="Script" path="res://Scenes/Props/procedural_tree/procedural_tree.gd" id="1_aik0b"]
+[ext_resource type="Script" path="res://Scenes/Pre-Jam/Props/procedural_tree/procedural_tree.gd" id="1_aik0b"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_q77om"]
 radius = 0.54

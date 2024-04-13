@@ -1,8 +1,8 @@
 [gd_scene load_steps=5 format=3 uid="uid://cl0ofc8tlaajt"]
 
-[ext_resource type="Script" path="res://Scenes/Props/coin/coin_script.gd" id="1_vo05e"]
+[ext_resource type="Script" path="res://Scenes/Pre-Jam/Props/coin/coin_script.gd" id="1_vo05e"]
 [ext_resource type="Texture2D" uid="uid://bu5x3luv1ocb6" path="res://Assets/Images/coin_01.png" id="2_gh5mi"]
-[ext_resource type="Script" path="res://Scenes/Props/coin/coin_spin.gd" id="3_h42fj"]
+[ext_resource type="Script" path="res://Scenes/Pre-Jam/Props/coin/coin_spin.gd" id="3_h42fj"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_qm85q"]
 radius = 67.35
