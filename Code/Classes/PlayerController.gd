@@ -1,7 +1,7 @@
 class_name PlayerController extends Node # For simplicity of testing; intend to remove.
 
 @onready var manabar : ProgressBar = %PlayerManaBarUi;
-@onready var sigil: SigilController = %Sigil;
+@onready var sigil : SigilController = %Sigil;
 
 var level := 1;
 var maxMana : int;

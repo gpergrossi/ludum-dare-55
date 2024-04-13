@@ -13,12 +13,15 @@ var team_def : Team
 @export var gravity := 40.0
 
 @onready var body := %Body as MeshInstance3D
+@onready var animation_player := %AnimationPlayer as AnimationPlayer
 
 var _target_speed : float
+
 
 func _ready():
 	_target_speed = top_speed
 	set_team_str(team)
+	animation_player.play("walk")
 
 
 func _physics_process(delta : float):
@@ -59,9 +62,13 @@ func on_team_change(team : Team):
 		"Player": 
 			team_layer = LAYER_PLAYER
 			other_team_layer = LAYER_ENEMY
+			show_green_art(true)
+			show_red_art(false)
 		"Enemy": 
 			team_layer = LAYER_ENEMY
 			other_team_layer = LAYER_PLAYER
+			show_red_art(true)
+			show_green_art(false)
 		_: assert(false, "Bad team!")
 	
 	# Assign to own team layer + world objects layer
@@ -73,4 +80,18 @@ func on_team_change(team : Team):
 	set_collision_mask_value(LAYER_WORLD, true)
 	set_collision_mask_value(other_team_layer, true)
 	set_collision_mask_value(team_layer, false)
-		
+	
+	# Make sure art is facing the right way
+	var art_node := %Art2D as Node3D
+	if is_instance_valid(art_node):
+		art_node.scale.x = team.get_team_move_x()
+
+
+func show_red_art(val : bool):
+	for child in find_children("*Red"):
+		child.visible = val
+
+
+func show_green_art(val : bool):
+	for child in find_children("*Green"):
+		child.visible = val
