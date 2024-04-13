@@ -37,7 +37,7 @@ func cast(spell, location: Vector2 = Vector2.ZERO):
 		return;
 	setMana(mana - spell['manaCost']);
 	# TODO redraw mana bar UI
-	spell['castFunc'].call(spell, location, 'player');
+	spell['castFunc'].call(spell, location, TeamDefs.Player.team_name);
 	
 
 @warning_ignore("shadowed_variable")
@@ -64,4 +64,3 @@ func _process(delta):
 func debugOut():
 	print(mana)
 	print(canCast(Spells.summonBasicWalker))
-	cast(Spells.summonBasicWalker)

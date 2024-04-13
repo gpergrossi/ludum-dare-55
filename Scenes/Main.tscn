@@ -1128,6 +1128,7 @@ summon_default_position_left = NodePath("../Left Side Things/Default Spawn Posit
 summon_default_position_right = NodePath("../Right Side Things/Default Spawn Position")
 
 [node name="PlayerController" type="Node" parent="."]
+unique_name_in_owner = true
 script = ExtResource("1_uq66x")
 
 [connection signal="body_entered" from="Ground/Y Kill Plane" to="Ground/Y Kill Plane" method="_on_body_entered"]
