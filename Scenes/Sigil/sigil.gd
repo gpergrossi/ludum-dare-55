@@ -25,7 +25,6 @@ func _input(event : InputEvent) -> void:
 		if distance < nearest_vertex_distance:
 			nearest_vertex_idx = i
 			nearest_vertex_distance = distance
-	print("Nearest vertex: %d, nearest distance: %f" % [nearest_vertex_idx, nearest_vertex_distance])
 			
 	# Release sigil if we're distance from any vertex or have released the mosue.
 	if nearest_vertex_idx == -1 or mouse_event.button_mask & MOUSE_BUTTON_MASK_LEFT == 0:
@@ -35,15 +34,12 @@ func _input(event : InputEvent) -> void:
 		return
 		
 	if nearest_vertex_distance < snap_distance:
-		print("Maybe adding vertex %d to path" % nearest_vertex_idx)
 		_maybe_add_to_path(nearest_vertex_idx)
 
 	if _line.get_point_count() == _current_path.size():
 		# Create initial endpoint. This is awful.
-		print("Adding endpoint.")
 		_line.add_point(mouse_event.position)
 	else:
-		print("Setting endpoint since line size is %d and path size is %d." % [_line.get_point_count(), _current_path.size()])
 		_line.set_point_position(_current_path.size(), mouse_event.position)
 
 	get_viewport().set_input_as_handled()
@@ -59,6 +55,5 @@ func _maybe_add_to_path(vertex_idx : int) -> void:
 func _release_sigil() -> void:
 	_line.hide()  # TODO fun animation instead.
 	rune_drawn.emit(Rune.new(_current_path))
-	print("emitting sigil:", _current_path)
 	_current_path.clear()
 	_line.clear_points()
