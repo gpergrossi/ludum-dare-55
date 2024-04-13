@@ -27,7 +27,8 @@ func regenMana(secondsElapsed : float):
 func canCast(spell):
 	return mana > spell['manaCost']
 	
-func onRuneDrawn(rune, location: Vector2):
+func _on_rune_drawn(rune, location: Vector2 = Vector2.ZERO):
+	print(rune);
 	var spell = Spells.getSpellFor(rune);
 	cast(spell, location);
 
