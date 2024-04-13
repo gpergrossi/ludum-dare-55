@@ -8,14 +8,24 @@ static var definitions = [{
 	'level': 1,
 	'manaSecondsAtLevel': 5,
 	'preferredLocation': 'surface',
-	'rune': Rune.new([3, 1, 4]),
-	#      0
-	# 
-	# 4 ------ 1
-	#      /--
-	#    --/
-	#   3    2
+	'rune': Rune.new([0, 3, 2]), # For visual runes, see the Miro board at https://miro.com/app/board/uXjVKUq1fIo=/
 	'castFunc': UnitManager.summonBasicWalker,
+}, {
+	'programmaticName': 'summonFlyingBomber',
+	'name': 'Summon Crow',
+	'level': 2,
+	'manaSecondsAtLevel': 30,
+	'preferredLocation': 'sky',
+	'rune': Rune.new([0, 3, 1, 2, 0]),
+	'castFunc': Spells.dummy, # TODO
+}, {
+	'programmaticName': 'summonRanged',
+	'name': 'Summon Tomato',
+	'level': 2,
+	'manaSecondsAtLevel': 20,
+	'preferredLocation': 'surface',
+	'rune': Rune.new([0, 3, 2, 1]),
+	'castFunc': Spells.dummy, # TODO
 }];
 
 static var summonBasicWalker = Spells.definitions[0];
