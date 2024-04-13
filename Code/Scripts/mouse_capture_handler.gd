@@ -5,6 +5,7 @@ class_name MouseCaptureHandler extends PanelContainer
 var _is_mouse_scrolling_left := false
 var _is_mouse_scrolling_right := false
 var _is_captured := false
+var _is_release_message_shown := false
 
 
 func _process(_delta : float):
@@ -18,6 +19,9 @@ func _input(event : InputEvent):
 		var pos := mouseMotionEvent.position
 		_is_mouse_scrolling_left = (pos.x < scroll_margin)
 		_is_mouse_scrolling_right = (pos.x > get_viewport_rect().size.x - scroll_margin)
+		
+		if pos.y < scroll_margin and _is_captured:
+			show_mouse_release_message(0.5)
 	
 	elif event is InputEventMouse:
 		var mouseEvent := event as InputEventMouse
@@ -30,9 +34,7 @@ func capture_mouse():
 	if Input.mouse_mode != Input.MOUSE_MODE_CONFINED:
 		Input.mouse_mode = Input.MOUSE_MODE_CONFINED
 		%"Edit Mouse Capture Message".visible = false
-		%"Press Escape To Release Mouse".visible = true
-		var timer := get_tree().create_timer(2.5)
-		timer.timeout.connect(hide_esc_message)
+		show_mouse_release_message()
 
 
 func release_mouse():
@@ -43,8 +45,17 @@ func release_mouse():
 		%"Press Escape To Release Mouse".visible = false
 
 
+func show_mouse_release_message(duration := 2.5):
+	if not _is_release_message_shown:
+		_is_release_message_shown = true
+		%"Press Escape To Release Mouse".visible = true
+		var timer := get_tree().create_timer(duration)
+		timer.timeout.connect(hide_esc_message)
+
+
 func hide_esc_message():
 	%"Press Escape To Release Mouse".visible = false
+	_is_release_message_shown = false
 
 
 func is_mouse_in_left_margin() -> bool:

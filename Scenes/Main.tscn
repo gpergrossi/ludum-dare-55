@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://ddjbrnypilhof"]
+[gd_scene load_steps=18 format=3 uid="uid://ddjbrnypilhof"]
 
 [ext_resource type="PackedScene" uid="uid://b1xmmcg7sdyrb" path="res://Scenes/Terrain/terrain_gen.tscn" id="1_ho15n"]
 [ext_resource type="PackedScene" uid="uid://dkweoh02182gr" path="res://Scenes/Pre-Jam/Tools/stuff_spreader.tscn" id="2_rh6tg"]
@@ -43,6 +43,15 @@ border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_auxty"]
+albedo_color = Color(0.337255, 0.337255, 0.337255, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_cp35v"]
+material = SubResource("StandardMaterial3D_auxty")
+top_radius = 3.5
+bottom_radius = 3.5
+height = 5.0
+
 [node name="Main" type="Node3D"]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
@@ -52,6 +61,7 @@ environment = SubResource("Environment_e4w5b")
 transform = Transform3D(0.595713, -0.537511, 0.596832, 0.1096, 0.790519, 0.602551, -0.795685, -0.293535, 0.529833, 0, 27.1219, 0)
 
 [node name="TerrainGen" parent="." instance=ExtResource("1_ho15n")]
+lane_depth = 3
 foreground_depth = 20
 background_depth = 20
 
@@ -978,27 +988,11 @@ transform = Transform3D(2.1938, 0, 0.164999, 0, 2.2, 0, -0.164999, 0, 2.1938, 59
 [node name="@Node3D@422750" parent="StuffSpreader/SpawnParent" index="299" instance=ExtResource("3_furxe")]
 transform = Transform3D(1.99007, 0, 0.199029, 0, 2, 0, -0.199029, 0, 1.99007, -33.7119, 0.329562, -36.8316)
 
-[node name="LeftSpawn" type="Node3D" parent="."]
+[node name="LeftEdgeMarker" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -55, 0, 0)
 
-[node name="RightSpawn" type="Node3D" parent="."]
+[node name="RightEdgeMarker" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 55, 0, 0)
-
-[node name="ViewPoint" type="Node3D" parent="." node_paths=PackedStringArray("left_edge", "right_edge")]
-script = ExtResource("5_046qu")
-left_edge = NodePath("../LeftSpawn")
-right_edge = NodePath("../RightSpawn")
-
-[node name="Camera Rotate" type="Node3D" parent="ViewPoint"]
-transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 0, 0)
-
-[node name="Camera Offset" type="Node3D" parent="ViewPoint/Camera Rotate"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 100)
-
-[node name="Camera3D" type="Camera3D" parent="ViewPoint/Camera Rotate/Camera Offset"]
-fov = 30.0
-size = 60.0
-near = 5.0
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -1042,5 +1036,36 @@ layout_mode = 2
 text = "Press Escape To Release Mouse."
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="CameraViewPoint" type="Node3D" parent="." node_paths=PackedStringArray("left_edge", "right_edge")]
+script = ExtResource("5_046qu")
+left_edge = NodePath("../LeftEdgeMarker")
+right_edge = NodePath("../RightEdgeMarker")
+
+[node name="Camera Rotate" type="Node3D" parent="CameraViewPoint"]
+transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 0, 0)
+
+[node name="Camera Offset" type="Node3D" parent="CameraViewPoint/Camera Rotate"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 100)
+
+[node name="Camera3D" type="Camera3D" parent="CameraViewPoint/Camera Rotate/Camera Offset"]
+fov = 30.0
+size = 60.0
+near = 5.0
+
+[node name="Castle(sortOf)" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -57.6876, 0, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Castle(sortOf)"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.49797, 0)
+mesh = SubResource("CylinderMesh_cp35v")
+
+[node name="Castle(sortOf)2" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 57.7221, 0, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Castle(sortOf)2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.49797, 0)
+mesh = SubResource("CylinderMesh_cp35v")
 
 [editable path="StuffSpreader"]
