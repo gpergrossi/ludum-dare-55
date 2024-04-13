@@ -10,6 +10,7 @@ var scene_basic_walker := preload("res://Scenes/Units/unit_basic_walker.tscn") a
 
 var summon_lock := false
 
+
 func _ready():
 	_unit_manager_static = self
 
@@ -42,19 +43,19 @@ func summon(unitType : String, spell_def : Dictionary, unit_position : Vector2, 
 			return
 	
 	var unit := packed_scene.instantiate() as UnitBase
-	unit.team = team	
+	unit.team = team
 	unit.position = Vector3(unit_position.x, -unit_position.y, 0.0)
 	unit.consume_spell_def(spell_def)
 	add_child(unit)
-
+	
 
 func _on_unit_kill_plane_left_body_entered(body : PhysicsBody3D):
-	if body is UnitBase:
-		print("Unit killed")
-		body.queue_free()
+	var unit := body as UnitBase
+	if unit:
+		unit.die()
 
 
 func _on_unit_kill_plane_right_body_entered(body : PhysicsBody3D):
-	if body is UnitBase:
-		print("Unit killed")
-		body.queue_free()
+	var unit := body as UnitBase
+	if unit:
+		unit.die()
