@@ -28,12 +28,12 @@ func _input(event : InputEvent):
 			summon_lock = false
 
 
-static func summonBasicWalker(spell_def : Dictionary, position : Vector2, team : String):
+static func summonBasicWalker(spell_def : Dictionary, unit_position : Vector2, team : String):
 	if is_instance_valid(_unit_manager_static):
-		_unit_manager_static.summon("basicWalker", spell_def, position, team)
+		_unit_manager_static.summon("basicWalker", spell_def, unit_position, team)
 
 
-func summon(unitType : String, spell_def : Dictionary, position : Vector2, team : String):
+func summon(unitType : String, spell_def : Dictionary, unit_position : Vector2, team : String):
 	var packed_scene : PackedScene = null
 	match(unitType):
 		"basicWalker": packed_scene = scene_basic_walker
@@ -43,7 +43,7 @@ func summon(unitType : String, spell_def : Dictionary, position : Vector2, team 
 	
 	var unit := packed_scene.instantiate() as UnitBase
 	unit.team = team	
-	unit.position = Vector3(position.x, -position.y, 0.0)
+	unit.position = Vector3(unit_position.x, -unit_position.y, 0.0)
 	unit.consume_spell_def(spell_def)
 	add_child(unit)
 

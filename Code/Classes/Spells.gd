@@ -26,5 +26,5 @@ static func getSpellFor(rune):
 		if spell['rune'] == rune: return spell;
 	return null;
 
-static func dummy(spell, location: Vector2, team):
+static func dummy(spell, _location: Vector2, _team):
 	print('Spell cast function not yet implemented ', spell['name']);
