@@ -23,48 +23,37 @@ func initMana(lv):
 	setMana(maxMana * 0.8);
 
 func regenMana(secondsElapsed : float):
-	setMana(mana + PlayerController.getManaRegenPerSecond(maxMana) * secondsElapsed);
+	setMana(mana + PlayerController.getManaRegenPerSecond(level) * secondsElapsed);
 
 func canCast(spell):
 	return mana > spell['manaCost']
 	
-func _on_rune_drawn(rune: Rune, location: Vector2 = Vector2.ZERO):
+func _on_rune_drawn(rune: Rune, location = null):
 	print(rune.canonical_edge_list);
 	var spell = Spells.getSpellFor(rune);
 	if spell == null: return false;
 	return cast(spell, location);
 
-func cast(spell, location: Vector2 = Vector2.ZERO):
+func cast(spell, location = null):
 	if !canCast(spell):
 		# TODO show low mana warning to player
 		return false;
+	
+	if location == null: 
+		location = Spells.defaultTarget[spell['preferredLocation']]
+
 	setMana(mana - spell['manaCost']);
-	# TODO redraw mana bar UI
 	spell['castFunc'].call(spell, location, TeamDefs.Player.team_name);
 	return true;
 
 @warning_ignore("shadowed_variable")
-static func getManaRegenPerSecond(maxMana : int):
-	return Constants.manaRegenerationRate / 100.0 * maxMana;
-
-
-
-# Everything below this comment for dev testing only, intended to be removed.
-# Once complete, will hopefully just be an Object (not Node) which other classes
-# (e.g. SigilsController) access and invoke functions.
+static func getManaRegenPerSecond(lv : int):
+	var manaAtLevel : int = Constants.manaByLevel[lv];
+	return Constants.manaRegenerationRate / 100.0 * manaAtLevel;
 
 func _ready():
 	sigil.rune_drawn.connect(_on_rune_drawn);
-	# TODO move initMana() call into analogous intiialization method,
-	#      when PlayerController stops being a Node
 	initMana(level);
-	debugOut();
 
 func _process(delta):
-	# TODO will need to invoke regenMana from SOMEWHERE,
-	#      if PlayerController stops being a Node
 	regenMana(delta);
-
-func debugOut():
-	print(mana)
-	print(canCast(Spells.summonBasicWalker))
