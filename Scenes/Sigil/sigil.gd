@@ -13,11 +13,11 @@ var _current_path : Array[int] = []
 func _ready():
 	_line.clear_points()
 
-func getNearestSigilVertexTo(position : Vector2):
+func getNearestSigilVertexTo(pos : Vector2):
 	var nearest_vertex_idx := -1
 	var nearest_vertex_distance := interaction_distance
 	for i in range(vertices.size()):
-		var distance = vertices[i].get_global_position().distance_to(position)  # could be dist^2.
+		var distance = vertices[i].get_global_position().distance_to(pos)  # could be dist^2.
 		if distance < nearest_vertex_distance:
 			nearest_vertex_idx = i
 			nearest_vertex_distance = distance
