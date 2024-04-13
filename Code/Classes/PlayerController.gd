@@ -9,7 +9,8 @@ func initMana(lv):
 	mana = maxMana * 0.8;
 
 func regenMana(secondsElapsed : float):
-	mana += getManaRegenPerSecond(maxMana) * secondsElapsed
+	mana += getManaRegenPerSecond(maxMana) * secondsElapsed;
+	if mana > maxMana: mana = maxMana;
 
 func canCast(spell):
 	return mana > spell['manaCost']
@@ -41,7 +42,6 @@ func _ready():
 	# TODO move initMana() call into analogous intiialization method,
 	#      when PlayerController stops being a Node
 	initMana(level);
-
 	debugOut();
 
 func _process(delta):
