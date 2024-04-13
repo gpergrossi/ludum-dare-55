@@ -1,5 +1,0 @@
-[gd_resource type="TileSet" format=3 uid="uid://7skky1u3fc1c"]
-
-[resource]
-tile_size = Vector2i(64, 64)
-navigation_layer_0/layers = 1
