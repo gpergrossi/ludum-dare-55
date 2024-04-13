@@ -1,7 +1,16 @@
-[gd_scene load_steps=3 format=3 uid="uid://yr25doi8tg73"]
+[gd_scene load_steps=4 format=3 uid="uid://yr25doi8tg73"]
 
 [ext_resource type="PackedScene" uid="uid://kkt6g2ery6vj" path="res://Scenes/Units/unit_base.tscn" id="1_d8k6h"]
-[ext_resource type="Script" path="res://Code/Scripts/Units/unit_basic_walker.gd" id="2_vh7o5"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_u8e5k"]
+resource_local_to_scene = true
+albedo_color = Color(0, 0.521569, 0.615686, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_6uw2i"]
+resource_local_to_scene = true
+material = SubResource("StandardMaterial3D_u8e5k")
 
 [node name="UnitBasicWalker" instance=ExtResource("1_d8k6h")]
-script = ExtResource("2_vh7o5")
+
+[node name="Body" parent="." index="1"]
+mesh = SubResource("CapsuleMesh_6uw2i")
