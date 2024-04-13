@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://yopsmt22mosh"]
+
+[ext_resource type="Texture2D" uid="uid://ctrd7gonklwdm" path="res://Scenes/Sigil/circle-ph.png" id="1_avr0y"]
+[ext_resource type="Script" path="res://Scenes/Sigil/sigil_vertex.gd" id="1_uw4wr"]
+
+[node name="SigilVertex" type="Node2D"]
+script = ExtResource("1_uw4wr")
+
+[node name="Circle-ph" type="Sprite2D" parent="."]
+texture = ExtResource("1_avr0y")

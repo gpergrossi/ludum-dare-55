@@ -1,0 +1,5 @@
+[gd_scene format=3 uid="uid://dcwcg2jsay5ac"]
+
+[node name="SigilLine" type="Line2D"]
+points = PackedVector2Array(0, 0, 100, 100)
+default_color = Color(0.172549, 0.4, 0.419608, 1)
