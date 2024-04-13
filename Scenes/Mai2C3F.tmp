@@ -1,13 +1,11 @@
-[gd_scene load_steps=22 format=3 uid="uid://ddjbrnypilhof"]
+[gd_scene load_steps=18 format=3 uid="uid://ddjbrnypilhof"]
 
 [ext_resource type="PackedScene" uid="uid://b1xmmcg7sdyrb" path="res://Scenes/Terrain/terrain_gen.tscn" id="1_ho15n"]
-[ext_resource type="Script" path="res://Code/Classes/PlayerController.gd" id="1_uq66x"]
-[ext_resource type="PackedScene" uid="uid://dkweoh02182gr" path="res://Scenes/Tools/stuff_spreader.tscn" id="2_rh6tg"]
-[ext_resource type="PackedScene" uid="uid://ck308xwjm7j5e" path="res://Scenes/Props/grass_clump.tscn" id="3_furxe"]
-[ext_resource type="PackedScene" uid="uid://fmlqidtqaj2e" path="res://Scenes/Props/rock.tscn" id="4_gynon"]
+[ext_resource type="PackedScene" uid="uid://dkweoh02182gr" path="res://Scenes/Pre-Jam/Tools/stuff_spreader.tscn" id="2_rh6tg"]
+[ext_resource type="PackedScene" uid="uid://ck308xwjm7j5e" path="res://Scenes/Pre-Jam/Props/grass_clump.tscn" id="3_furxe"]
+[ext_resource type="PackedScene" uid="uid://fmlqidtqaj2e" path="res://Scenes/Pre-Jam/Props/rock.tscn" id="4_gynon"]
 [ext_resource type="Script" path="res://Code/Scripts/camera_controls.gd" id="5_046qu"]
 [ext_resource type="Script" path="res://Code/Scripts/mouse_capture_handler.gd" id="5_mdxii"]
-[ext_resource type="Script" path="res://Code/Scripts/Units/unit_manager.gd" id="8_ha0w3"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_cv4jk"]
 
@@ -35,24 +33,6 @@ size = Vector2(500, 500)
 resource_local_to_scene = true
 radius = 100.0
 
-[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_x5fky"]
-plane = Plane(1, 0, 0, 0)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kn3u8"]
-bg_color = Color(0.580392, 0.513726, 1, 1)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_auxty"]
-albedo_color = Color(0.337255, 0.337255, 0.337255, 1)
-
-[sub_resource type="CylinderMesh" id="CylinderMesh_cp35v"]
-material = SubResource("StandardMaterial3D_auxty")
-top_radius = 3.5
-bottom_radius = 3.5
-height = 5.0
-
-[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_w46i8"]
-plane = Plane(-1, 0, 0, 0)
-
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_3sww6"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_t0o6p"]
@@ -63,9 +43,16 @@ border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
 
-[node name="Main" type="Node3D"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_auxty"]
+albedo_color = Color(0.337255, 0.337255, 0.337255, 1)
 
-[node name="TeamDefinitions" type="Node3D" parent="."]
+[sub_resource type="CylinderMesh" id="CylinderMesh_cp35v"]
+material = SubResource("StandardMaterial3D_auxty")
+top_radius = 3.5
+bottom_radius = 3.5
+height = 5.0
+
+[node name="Main" type="Node3D"]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_e4w5b")
@@ -1004,30 +991,25 @@ transform = Transform3D(1.99007, 0, 0.199029, 0, 2, 0, -0.199029, 0, 1.99007, -3
 [node name="LeftEdgeMarker" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -55, 0, 0)
 
-[node name="Unit Kill Plane Left" type="StaticBody3D" parent="LeftEdgeMarker"]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="LeftEdgeMarker/Unit Kill Plane Left"]
-shape = SubResource("WorldBoundaryShape3D_x5fky")
-
-[node name="Castle(sortOf)" type="Node3D" parent="LeftEdgeMarker"]
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="LeftEdgeMarker/Castle(sortOf)"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.49797, 0)
-mesh = SubResource("CylinderMesh_cp35v")
-
 [node name="RightEdgeMarker" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 55, 0, 0)
 
-[node name="Unit Kill Plane Right" type="StaticBody3D" parent="RightEdgeMarker"]
+[node name="CameraViewPoint" type="Node3D" parent="." node_paths=PackedStringArray("left_edge", "right_edge")]
+script = ExtResource("5_046qu")
+left_edge = NodePath("../LeftEdgeMarker")
+right_edge = NodePath("../RightEdgeMarker")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="RightEdgeMarker/Unit Kill Plane Right"]
-shape = SubResource("WorldBoundaryShape3D_w46i8")
+[node name="Camera Rotate" type="Node3D" parent="CameraViewPoint"]
+transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 0, 0)
 
-[node name="Castle(sortOf)2" type="Node3D" parent="RightEdgeMarker"]
+[node name="Camera Offset" type="Node3D" parent="CameraViewPoint/Camera Rotate"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 100)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="RightEdgeMarker/Castle(sortOf)2"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.49797, 0)
-mesh = SubResource("CylinderMesh_cp35v")
+[node name="Camera3D" type="Camera3D" parent="CameraViewPoint/Camera Rotate/Camera Offset"]
+fov = 30.0
+size = 60.0
+near = 5.0
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -1072,36 +1054,18 @@ text = "Press Escape To Release Mouse."
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="PlayerManaBarUi" type="ProgressBar" parent="CanvasLayer/UI Container"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(400, 20)
-layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 8
-theme_override_styles/fill = SubResource("StyleBoxFlat_kn3u8")
-value = 80.0
+[node name="Castle(sortOf)" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -57.6876, 0, 0)
 
-[node name="CameraViewPoint" type="Node3D" parent="." node_paths=PackedStringArray("left_edge", "right_edge")]
-script = ExtResource("5_046qu")
-left_edge = NodePath("../LeftEdgeMarker")
-right_edge = NodePath("../RightEdgeMarker")
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Castle(sortOf)"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.49797, 0)
+mesh = SubResource("CylinderMesh_cp35v")
 
-[node name="Camera Rotate" type="Node3D" parent="CameraViewPoint"]
-transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 0, 0)
+[node name="Castle(sortOf)2" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 57.7221, 0, 0)
 
-[node name="Camera Offset" type="Node3D" parent="CameraViewPoint/Camera Rotate"]
-unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 100)
-
-[node name="Camera3D" type="Camera3D" parent="CameraViewPoint/Camera Rotate/Camera Offset"]
-fov = 30.0
-size = 60.0
-near = 5.0
-
-[node name="UnitManager" type="Node3D" parent="."]
-script = ExtResource("8_ha0w3")
-
-[node name="PlayerController" type="Node" parent="."]
-script = ExtResource("1_uq66x")
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Castle(sortOf)2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.49797, 0)
+mesh = SubResource("CylinderMesh_cp35v")
 
 [editable path="StuffSpreader"]
