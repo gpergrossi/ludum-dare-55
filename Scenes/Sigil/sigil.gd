@@ -1,4 +1,4 @@
-extends Node2D
+class_name SigilController extends Node2D
 
 @export var interaction_distance : float
 @export var snap_distance : float

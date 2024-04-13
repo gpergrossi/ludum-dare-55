@@ -88,7 +88,6 @@ mesh = SubResource("PlaneMesh_wi8sw")
 
 [node name="GroundCollider" type="StaticBody3D" parent="Ground"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0373723, 0)
-collision_layer = 7
 collision_mask = 7
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Ground/GroundCollider"]
@@ -96,7 +95,8 @@ shape = SubResource("WorldBoundaryShape3D_qgmkb")
 
 [node name="Y Kill Plane" type="Area3D" parent="Ground"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -10, 0)
-collision_mask = 4294967295
+collision_layer = 0
+collision_mask = 6
 script = ExtResource("2_ftuh1")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Ground/Y Kill Plane"]
@@ -1020,6 +1020,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -55, 0, 0)
 
 [node name="Unit Kill Plane Left" type="Area3D" parent="Left Side Things"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 0)
+collision_layer = 0
 collision_mask = 6
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Left Side Things/Unit Kill Plane Left"]
@@ -1039,6 +1040,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 55, 0, 0)
 
 [node name="Unit Kill Plane Right" type="Area3D" parent="Right Side Things"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0)
+collision_layer = 0
 collision_mask = 6
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Right Side Things/Unit Kill Plane Right"]
@@ -1106,6 +1108,7 @@ theme_override_styles/fill = SubResource("StyleBoxFlat_kn3u8")
 value = 80.0
 
 [node name="Sigil" parent="CanvasLayer/UI Container" instance=ExtResource("7_56svx")]
+unique_name_in_owner = true
 
 [node name="CameraViewPoint" type="Node3D" parent="." node_paths=PackedStringArray("left_edge", "right_edge")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0)

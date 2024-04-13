@@ -8,7 +8,13 @@ static var definitions = [{
 	'level': 1,
 	'manaSecondsAtLevel': 5,
 	'preferredLocation': 'surface',
-	'rune': null,
+	'rune': Rune.new([3, 1, 4]),
+	#      0
+	# 
+	# 4 ------ 1
+	#      /--
+	#    --/
+	#   3    2
 	'castFunc': UnitManager.summonBasicWalker,
 }];
 
@@ -21,9 +27,9 @@ static func _static_init():
 		var manaPerSecondAtLevel : float = PlayerController.getManaRegenPerSecond(manaAtLevel);
 		spell['manaCost'] = manaPerSecondAtLevel * spell['manaSecondsAtLevel'];
 
-static func getSpellFor(rune):
+static func getSpellFor(rune: Rune):
 	for spell in definitions:
-		if spell['rune'] == rune: return spell;
+		if rune.matches(spell['rune']): return spell;
 	return null;
 
 static func dummy(spell, _location: Vector2, _team):
