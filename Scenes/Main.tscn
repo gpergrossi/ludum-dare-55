@@ -1108,6 +1108,7 @@ theme_override_styles/fill = SubResource("StyleBoxFlat_kn3u8")
 value = 80.0
 
 [node name="Sigil" parent="CanvasLayer/UI Container" instance=ExtResource("7_56svx")]
+unique_name_in_owner = true
 
 [node name="CameraViewPoint" type="Node3D" parent="." node_paths=PackedStringArray("left_edge", "right_edge")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0)
