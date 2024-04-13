@@ -1,6 +1,7 @@
-[gd_scene load_steps=18 format=3 uid="uid://ddjbrnypilhof"]
+[gd_scene load_steps=20 format=3 uid="uid://ddjbrnypilhof"]
 
 [ext_resource type="PackedScene" uid="uid://b1xmmcg7sdyrb" path="res://Scenes/Terrain/terrain_gen.tscn" id="1_ho15n"]
+[ext_resource type="Script" path="res://Code/Classes/PlayerController.gd" id="1_uq66x"]
 [ext_resource type="PackedScene" uid="uid://dkweoh02182gr" path="res://Scenes/Pre-Jam/Tools/stuff_spreader.tscn" id="2_rh6tg"]
 [ext_resource type="PackedScene" uid="uid://ck308xwjm7j5e" path="res://Scenes/Pre-Jam/Props/grass_clump.tscn" id="3_furxe"]
 [ext_resource type="PackedScene" uid="uid://fmlqidtqaj2e" path="res://Scenes/Pre-Jam/Props/rock.tscn" id="4_gynon"]
@@ -42,6 +43,9 @@ border_width_left = 2
 border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kn3u8"]
+bg_color = Color(0.580392, 0.513726, 1, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_auxty"]
 albedo_color = Color(0.337255, 0.337255, 0.337255, 1)
@@ -1037,6 +1041,15 @@ text = "Press Escape To Release Mouse."
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="PlayerManaBarUi" type="ProgressBar" parent="CanvasLayer/UI Container"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(400, 20)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+theme_override_styles/fill = SubResource("StyleBoxFlat_kn3u8")
+value = 80.0
+
 [node name="CameraViewPoint" type="Node3D" parent="." node_paths=PackedStringArray("left_edge", "right_edge")]
 script = ExtResource("5_046qu")
 left_edge = NodePath("../LeftEdgeMarker")
@@ -1067,5 +1080,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 57.7221, 0, 0)
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Castle(sortOf)2"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.49797, 0)
 mesh = SubResource("CylinderMesh_cp35v")
+
+[node name="PlayerController" type="Node" parent="."]
+script = ExtResource("1_uq66x")
 
 [editable path="StuffSpreader"]
