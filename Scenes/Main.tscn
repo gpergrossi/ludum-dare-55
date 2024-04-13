@@ -1,7 +1,8 @@
-[gd_scene load_steps=22 format=3 uid="uid://ddjbrnypilhof"]
+[gd_scene load_steps=25 format=3 uid="uid://ddjbrnypilhof"]
 
 [ext_resource type="PackedScene" uid="uid://b1xmmcg7sdyrb" path="res://Scenes/Terrain/terrain_gen.tscn" id="1_ho15n"]
 [ext_resource type="Script" path="res://Code/Classes/PlayerController.gd" id="1_uq66x"]
+[ext_resource type="Script" path="res://Code/Scripts/kill_plane.gd" id="2_ftuh1"]
 [ext_resource type="PackedScene" uid="uid://dkweoh02182gr" path="res://Scenes/Tools/stuff_spreader.tscn" id="2_rh6tg"]
 [ext_resource type="PackedScene" uid="uid://ck308xwjm7j5e" path="res://Scenes/Props/grass_clump.tscn" id="3_furxe"]
 [ext_resource type="PackedScene" uid="uid://fmlqidtqaj2e" path="res://Scenes/Props/rock.tscn" id="4_gynon"]
@@ -31,15 +32,14 @@ size = Vector2(500, 500)
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_qgmkb"]
 
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_11f8j"]
+
 [sub_resource type="SphereShape3D" id="SphereShape3D_ki11g"]
 resource_local_to_scene = true
 radius = 100.0
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_x5fky"]
 plane = Plane(1, 0, 0, 0)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kn3u8"]
-bg_color = Color(0.580392, 0.513726, 1, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_auxty"]
 albedo_color = Color(0.337255, 0.337255, 0.337255, 1)
@@ -63,6 +63,9 @@ border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kn3u8"]
+bg_color = Color(0.580392, 0.513726, 1, 1)
+
 [node name="Main" type="Node3D"]
 
 [node name="TeamDefinitions" type="Node3D" parent="."]
@@ -83,10 +86,20 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.037, 0)
 mesh = SubResource("PlaneMesh_wi8sw")
 
 [node name="GroundCollider" type="StaticBody3D" parent="Ground"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.366562, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0373723, 0)
+collision_layer = 7
+collision_mask = 7
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Ground/GroundCollider"]
 shape = SubResource("WorldBoundaryShape3D_qgmkb")
+
+[node name="Y Kill Plane" type="Area3D" parent="Ground"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -10, 0)
+collision_mask = 4294967295
+script = ExtResource("2_ftuh1")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground/Y Kill Plane"]
+shape = SubResource("WorldBoundaryShape3D_11f8j")
 
 [node name="StuffSpreader" parent="." instance=ExtResource("2_rh6tg")]
 spawnables = Array[PackedScene]([ExtResource("3_furxe"), ExtResource("4_gynon")])
@@ -1001,33 +1014,43 @@ transform = Transform3D(2.1938, 0, 0.164999, 0, 2.2, 0, -0.164999, 0, 2.1938, 59
 [node name="@Node3D@422750" parent="StuffSpreader/SpawnParent" index="299" instance=ExtResource("3_furxe")]
 transform = Transform3D(1.99007, 0, 0.199029, 0, 2, 0, -0.199029, 0, 1.99007, -33.7119, 0.329562, -36.8316)
 
-[node name="LeftEdgeMarker" type="Node3D" parent="."]
+[node name="Left Side Things" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -55, 0, 0)
 
-[node name="Unit Kill Plane Left" type="StaticBody3D" parent="LeftEdgeMarker"]
+[node name="Unit Kill Plane Left" type="Area3D" parent="Left Side Things"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 0)
+collision_mask = 6
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="LeftEdgeMarker/Unit Kill Plane Left"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Left Side Things/Unit Kill Plane Left"]
 shape = SubResource("WorldBoundaryShape3D_x5fky")
 
-[node name="Castle(sortOf)" type="Node3D" parent="LeftEdgeMarker"]
+[node name="Castle(sortOf)" type="Node3D" parent="Left Side Things"]
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="LeftEdgeMarker/Castle(sortOf)"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Left Side Things/Castle(sortOf)"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.49797, 0)
 mesh = SubResource("CylinderMesh_cp35v")
 
-[node name="RightEdgeMarker" type="Node3D" parent="."]
+[node name="Default Spawn Position" type="Node3D" parent="Left Side Things"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0)
+
+[node name="Right Side Things" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 55, 0, 0)
 
-[node name="Unit Kill Plane Right" type="StaticBody3D" parent="RightEdgeMarker"]
+[node name="Unit Kill Plane Right" type="Area3D" parent="Right Side Things"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0)
+collision_mask = 6
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="RightEdgeMarker/Unit Kill Plane Right"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Right Side Things/Unit Kill Plane Right"]
 shape = SubResource("WorldBoundaryShape3D_w46i8")
 
-[node name="Castle(sortOf)2" type="Node3D" parent="RightEdgeMarker"]
+[node name="Castle(sortOf)2" type="Node3D" parent="Right Side Things"]
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="RightEdgeMarker/Castle(sortOf)2"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Right Side Things/Castle(sortOf)2"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.49797, 0)
 mesh = SubResource("CylinderMesh_cp35v")
+
+[node name="Default Spawn Position" type="Node3D" parent="Right Side Things"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.86055, -9.53674e-07, 0.000247955)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -1082,9 +1105,10 @@ theme_override_styles/fill = SubResource("StyleBoxFlat_kn3u8")
 value = 80.0
 
 [node name="CameraViewPoint" type="Node3D" parent="." node_paths=PackedStringArray("left_edge", "right_edge")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0)
 script = ExtResource("5_046qu")
-left_edge = NodePath("../LeftEdgeMarker")
-right_edge = NodePath("../RightEdgeMarker")
+left_edge = NodePath("../Left Side Things")
+right_edge = NodePath("../Right Side Things")
 
 [node name="Camera Rotate" type="Node3D" parent="CameraViewPoint"]
 transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 0, 0)
@@ -1098,10 +1122,16 @@ fov = 30.0
 size = 60.0
 near = 5.0
 
-[node name="UnitManager" type="Node3D" parent="."]
+[node name="UnitManager" type="Node3D" parent="." node_paths=PackedStringArray("summon_default_position_left", "summon_default_position_right")]
 script = ExtResource("8_ha0w3")
+summon_default_position_left = NodePath("../Left Side Things/Default Spawn Position")
+summon_default_position_right = NodePath("../Right Side Things/Default Spawn Position")
 
 [node name="PlayerController" type="Node" parent="."]
 script = ExtResource("1_uq66x")
+
+[connection signal="body_entered" from="Ground/Y Kill Plane" to="Ground/Y Kill Plane" method="_on_body_entered"]
+[connection signal="body_entered" from="Left Side Things/Unit Kill Plane Left" to="UnitManager" method="_on_unit_kill_plane_left_body_entered"]
+[connection signal="body_entered" from="Right Side Things/Unit Kill Plane Right" to="UnitManager" method="_on_unit_kill_plane_right_body_entered"]
 
 [editable path="StuffSpreader"]

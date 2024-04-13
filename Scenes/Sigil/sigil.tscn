@@ -1,0 +1,28 @@
+[gd_scene load_steps=4 format=3 uid="uid://cnfygjo801chm"]
+
+[ext_resource type="PackedScene" uid="uid://yopsmt22mosh" path="res://Scenes/Sigil/sigil_vertex.tscn" id="1_ar3ch"]
+[ext_resource type="Script" path="res://Scenes/Sigil/sigil.gd" id="1_plqdm"]
+[ext_resource type="PackedScene" uid="uid://dcwcg2jsay5ac" path="res://Scenes/Sigil/sigil_line.tscn" id="3_xnil8"]
+
+[node name="Sigil" type="Node2D" node_paths=PackedStringArray("vertices")]
+script = ExtResource("1_plqdm")
+interaction_distance = 250.0
+snap_distance = 30.0
+vertices = [NodePath("SigilVertex"), NodePath("SigilVertex2"), NodePath("SigilVertex3"), NodePath("SigilVertex4"), NodePath("SigilVertex5")]
+
+[node name="SigilVertex" parent="." instance=ExtResource("1_ar3ch")]
+position = Vector2(161, 26)
+
+[node name="SigilVertex2" parent="." instance=ExtResource("1_ar3ch")]
+position = Vector2(271, 118)
+
+[node name="SigilVertex3" parent="." instance=ExtResource("1_ar3ch")]
+position = Vector2(248, 273)
+
+[node name="SigilVertex4" parent="." instance=ExtResource("1_ar3ch")]
+position = Vector2(103, 275)
+
+[node name="SigilVertex5" parent="." instance=ExtResource("1_ar3ch")]
+position = Vector2(43, 129)
+
+[node name="SigilLine" parent="." instance=ExtResource("3_xnil8")]

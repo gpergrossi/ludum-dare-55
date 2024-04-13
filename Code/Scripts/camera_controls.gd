@@ -36,5 +36,5 @@ func _physics_process(delta : float):
 	
 	if Input.is_action_just_pressed("zoom_out"):
 		_current_zoom_distance += 10.0
-		_current_zoom_distance = minf(_current_zoom_distance, _initial_zoom_distance)
+		_current_zoom_distance = minf(_current_zoom_distance, _initial_zoom_distance * 2.0)
 		zoom_node.position.z = _current_zoom_distance
