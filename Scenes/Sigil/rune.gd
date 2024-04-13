@@ -17,3 +17,4 @@ func _init(path_ : Array[int]):
 			y = y | x
 			x = x | y
 		canonical_edge_list.push_back(Vector2i(x, y))
+	canonical_edge_list.sort()
