@@ -12,7 +12,7 @@ albedo_color = Color(0, 0.521569, 0.615686, 1)
 resource_local_to_scene = true
 material = SubResource("StandardMaterial3D_6skcl")
 
-[node name="UnitBase" type="CharacterBody3D"]
+[node name="UnitBase" type="CharacterBody3D" groups=["units"]]
 floor_snap_length = 1.0
 script = ExtResource("1_j11gk")
 

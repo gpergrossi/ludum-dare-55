@@ -11,13 +11,16 @@ var team_def : Team
 @export var top_speed := 10
 @export var move_accel := 100.0
 @export var gravity := 40.0
+@export var max_health := 100.0
 
 @onready var body := %Body as MeshInstance3D
 
 var _target_speed : float
+var _health : float
 
 func _ready():
 	_target_speed = top_speed
+	_health = max_health
 	set_team_str(team)
 
 
@@ -73,4 +76,28 @@ func on_team_change(new_team_def : Team):
 	set_collision_mask_value(LAYER_WORLD, true)
 	set_collision_mask_value(other_team_layer, true)
 	set_collision_mask_value(team_layer, false)
+
+func find_nearest_enemy(max_range : float) -> UnitBase:
+	var nearest_enemy : UnitBase = null
+	var nearest_distance_squared = max_range * max_range
+	
+	for in_group in get_tree().get_nodes_in_group(&"units"):  # Could speed up with 1d tree even.
+		var candidate_unit = in_group as UnitBase
+		assert(candidate_unit, "All units should be UnitBase")
+		if team_def == candidate_unit.team_def:
+			continue
 		
+		var distance_squared = candidate_unit.global_position.distance_squared_to(candidate_unit.global_position)
+		if distance_squared < nearest_distance_squared:
+			nearest_enemy = candidate_unit
+			nearest_distance_squared = distance_squared
+		
+	return nearest_enemy
+
+func take_damage(damage : float) -> void:
+	_health -= damage
+	if _health < 0:
+		die()
+
+func die() -> void:
+	queue_free()
