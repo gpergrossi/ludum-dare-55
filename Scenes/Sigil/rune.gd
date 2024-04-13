@@ -18,3 +18,6 @@ func _init(path_ : Array[int]):
 			x = x ^ y
 		canonical_edge_list.push_back(Vector2i(x, y))
 	canonical_edge_list.sort()
+
+func matches(other : Rune):
+	return canonical_edge_list == other.canonical_edge_list;

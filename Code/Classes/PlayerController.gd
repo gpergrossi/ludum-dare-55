@@ -29,7 +29,7 @@ func canCast(spell):
 	return mana > spell['manaCost']
 	
 func _on_rune_drawn(rune: Rune, location: Vector2 = Vector2.ZERO):
-	print(rune);
+	print(rune.canonical_edge_list);
 	var spell = Spells.getSpellFor(rune);
 	if spell == null: return false;
 	return cast(spell, location);
@@ -42,7 +42,6 @@ func cast(spell, location: Vector2 = Vector2.ZERO):
 	# TODO redraw mana bar UI
 	spell['castFunc'].call(spell, location, TeamDefs.Player.team_name);
 	return true;
-	
 
 @warning_ignore("shadowed_variable")
 static func getManaRegenPerSecond(maxMana : int):
