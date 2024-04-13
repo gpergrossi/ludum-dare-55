@@ -1,0 +1,96 @@
+[gd_scene load_steps=11 format=3 uid="uid://b6l2030e6uebm"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_168x6"]
+radius = 0.904
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2war0"]
+albedo_color = Color(0.196078, 0.0901961, 0, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_3wkqr"]
+material = SubResource("StandardMaterial3D_2war0")
+radius = 0.25
+height = 1.0
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_x8ejh"]
+material = SubResource("StandardMaterial3D_2war0")
+radius = 0.225
+height = 1.0
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_u2dee"]
+material = SubResource("StandardMaterial3D_2war0")
+radius = 0.2
+height = 1.0
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_1tdvs"]
+material = SubResource("StandardMaterial3D_2war0")
+radius = 0.175
+height = 0.9
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_a7tfe"]
+albedo_color = Color(0, 0.337255, 0, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_qmpfg"]
+material = SubResource("StandardMaterial3D_a7tfe")
+radius = 1.41
+height = 1.14
+
+[sub_resource type="SphereMesh" id="SphereMesh_evvhj"]
+material = SubResource("StandardMaterial3D_a7tfe")
+radius = 1.015
+height = 1.14
+
+[sub_resource type="SphereMesh" id="SphereMesh_gtyyu"]
+material = SubResource("StandardMaterial3D_a7tfe")
+radius = 1.16
+height = 1.14
+
+[node name="Tree" type="Node3D"]
+
+[node name="SpawnRadius" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.428354, 0)
+input_ray_pickable = false
+monitoring = false
+monitorable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SpawnRadius"]
+shape = SubResource("SphereShape3D_168x6")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.4, 0, 0, 0, 1.4, 0, 0, 0, 1.4, 0, 0.455162, 0)
+mesh = SubResource("CapsuleMesh_3wkqr")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.31343, 0.484679, 0, -0.484679, 1.31343, 0, 0, 0, 1.4, 0.112212, 1.18331, 0)
+mesh = SubResource("CapsuleMesh_x8ejh")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.37693, 0.253135, 0, -0.252244, 1.37208, -0.117393, -0.0212258, 0.115458, 1.39507, 0.330368, 2.02937, 0.0274572)
+mesh = SubResource("CapsuleMesh_u2dee")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.37934, -0.236186, 0.0405335, 0.239172, 1.34205, -0.318902, 0.0149443, 0.321119, 1.36259, 0.342468, 2.89849, 0.142888)
+mesh = SubResource("CapsuleMesh_1tdvs")
+
+[node name="MeshInstance3D6" type="MeshInstance3D" parent="."]
+transform = Transform3D(-1.09422, -0.648592, 0.584814, -0.675591, 1.22275, 0.0920262, -0.553405, -0.210284, -1.26867, -0.0459742, 1.88121, -0.0180289)
+mesh = SubResource("CapsuleMesh_u2dee")
+
+[node name="MeshInstance3D7" type="MeshInstance3D" parent="."]
+transform = Transform3D(-1.25331, -0.140818, 0.607772, -0.210461, 1.37935, -0.11441, -0.5873, -0.193788, -1.25599, -0.313951, 2.70882, -0.128035)
+mesh = SubResource("CapsuleMesh_1tdvs")
+
+[node name="MeshInstance3D8" type="MeshInstance3D" parent="."]
+transform = Transform3D(-1.25331, -0.140818, 0.607772, 0.482845, 0.644728, 1.14507, -0.395066, 1.2347, -0.528606, 0.272979, 1.94408, 0.489476)
+mesh = SubResource("CapsuleMesh_1tdvs")
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.39881, 0.0569184, -0.00945441, -0.0569059, 1.32308, -0.454124, -0.0095279, 0.454122, 1.32427, 0.225761, 3.83188, 0.335583)
+mesh = SubResource("SphereMesh_qmpfg")
+
+[node name="MeshInstance3D10" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.34698, 0.381616, 0, -0.369419, 1.30394, -0.351099, -0.0957036, 0.337805, 1.35526, 0.552838, 2.84775, 1.18655)
+mesh = SubResource("SphereMesh_evvhj")
+
+[node name="MeshInstance3D9" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.4, 0, 0, 0, 1.4, 0, 0, 0, 1.4, 0.0272573, 3.4259, -0.790245)
+mesh = SubResource("SphereMesh_gtyyu")

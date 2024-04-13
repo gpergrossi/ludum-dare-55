@@ -1,0 +1,79 @@
+[gd_scene load_steps=12 format=3 uid="uid://crwflmejjt640"]
+
+[ext_resource type="Script" path="res://Scenes/Props/procedural_tree/procedural_tree.gd" id="1_aik0b"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_q77om"]
+radius = 0.54
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_vgmb3"]
+radius = 0.405
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_vn2n6"]
+size = Vector3(2, 2, 2)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_25q7h"]
+radius = 0.75
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_ufa3b"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_puoqv"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_23k6h"]
+seamless = true
+seamless_blend_skirt = 0.419
+as_normal_map = true
+noise = SubResource("FastNoiseLite_puoqv")
+
+[sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_qnwst"]
+night_sky = SubResource("NoiseTexture2D_23k6h")
+
+[sub_resource type="Sky" id="Sky_b1r0u"]
+sky_material = SubResource("PhysicalSkyMaterial_qnwst")
+
+[sub_resource type="Environment" id="Environment_mrc51"]
+background_mode = 2
+sky = SubResource("Sky_b1r0u")
+
+[node name="ProceduralTree" type="Node3D"]
+script = ExtResource("1_aik0b")
+
+[node name="Scene Inputs" type="Node3D" parent="."]
+unique_name_in_owner = true
+
+[node name="Branches" type="Node3D" parent="Scene Inputs"]
+unique_name_in_owner = true
+
+[node name="RewardSpace" type="ShapeCast3D" parent="Scene Inputs/Branches"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.01, 0)
+shape = SubResource("SphereShape3D_q77om")
+target_position = Vector3(0, 0, 0)
+
+[node name="RestrictSpace" type="ShapeCast3D" parent="Scene Inputs/Branches"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.71, 1.01, 0.25)
+shape = SubResource("SphereShape3D_vgmb3")
+target_position = Vector3(0, 0, 0)
+
+[node name="RewardLight" type="DirectionalLight3D" parent="Scene Inputs/Branches"]
+transform = Transform3D(1, 0, 0, 0, 0.468886, 0.883259, 0, -0.883259, 0.468886, 0, 4.59408, 1.93241)
+
+[node name="RewardSurface" type="ShapeCast3D" parent="Scene Inputs/Branches"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.38933, 1.04302, 0)
+shape = SubResource("BoxShape3D_vn2n6")
+target_position = Vector3(0, 0, 0)
+
+[node name="Roots" type="Node3D" parent="Scene Inputs"]
+unique_name_in_owner = true
+
+[node name="Origin" type="Node3D" parent="Scene Inputs/Roots"]
+
+[node name="RewardSpace" type="ShapeCast3D" parent="Scene Inputs/Roots"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.75, 0)
+shape = SubResource("SphereShape3D_25q7h")
+target_position = Vector3(0, 0, 0)
+
+[node name="RewardDepth" type="ShapeCast3D" parent="Scene Inputs/Roots"]
+shape = SubResource("WorldBoundaryShape3D_ufa3b")
+target_position = Vector3(0, 0, 0)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_mrc51")

@@ -1,0 +1,25 @@
+[gd_scene load_steps=4 format=3 uid="uid://fmlqidtqaj2e"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_031n5"]
+radius = 0.141
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ux6vc"]
+albedo_color = Color(0.192157, 0.192157, 0.192157, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_6hg1u"]
+material = SubResource("StandardMaterial3D_ux6vc")
+size = Vector3(0.2, 0.2, 0.2)
+
+[node name="Rock" type="Node3D"]
+
+[node name="SpawnRadius" type="Area3D" parent="."]
+input_ray_pickable = false
+monitoring = false
+monitorable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SpawnRadius"]
+shape = SubResource("SphereShape3D_031n5")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.533921, 0.143292, 0.833304, -0.608283, 0.749636, 0.260839, -0.587299, -0.646152, 0.487408, 0, 0, 0)
+mesh = SubResource("BoxMesh_6hg1u")

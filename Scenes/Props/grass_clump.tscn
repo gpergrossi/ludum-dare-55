@@ -1,0 +1,42 @@
+[gd_scene load_steps=4 format=3 uid="uid://ck308xwjm7j5e"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_drlw8"]
+radius = 0.25
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vr0fj"]
+albedo_color = Color(0, 0.282353, 0, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_m0inj"]
+material = SubResource("StandardMaterial3D_vr0fj")
+top_radius = 0.0
+bottom_radius = 0.08
+height = 0.34
+radial_segments = 4
+rings = 1
+
+[node name="GrassClump" type="Node3D"]
+
+[node name="SpawnRadius" type="Area3D" parent="."]
+input_ray_pickable = false
+monitoring = false
+monitorable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SpawnRadius"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.141463, 0)
+shape = SubResource("SphereShape3D_drlw8")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.159745, 0)
+mesh = SubResource("CylinderMesh_m0inj")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.835795, -0.230122, 0.498488, 0.265455, 0.964123, 0, -0.480604, 0.132326, 0.866897, -0.0607282, 0.159745, 0.0361132)
+mesh = SubResource("CylinderMesh_m0inj")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.783563, 0.226369, 0.578607, 0, 0.931266, -0.36434, -0.621312, 0.285484, 0.729706, 0.0691732, 0.159745, 0.0628513)
+mesh = SubResource("CylinderMesh_m0inj")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.938397, 0.34556, 0, -0.34556, 0.938397, 0, 0.159745, -0.0999323)
+mesh = SubResource("CylinderMesh_m0inj")

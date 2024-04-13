@@ -1,0 +1,32 @@
+[gd_scene load_steps=5 format=3 uid="uid://bf36js0b7bka2"]
+
+[ext_resource type="Script" path="res://Scenes/CharacterControllers/ThirdPerson3D/third_person_3d.gd" id="1_wu68x"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_nld1m"]
+radius = 0.4
+height = 1.6
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_b2ufo"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_mw2gf"]
+material = SubResource("StandardMaterial3D_b2ufo")
+radius = 0.4
+height = 1.6
+
+[node name="CharacterBody3D" type="CharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.807486, 0)
+script = ExtResource("1_wu68x")
+camera_max_zoom_distance = 16.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_nld1m")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_mw2gf")
+
+[node name="SpringArm3D" type="SpringArm3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.451143, 0)
+spring_length = 3.0
+
+[node name="Camera3D" type="Camera3D" parent="SpringArm3D"]
