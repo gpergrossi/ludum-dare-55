@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://dkweoh02182gr"]
 
-[ext_resource type="Script" path="res://Scenes/Pre-Jam/Tools/stuff_spreader.gd" id="1_8pbwl"]
-[ext_resource type="PackedScene" uid="uid://ck308xwjm7j5e" path="res://Scenes/Pre-Jam/Props/grass_clump.tscn" id="2_0rd2s"]
+[ext_resource type="Script" path="res://Scenes/Tools/stuff_spreader.gd" id="1_8pbwl"]
+[ext_resource type="PackedScene" uid="uid://ck308xwjm7j5e" path="res://Scenes/Props/grass_clump.tscn" id="2_0rd2s"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_yjx3l"]
 resource_local_to_scene = true

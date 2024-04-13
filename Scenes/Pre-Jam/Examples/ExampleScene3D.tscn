@@ -1,11 +1,11 @@
 [gd_scene load_steps=20 format=3 uid="uid://bw04welhnrmph"]
 
-[ext_resource type="PackedScene" uid="uid://dkweoh02182gr" path="res://Scenes/Pre-Jam/Tools/stuff_spreader.tscn" id="1_b3icg"]
+[ext_resource type="PackedScene" uid="uid://dkweoh02182gr" path="res://Scenes/Tools/stuff_spreader.tscn" id="1_b3icg"]
 [ext_resource type="PackedScene" uid="uid://bf36js0b7bka2" path="res://Scenes/Pre-Jam/CharacterControllers/ThirdPerson3D/third_person_3d.tscn" id="1_s4gj1"]
-[ext_resource type="PackedScene" uid="uid://ck308xwjm7j5e" path="res://Scenes/Pre-Jam/Props/grass_clump.tscn" id="2_2jakt"]
-[ext_resource type="PackedScene" uid="uid://fmlqidtqaj2e" path="res://Scenes/Pre-Jam/Props/rock.tscn" id="3_nwoc3"]
-[ext_resource type="PackedScene" uid="uid://b6l2030e6uebm" path="res://Scenes/Pre-Jam/Props/tree.tscn" id="4_dao6o"]
-[ext_resource type="PackedScene" uid="uid://ccgkmfepy2lps" path="res://Scenes/Pre-Jam/Props/twig.tscn" id="4_nqeqh"]
+[ext_resource type="PackedScene" uid="uid://ck308xwjm7j5e" path="res://Scenes/Props/grass_clump.tscn" id="2_2jakt"]
+[ext_resource type="PackedScene" uid="uid://fmlqidtqaj2e" path="res://Scenes/Props/rock.tscn" id="3_nwoc3"]
+[ext_resource type="PackedScene" uid="uid://b6l2030e6uebm" path="res://Scenes/Props/tree.tscn" id="4_dao6o"]
+[ext_resource type="PackedScene" path="res://Scenes/Pre-Jam/Props/twig.tscn" id="4_nqeqh"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_onenm"]
 sky_top_color = Color(0, 0.352941, 0.639216, 1)

@@ -10,6 +10,7 @@ class_name CameraControls extends Node3D
 var _initial_zoom_distance : float
 var _current_zoom_distance : float
 
+
 func _ready():
 	_initial_zoom_distance = zoom_node.position.z
 	_current_zoom_distance = _initial_zoom_distance

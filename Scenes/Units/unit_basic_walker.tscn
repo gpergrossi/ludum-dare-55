@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3 uid="uid://yr25doi8tg73"]
+
+[ext_resource type="PackedScene" uid="uid://kkt6g2ery6vj" path="res://Scenes/Units/unit_base.tscn" id="1_d8k6h"]
+[ext_resource type="Script" path="res://Code/Scripts/Units/unit_basic_walker.gd" id="2_vh7o5"]
+
+[node name="UnitBasicWalker" instance=ExtResource("1_d8k6h")]
+script = ExtResource("2_vh7o5")
