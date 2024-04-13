@@ -41,21 +41,21 @@ func set_team_str(val : String):
 
 
 # Override if you want to pull stats from the spell definition dictionary
-func consume_spell_def(spell_def : Dictionary):
+func consume_spell_def(_spell_def : Dictionary):
 	pass
 
 
-func on_team_change(team : Team):
+func on_team_change(new_team_def : Team):
 	if is_instance_valid(body):
 		var mat := body.mesh.surface_get_material(0) as StandardMaterial3D
-		if is_instance_valid(team):
-			mat.albedo_color = team.team_color
+		if is_instance_valid(new_team_def):
+			mat.albedo_color = new_team_def.team_color
 		else:
 			mat.albedo_color = Color.GRAY
 	
 	var team_layer : int
 	var other_team_layer : int
-	match team.team_name:
+	match new_team_def.team_name:
 		"Player": 
 			team_layer = LAYER_PLAYER
 			other_team_layer = LAYER_ENEMY

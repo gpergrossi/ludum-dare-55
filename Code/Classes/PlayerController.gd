@@ -23,7 +23,7 @@ func initMana(lv):
 	setMana(maxMana * 0.8);
 
 func regenMana(secondsElapsed : float):
-	setMana(mana + getManaRegenPerSecond(maxMana) * secondsElapsed);
+	setMana(mana + PlayerController.getManaRegenPerSecond(maxMana) * secondsElapsed);
 
 func canCast(spell):
 	return mana > spell['manaCost']
