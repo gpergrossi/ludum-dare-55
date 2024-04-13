@@ -19,8 +19,8 @@ const MAX_RAYS_PER_CYCLE := 50
 @export var spread_distance : float = 0.1      # Margin around each spawned object.
 
 @export_category("Spawn Rotation")
-@export var min_angle_y : int = 3
-@export var max_angle_y : int = 7
+@export var min_angle_y : int = -180
+@export var max_angle_y : int = 180
 @export var match_normal := true
 @export var discard_angle := 90.0
 

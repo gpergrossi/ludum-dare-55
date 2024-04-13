@@ -10,6 +10,8 @@ radius = 3.0
 [node name="StuffSpreader" type="Node3D" groups=["stuff_spreaders"]]
 script = ExtResource("1_8pbwl")
 spawnables = Array[PackedScene]([ExtResource("2_0rd2s")])
+min_angle_y = 3
+max_angle_y = 7
 metadata/_edit_group_ = true
 
 [node name="SpawnArea" type="Area3D" parent="."]
