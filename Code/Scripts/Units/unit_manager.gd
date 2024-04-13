@@ -1,6 +1,7 @@
 class_name UnitManager extends Node3D
 
 static var _unit_manager_static : UnitManager
+@onready var playerController : PlayerController = %PlayerController;
 
 @export var summon_default_position_left : Node3D
 @export var summon_default_position_right : Node3D
@@ -19,7 +20,7 @@ func _input(event : InputEvent):
 		if event.is_pressed():
 			if not summon_lock:
 				if key_event.physical_keycode == KEY_1:
-					summon("basicWalker", {}, Vector2(summon_default_position_left.global_position.x, 0), "Player")
+					playerController.cast(Spells.summonBasicWalker);
 				if key_event.physical_keycode == KEY_2:
 					summon("basicWalker", {}, Vector2(summon_default_position_right.global_position.x, 0), "Enemy")
 			summon_lock = true

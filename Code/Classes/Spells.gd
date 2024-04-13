@@ -1,5 +1,7 @@
 class_name Spells
 
+# UnitManager.summonBasicWalker(spell_def : Dictionary, position : Vector2, team : String)
+
 static var definitions = [{
 	'programmaticName': 'summonBasicWalker',
 	'name': 'Summon Broccoli',
@@ -7,7 +9,7 @@ static var definitions = [{
 	'manaSecondsAtLevel': 5,
 	'preferredLocation': 'surface',
 	'rune': null,
-	'castFunc': Spells.dummy,
+	'castFunc': UnitManager.summonBasicWalker,
 }];
 
 static var summonBasicWalker = Spells.definitions[0];
