@@ -1,13 +1,17 @@
 class_name Spells
 
-# UnitManager.summonBasicWalker(spell_def : Dictionary, position : Vector2, team : String)
+const defaultTarget = {
+	'*': Vector2.ZERO,
+	'ground': Vector2(-50, 0),
+	'sky': Vector2(-50, -10),
+}
 
 static var definitions = [{
 	'programmaticName': 'summonBasicWalker',
 	'name': 'Summon Broccoli',
 	'level': 1,
 	'manaSecondsAtLevel': 5,
-	'preferredLocation': 'surface',
+	'preferredLocation': 'ground',
 	'rune': Rune.new([0, 3, 2]), # For visual runes, see the Miro board at https://miro.com/app/board/uXjVKUq1fIo=/
 	'castFunc': UnitManager.summonBasicWalker,
 }, {
@@ -23,7 +27,7 @@ static var definitions = [{
 	'name': 'Summon Tomato',
 	'level': 2,
 	'manaSecondsAtLevel': 20,
-	'preferredLocation': 'surface',
+	'preferredLocation': 'ground',
 	'rune': Rune.new([0, 3, 2, 1]),
 	'castFunc': Spells.dummy, # TODO
 }, {
@@ -31,7 +35,7 @@ static var definitions = [{
 	'name': 'Summon Lettuce',
 	'level': 3,
 	'manaSecondsAtLevel': 15,
-	'preferredLocation': 'surface',
+	'preferredLocation': 'ground',
 	'rune': Rune.new([2, 0, 4, 1, 3]),
 	'castFunc': Spells.dummy, # TODO
 }, {
@@ -39,7 +43,7 @@ static var definitions = [{
 	'name': 'Summon Pumpkin',
 	'level': 3,
 	'manaSecondsAtLevel': 25,
-	'preferredLocation': 'surface',
+	'preferredLocation': 'ground',
 	'rune': Rune.new([0, 1, 3, 4, 2, 0]),
 	'castFunc': Spells.dummy, # TODO
 }, {
@@ -73,8 +77,7 @@ static var summonBasicWalker = Spells.definitions[0];
 static func _static_init():
 	for spell in definitions:
 		var level : int = spell['level'];
-		var manaAtLevel : int = Constants.manaByLevel[level];
-		var manaPerSecondAtLevel : float = PlayerController.getManaRegenPerSecond(manaAtLevel);
+		var manaPerSecondAtLevel : float = PlayerController.getManaRegenPerSecond(level);
 		spell['manaCost'] = manaPerSecondAtLevel * spell['manaSecondsAtLevel'];
 
 static func getSpellFor(rune: Rune):
