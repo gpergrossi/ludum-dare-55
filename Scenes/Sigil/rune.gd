@@ -1,12 +1,6 @@
 class_name Rune extends RefCounted
 
-# Runes represent a single 'shape' drawn on the sigil.
-# Each edge in a rune is unique. ints in this class are vertices on the sigil:
-#       0
-#      / \
-#    4     1
-#     \   /
-#      3-2 
+# Runes represent a single 'shape' drawn on the sigil. Each edge in a rune is unique.
 
 # Original path taken to draw this rune.
 var path : Array[int] = []
