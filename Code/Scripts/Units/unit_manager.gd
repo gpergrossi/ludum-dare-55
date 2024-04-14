@@ -43,10 +43,10 @@ func summon(unitType : String, spell_def : Dictionary, unit_position : Vector2, 
 			return
 	
 	var unit := packed_scene.instantiate() as UnitBase
-	unit.team_name = team
-	unit.position = Vector3(unit_position.x, -unit_position.y, 0.0)
 	unit.consume_spell_def(spell_def)
+	unit.position = Vector3(unit_position.x, -unit_position.y, 0.0)
 	add_child(unit)
+	unit.team_name = team
 	
 
 func _on_unit_kill_plane_left_body_entered(body : PhysicsBody3D):

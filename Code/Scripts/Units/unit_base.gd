@@ -66,8 +66,8 @@ func _ready():
 	_id = next_uid
 	next_uid += 1
 	
-	# Ensure we have a team definition
-	#set_team_name(team)
+	# Ensure we have  the correct team appearance
+	on_team_change(team)
 	
 	_health = max_health
 	
@@ -106,7 +106,8 @@ func consume_spell_def(_spell_def : Dictionary):
 func set_team_name(val : String):
 	team_name = val
 	team = TeamDefs.FromName(team_name)
-	on_team_change(team)
+	if is_node_ready():
+		on_team_change(team)
 
 
 func set_damage_tint(amount : float):
@@ -230,7 +231,9 @@ func on_team_change(new_team : Team):
 		art_node.scale.x = new_team.get_team_move_x()
 	
 	# Enemy team gets angry eye brows
-	for eye_child in find_children("GoogleyEyesPair"):
+	var eye_children := find_children("GoogleyEyesPair")
+	if len(eye_children) == 0: printerr("Missing the eyes!")
+	for eye_child in eye_children:
 		var eyes := eye_child as GoogleyEyesPair
 		if is_instance_valid(eyes):
 			eyes.brow_visible = (new_team == TeamDefs.Enemy)
