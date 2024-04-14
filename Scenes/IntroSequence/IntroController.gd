@@ -13,16 +13,23 @@ func _process(delta):
 	%VBoxContainer.position.y += diff * delta * 5;
 
 func show_first_story_page():
+	play_sound();
 	var viewport_size = get_viewport().get_size()
 	targetY = -viewport_size.y;
 
 func show_second_story_page():
+	play_sound();
 	var viewport_size = get_viewport().get_size()
 	targetY = -2 * viewport_size.y;
 
 func show_character_select_page():
+	play_sound();
 	var viewport_size = get_viewport().get_size()
 	targetY = -3 * viewport_size.y;
 
 func start_game():
+	play_sound();
 	get_tree().change_scene_to_file("res://Scenes/Main.tscn");
+
+func play_sound():
+	%"Page Change Sound Player".play();

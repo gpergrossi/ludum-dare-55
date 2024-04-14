@@ -30,6 +30,7 @@ script = ExtResource("2_5hj05")
 layout_mode = 2
 texture = ExtResource("3_2r8nx")
 expand_mode = 1
+stretch_mode = 5
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
 layout_mode = 1

@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://cahnueyrbn7xe"]
+[gd_scene load_steps=9 format=3 uid="uid://cahnueyrbn7xe"]
 
 [ext_resource type="Script" path="res://Scenes/IntroSequence/IntroController.gd" id="1_5qpgf"]
 [ext_resource type="PackedScene" uid="uid://bvoqd8kopfytf" path="res://Scenes/IntroSequence/TitleScreen/TitleScreen.tscn" id="2_7j1g2"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://dowwu4o680cny" path="res://Scenes/IntroSequence/StoryPages/StoryPage1.tscn" id="3_bae1t"]
 [ext_resource type="PackedScene" uid="uid://bt6q7nxjuku1m" path="res://Scenes/IntroSequence/StoryPages/StoryPage2.tscn" id="4_d6r6o"]
 [ext_resource type="PackedScene" uid="uid://bx11o0j00qmvr" path="res://Scenes/IntroSequence/CharacterSelect/CharacterSelect.tscn" id="5_qsh34"]
+[ext_resource type="AudioStream" uid="uid://t77fe45hbdkf" path="res://Assets/sound/swap-click.wav" id="8_3f4cu"]
 
 [node name="IntroSequence" type="CanvasLayer"]
 script = ExtResource("1_5qpgf")
@@ -64,3 +65,8 @@ script = ExtResource("3_0ifsn")
 [node name="CharacterSelect" parent="VBoxContainer/AspectRatioContainer4" instance=ExtResource("5_qsh34")]
 unique_name_in_owner = true
 layout_mode = 2
+
+[node name="Page Change Sound Player" type="AudioStreamPlayer" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("8_3f4cu")
+volume_db = -0.808
