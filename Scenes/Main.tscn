@@ -206,8 +206,17 @@ size_flags_vertical = 8
 
 [node name="OpponentSigil" parent="CanvasLayer/UI Container/OpponentSigilContainer" instance=ExtResource("7_56svx")]
 unique_name_in_owner = true
+modulate = Color(0.701961, 0, 0.576471, 1)
 position = Vector2(-130, 0)
 is_interactable = false
+
+[node name="AnnounceContainer" type="CenterContainer" parent="CanvasLayer/UI Container"]
+layout_mode = 2
+
+[node name="AnnounceLabel" type="Label" parent="CanvasLayer/UI Container/AnnounceContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
 
 [node name="CameraController" type="Node3D" parent="." node_paths=PackedStringArray("left_edge", "right_edge")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0)

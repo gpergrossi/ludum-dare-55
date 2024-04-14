@@ -1,0 +1,63 @@
+[gd_scene load_steps=6 format=3 uid="uid://bvoqd8kopfytf"]
+
+[ext_resource type="Texture2D" uid="uid://bqdd2a6qnmuqt" path="res://Assets/Images/splash_page.png" id="1_22ijp"]
+[ext_resource type="Script" path="res://Scenes/IntroSequence/IntroSequencePageController.gd" id="1_n4r45"]
+[ext_resource type="PackedScene" uid="uid://c8lp1xd01ns5b" path="res://Scenes/Volume Controls/Volume Controls.tscn" id="2_6qcxl"]
+[ext_resource type="Script" path="res://Scenes/IntroSequence/NextPageButton.gd" id="4_1m0fd"]
+[ext_resource type="Texture2D" uid="uid://brbciyiv1f5a" path="res://Assets/Images/begin_button.png" id="4_sdrsd"]
+
+[node name="Panel" type="Panel"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_n4r45")
+
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Background Image" type="TextureRect" parent="AspectRatioContainer"]
+layout_mode = 2
+texture = ExtResource("1_22ijp")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -101.0
+offset_top = -310.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="VolumeControls" parent="CenterContainer" instance=ExtResource("2_6qcxl")]
+layout_mode = 2
+
+[node name="CenterContainer2" type="CenterContainer" parent="."]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -140.5
+offset_top = -100.0
+offset_right = 140.5
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="TextureButton" type="TextureButton" parent="CenterContainer2"]
+layout_mode = 2
+texture_normal = ExtResource("4_sdrsd")
+script = ExtResource("4_1m0fd")

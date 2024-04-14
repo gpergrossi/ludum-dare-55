@@ -12,6 +12,7 @@ func _ready():
 	cooldowns.resize(Spells.definitions.size());
 	cooldowns.fill(0);
 	teamName = TeamDefs.Enemy.team_name;
+	died.connect(_on_died)
 
 func canCast(spell):
 	if spell.has('botDoesNotCast'): return false;
@@ -50,3 +51,6 @@ func _process(delta):
 	# If mana above 80% summon basic infantry
 	if manaPercent >= 80:
 		cast(Spells.summonBasicWalker);
+
+func _on_died() -> void:
+	%AnnounceLabel.text = "You win! :D"

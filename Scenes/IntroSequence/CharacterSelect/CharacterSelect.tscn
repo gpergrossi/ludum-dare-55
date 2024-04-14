@@ -1,0 +1,66 @@
+[gd_scene load_steps=4 format=3 uid="uid://bx11o0j00qmvr"]
+
+[ext_resource type="Script" path="res://Scenes/IntroSequence/IntroSequencePageController.gd" id="1_8haiq"]
+[ext_resource type="Texture2D" uid="uid://b6k2qwqy3r4v5" path="res://Assets/Icons/icon.svg" id="1_dteo7"]
+[ext_resource type="Script" path="res://Scenes/IntroSequence/NextPageButton.gd" id="2_lbdp0"]
+
+[node name="Panel" type="Panel"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_8haiq")
+
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Background Image" type="TextureRect" parent="AspectRatioContainer"]
+layout_mode = 2
+texture = ExtResource("1_dteo7")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Left" type="CenterContainer" parent="."]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -100.0
+offset_right = 281.0
+grow_vertical = 0
+
+[node name="PickLeftSiblingButton" type="Button" parent="Left"]
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 40
+text = "Play as
+[SiblingName:Left]"
+script = ExtResource("2_lbdp0")
+
+[node name="Right" type="CenterContainer" parent="."]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -281.0
+offset_top = -100.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="PickRightSiblingButton" type="Button" parent="Right"]
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 40
+text = "Play as
+[SiblingName:Right]"
+script = ExtResource("2_lbdp0")

@@ -14,6 +14,8 @@ var health : float
 
 var last_spell = null
 
+signal died
+
 func _ready():
 	initMana(level);
 	setHealth(maxHealth)
@@ -64,4 +66,5 @@ func getDefaultLocation(spell):
 func setHealth(new_health : float) -> void:
 	health = clamp(new_health, 0, maxHealth)
 	healthBar.fraction = health / maxHealth
-	# TODO to die
+	if health == 0.0:
+		died.emit()
