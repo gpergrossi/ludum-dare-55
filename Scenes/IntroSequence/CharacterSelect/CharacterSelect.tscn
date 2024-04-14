@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://bx11o0j00qmvr"]
+[gd_scene load_steps=5 format=3 uid="uid://bx11o0j00qmvr"]
 
 [ext_resource type="Script" path="res://Scenes/IntroSequence/IntroSequencePageController.gd" id="1_8haiq"]
 [ext_resource type="Texture2D" uid="uid://b6k2qwqy3r4v5" path="res://Assets/Icons/icon.svg" id="1_dteo7"]
+[ext_resource type="Script" path="res://Scenes/IntroSequence/TitleScreen/AutoRatio.gd" id="2_6d7nb"]
 [ext_resource type="Script" path="res://Scenes/IntroSequence/NextPageButton.gd" id="2_lbdp0"]
 
 [node name="Panel" type="Panel"]
@@ -19,6 +20,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+ratio = 1.7778
+script = ExtResource("2_6d7nb")
 
 [node name="Background Image" type="TextureRect" parent="AspectRatioContainer"]
 layout_mode = 2

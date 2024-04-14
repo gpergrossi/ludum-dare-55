@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://bvoqd8kopfytf"]
+[gd_scene load_steps=7 format=3 uid="uid://bvoqd8kopfytf"]
 
-[ext_resource type="Texture2D" uid="uid://bqdd2a6qnmuqt" path="res://Assets/Images/splash_page.png" id="1_22ijp"]
 [ext_resource type="Script" path="res://Scenes/IntroSequence/IntroSequencePageController.gd" id="1_n4r45"]
+[ext_resource type="Script" path="res://Scenes/IntroSequence/TitleScreen/AutoRatio.gd" id="2_5hj05"]
 [ext_resource type="PackedScene" uid="uid://c8lp1xd01ns5b" path="res://Scenes/Volume Controls/Volume Controls.tscn" id="2_6qcxl"]
+[ext_resource type="Texture2D" uid="uid://bojx70lw873va" path="res://Assets/Images/landingpage.png" id="3_2r8nx"]
 [ext_resource type="Script" path="res://Scenes/IntroSequence/NextPageButton.gd" id="4_1m0fd"]
 [ext_resource type="Texture2D" uid="uid://brbciyiv1f5a" path="res://Assets/Images/begin_button.png" id="4_sdrsd"]
 
@@ -21,12 +22,14 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+ratio = 1.7778
+stretch_mode = 1
+script = ExtResource("2_5hj05")
 
 [node name="Background Image" type="TextureRect" parent="AspectRatioContainer"]
 layout_mode = 2
-texture = ExtResource("1_22ijp")
+texture = ExtResource("3_2r8nx")
 expand_mode = 1
-stretch_mode = 5
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
 layout_mode = 1
