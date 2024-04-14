@@ -1,0 +1,36 @@
+[gd_scene load_steps=5 format=3 uid="uid://fjt632mla25c"]
+
+[ext_resource type="Texture2D" uid="uid://ckqdd8241sxlq" path="res://Assets/mob/corn_green.png" id="1_p3376"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_sxeqo"]
+radius = 1.094
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yuwu4"]
+transparency = 2
+alpha_scissor_threshold = 0.5
+alpha_antialiasing_mode = 0
+shading_mode = 0
+albedo_texture = ExtResource("1_p3376")
+texture_filter = 0
+texture_repeat = false
+billboard_mode = 2
+
+[sub_resource type="QuadMesh" id="QuadMesh_mp75k"]
+material = SubResource("StandardMaterial3D_yuwu4")
+size = Vector2(2.095, 4)
+
+[node name="Corn" type="Node3D"]
+
+[node name="SpawnRadius" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.277101, 0, 0)
+input_ray_pickable = false
+monitoring = false
+monitorable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SpawnRadius"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.914969, 0)
+shape = SubResource("SphereShape3D_sxeqo")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.9386, 0)
+mesh = SubResource("QuadMesh_mp75k")
