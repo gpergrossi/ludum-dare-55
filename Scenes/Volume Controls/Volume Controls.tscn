@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://c8lp1xd01ns5b"]
 
 [ext_resource type="AudioStream" uid="uid://t77fe45hbdkf" path="res://Assets/sound/swap-click.wav" id="1_yinpu"]
-[ext_resource type="Script" path="res://Scenes/TitleScreen/VolumeController.gd" id="2_560fo"]
+[ext_resource type="Script" path="res://Scenes/Volume Controls/VolumeController.gd" id="2_ff7jv"]
 
 [node name="VolumeControls" type="HBoxContainer"]
 
@@ -36,4 +36,4 @@ ticks_on_borders = true
 [node name="Volume Slider Test Sound Player" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("1_yinpu")
 volume_db = -0.808
-script = ExtResource("2_560fo")
+script = ExtResource("2_ff7jv")
