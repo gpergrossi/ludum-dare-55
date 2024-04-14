@@ -39,10 +39,16 @@ func canCast(spell):
 
 func cast(spell, location = null):
 	if !canCast(spell): return false;
-	
-	if location == null:
-		location = Spells.defaultTarget[spell['preferredLocation']]
+	if location == null: location = getDefaultLocation(spell);
 
 	setMana(mana - spell['manaCost']);
 	spell['castFunc'].call(spell, location, teamName);
 	return true;
+
+func getDefaultLocation(spell):
+	var loc = UnitManager._unit_manager_static.summon_default_position_left.global_position;
+	loc = Vector2(loc.x, loc.y);
+	match spell['preferredLocation']:
+		'*': return Vector2.ZERO;
+		'ground': return loc;
+		'sky': return loc + Vector2(0, -10);
