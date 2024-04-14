@@ -7,6 +7,7 @@ static var _unit_manager_static : UnitManager
 @export var summon_default_position_right : Node3D
 
 var scene_basic_walker := preload("res://Scenes/Units/unit_basic_walker.tscn") as PackedScene
+var scene_stationary_guard := preload("res://Scenes/Units/unit_stationary_guard.tscn") as PackedScene
 
 var summon_lock := false
 
@@ -24,6 +25,8 @@ func _input(event : InputEvent):
 					playerController.cast(Spells.summonBasicWalker);
 				if key_event.physical_keycode == KEY_2:
 					summon("basicWalker", {}, Vector2(summon_default_position_right.global_position.x, 0), "Enemy")
+				if key_event.physical_keycode == KEY_3:
+					summon("stationaryGuard", {}, Vector2(0, 0), "Player")
 			summon_lock = true
 		else:
 			summon_lock = false
@@ -34,10 +37,16 @@ static func summonBasicWalker(spell_def : Dictionary, unit_position : Vector2, t
 		_unit_manager_static.summon("basicWalker", spell_def, unit_position, team)
 
 
+static func summonStationaryGuard(spell_def : Dictionary, unit_position : Vector2, team : String):
+	if is_instance_valid(_unit_manager_static):
+		_unit_manager_static.summon("stationaryGuard", spell_def, unit_position, team)
+
+
 func summon(unitType : String, spell_def : Dictionary, unit_position : Vector2, team : String):
 	var packed_scene : PackedScene = null
 	match(unitType):
 		"basicWalker": packed_scene = scene_basic_walker
+		"stationaryGuard": packed_scene = scene_stationary_guard
 		_:
 			printerr("No such unit type \"" + unitType + "\"!")
 			return
@@ -52,10 +61,10 @@ func summon(unitType : String, spell_def : Dictionary, unit_position : Vector2, 
 func _on_unit_kill_plane_left_body_entered(body : PhysicsBody3D):
 	var unit := body as UnitBase
 	if unit:
-		unit.die()
+		unit.do_kill_plane()
 
 
 func _on_unit_kill_plane_right_body_entered(body : PhysicsBody3D):
 	var unit := body as UnitBase
 	if unit:
-		unit.die()
+		unit.do_kill_plane()

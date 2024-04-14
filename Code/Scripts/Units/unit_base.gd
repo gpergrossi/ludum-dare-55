@@ -1,8 +1,12 @@
 class_name UnitBase extends CharacterBody3D
 
 enum UnitState {
+	UNINITIALIZED,
+	INITIALIZE,
 	MOVING,
-	ATTACKING
+	ATTACKING,
+	DEFENDING,
+	DEAD
 }
 
 static var next_uid := 0
@@ -20,6 +24,7 @@ var team : Team
 @export var top_speed := 10
 @export var move_accel := 100.0
 @export var gravity := 40.0
+@export var knockback_multiplier_self := 1.0
 
 @export_category("Health")
 @export var max_health := 100.0
@@ -35,28 +40,42 @@ var team : Team
 
 
 
-@onready var _targeting_timer := %TargetingTimer as Timer
+signal damage_taken(me : UnitBase, amount : float, new_health : float, max_health : float)
+signal state_changed(me : UnitBase, new_state : UnitState, old_state : UnitState)
+signal target_acquired(me : UnitBase, new_current_target : UnitBase)
+signal target_lost(me : UnitBase, prev_current_target : UnitBase)
+signal target_dead(me : UnitBase, new_current_target : UnitBase)
+signal unit_on_ground(me : UnitBase)
+signal unit_off_ground(me : UnitBase)
+
+
+
+
+
 @onready var _ouch_animation := %OuchAnimation as AnimationPlayer
 
 @onready var _slope_detect_left := $TerrainSlopeDetectLeft as SpringArm3D
 @onready var _slope_detect_right := $TerrainSlopeDetectRight as SpringArm3D
 
 @onready var _shadow := $Shadow as MeshInstance3D
+@onready var _eyes := _find_eyes()
 
-var _target_speed : float
+
 var _health : float
 
 var _id := 0
-var _is_dead := false
-var _state := UnitState.MOVING
-var _target : UnitBase = null
+var _state := UnitState.UNINITIALIZED
+var _current_target : UnitBase = null
 
 var _left_list := [] as Array[UnitBase]
 var _right_list := [] as Array[UnitBase]
 
 var _current_ground_angle := 0.0
 
-signal state_changed(new_state : UnitState)
+var _brow_tilt_no_damage := -5.0
+var _brow_tilt_full_damage := -20.0
+
+var _was_on_floor := false
 
 
 
@@ -66,36 +85,97 @@ func _ready():
 	_id = next_uid
 	next_uid += 1
 	
-	# Ensure we have  the correct team appearance
-	on_team_change(team)
-	
 	_health = max_health
-	
-	state_changed.connect(on_state_changed)
-	state_changed.emit(UnitState.MOVING)
-	_targeting_timer.timeout.connect(_on_target_timer)
-	
 	_left_list.clear()
 	_right_list.clear()
+	
+	# Ensure we have  the correct team appearance
+	_on_team_assigned(team)
+	
+	change_state(UnitState.INITIALIZE)
 
 
-func _physics_process(delta : float):
-	var teamMoveX := team.get_team_move_x()
-	
-	if not is_on_floor():
-		velocity += Vector3.DOWN * gravity * delta
-	
-	else:
+func _physics_process(delta : float):	
+	if is_on_floor():
+		# Update slope/shadow
 		var slope := _slope_detect_right.get_hit_length() - _slope_detect_left.get_hit_length()
 		_current_ground_angle = atan2(slope, 1)
 		_shadow.rotation.z = -_current_ground_angle
+		_shadow.visible = true
+		
+		if not _was_on_floor:
+			unit_on_ground.emit(self)
+			_was_on_floor = true
+		
+	else:
+		# Apply gravity
+		velocity += Vector3.DOWN * gravity * delta
+		
+		# Update slope/shadow
+		_current_ground_angle = 0.0
+		_shadow.visible = false
+		
+		if _was_on_floor:
+			unit_off_ground.emit(self)
+			_was_on_floor = false
 	
-	
-	if absf(velocity.x - teamMoveX * _target_speed) > 0.0:
-		var target_move_x := teamMoveX * _target_speed
-		velocity.x = move_toward(velocity.x, target_move_x, move_accel * delta)
-	
+	process_unit(delta)
 	move_and_slide()
+
+
+
+
+##########################################################################
+######   VIRTUAL METHODS FOR SUBCLASS   #####################################
+################################################################################
+
+func process_unit(delta : float) -> void:
+	match(_state):
+		UnitState.MOVING:
+			walk(top_speed, delta)
+
+################################################################################
+######   END VIRTUAL METHODS FOR SUBCLASS  ##################################
+##########################################################################
+
+
+
+
+
+##########################################################################
+######   HELPFUL METHODS FOR SUBCLASS   #####################################
+################################################################################
+
+func walk(target_speed : float, delta : float, allow_midair := false):
+	if is_on_floor() or allow_midair:
+		if absf(velocity.x - team.get_team_move_x() * target_speed) > 0.0:
+			var target_move_x := team.get_team_move_x() * target_speed
+			velocity.x = move_toward(velocity.x, target_move_x, move_accel * delta)
+
+
+func find_target():
+	var enemy := _find_nearest_target(attack_range)
+	if enemy:
+		_current_target = enemy
+		target_acquired.emit(self, _current_target)
+		_current_target.state_changed.connect(internal_check_target_dead)
+	else:
+		clear_target()
+
+
+func clear_target():
+	if _current_target != null:
+		if is_instance_valid(_current_target):
+			_current_target.state_changed.disconnect(internal_check_target_dead)
+		target_lost.emit(self, _current_target)
+	_current_target = null
+
+################################################################################
+######   END HELPFUL METHODS FOR SUBCLASS  ##################################
+##########################################################################
+
+
+
 
 
 # Override if you want to pull stats from the spell definition dictionary
@@ -107,29 +187,27 @@ func set_team_name(val : String):
 	team_name = val
 	team = TeamDefs.FromName(team_name)
 	if is_node_ready():
-		on_team_change(team)
+		_on_team_assigned(team)
 
 
 func set_damage_tint(amount : float):
 	damage_tint = amount
-	on_damage_tint_changed()
+	_on_damage_tint_changed()
+
+
+func do_kill_plane() -> void:
+	change_state(UnitState.DEAD)
+	queue_free()
 
 
 func _to_string():
 	return unit_name + " #" + str(_id) + " (" + team_name + ")"
 
 
-func on_state_changed(new_state : UnitState):
-	var unit_anims := find_child("UnitAnimations") as AnimationPlayer
-	match(new_state):
-		UnitState.MOVING: 
-			_target_speed = top_speed
-			if is_instance_valid(unit_anims):
-				unit_anims.play("walk")
-		UnitState.ATTACKING:
-			_target_speed = 0.0
-			if is_instance_valid(unit_anims):
-				unit_anims.play("attack")
+func change_state(new_state : UnitState):
+	var old_state := _state
+	_state = new_state
+	state_changed.emit(self, new_state, old_state)
 
 
 
@@ -141,38 +219,40 @@ func on_state_changed(new_state : UnitState):
 
 # Call this from animation sequence to actually deal damage at the right time.
 func damage_target():
-	if is_instance_valid(_target):
-		var dist := global_position.distance_to(_target.global_position)
+	if is_instance_valid(_current_target):
+		var dist := global_position.distance_to(_current_target.global_position)
 		
 		# Current swing is still allowed to hit up to 2x attack range
 		if dist < attack_range * 2:
 			# Apply damage
-			_target.take_damage(damage)
-			if _target._is_dead:
-				_target = null
+			_current_target.take_damage(damage)
 		
 		# But the target will still be dropped afterward if out of attack range.
 		if dist > attack_range:
-			_target = null
-	
-	if not is_instance_valid(_target):
-		state_changed.emit(UnitState.MOVING)
+			clear_target()
 
 
-func take_damage(damage : float) -> void:
-	_health -= damage
+func take_damage(amount : float) -> void:
+	_health -= amount
+	update_brow_tilt()
 	_ouch_animation.play("ouch")
-	velocity += Vector3(-team.get_team_move_x(), 0.5, 0).normalized() * 10.0
-	if _health < 0:
+	
+	var knockback := knockback_multiplier_self * Vector3(-team.get_team_move_x(), 1.0, 0).normalized() * 10.0
+	velocity += knockback
+	
+	damage_taken.emit(self, amount, _health, max_health)
+	if _health <= 0:
 		die()
 
 
 func die() -> void:
-	_is_dead = true
-	queue_free()
+	# Event fired above is allowed to change the health last second.
+	if _health <= 0:
+		change_state(UnitState.DEAD)
+		queue_free()
 
 
-func on_damage_tint_changed():
+func _on_damage_tint_changed():
 	var render_children := find_children("*Red")
 	render_children.append_array(find_children("*Green"))
 	for child in render_children:
@@ -198,7 +278,7 @@ func set_damage_tint_on_mesh(meshInst : MeshInstance3D, amount : float):
 ######   TEAM SPECIFICS   ###################################################
 ################################################################################
 
-func on_team_change(new_team : Team):
+func _on_team_assigned(new_team : Team):
 	# Get team layer number
 	var team_layer : int
 	var other_team_layer : int
@@ -230,13 +310,12 @@ func on_team_change(new_team : Team):
 	if is_instance_valid(art_node):
 		art_node.scale.x = new_team.get_team_move_x()
 	
-	# Enemy team gets angry eye brows
-	var eye_children := find_children("GoogleyEyesPair")
-	if len(eye_children) == 0: printerr("Missing the eyes!")
-	for eye_child in eye_children:
-		var eyes := eye_child as GoogleyEyesPair
-		if is_instance_valid(eyes):
-			eyes.brow_visible = (new_team == TeamDefs.Enemy)
+	# Enemy team gets thicker, angry eye brows
+	if is_instance_valid(_eyes):
+		if new_team == TeamDefs.Enemy:
+			_eyes.brow_thickness = 0.15
+			_brow_tilt_no_damage = 15
+			update_brow_tilt()
 
 
 func show_red_art(val : bool):
@@ -247,6 +326,24 @@ func show_red_art(val : bool):
 func show_green_art(val : bool):
 	for child in find_children("*Green"):
 		child.visible = val
+
+
+func _find_eyes() -> GoogleyEyesPair:
+	if not is_instance_valid(_eyes):
+		var eye_children := find_children("GoogleyEyesPair")
+		if len(eye_children) == 0: printerr("Missing the eyes!")
+		for eye_child in eye_children:
+			var eyes := eye_child as GoogleyEyesPair
+			if is_instance_valid(eyes):
+				return eyes
+	printerr("No eyes found!")
+	return null
+
+
+# Based on damage, the eyes get sadder
+func update_brow_tilt():
+	_eyes.brow_tilt = lerp(_brow_tilt_no_damage, _brow_tilt_full_damage, (max_health - _health) / max_health)
+
 
 ################################################################################
 ######   END TEAM SPECIFICS   ###############################################
@@ -293,11 +390,6 @@ func try_remove_target(body : PhysicsBody3D, list : Array[UnitBase]) -> void:
 				list.remove_at(index)
 
 
-func _on_target_timer() -> void:
-	_clean_target_lists()
-	_try_find_target()
-
-
 func _clean_target_lists():
 	_clean_target_list(_left_list)
 	_clean_target_list(_right_list)
@@ -307,42 +399,35 @@ func _clean_target_list(list : Array[UnitBase]) -> void:
 	var i := 0
 	while i < len(list):
 		var unit = list[i]
-		if not is_instance_valid(unit) or unit._is_dead:
+		if not is_instance_valid(unit) or unit._state == UnitState.DEAD:
 			list.remove_at(i)
 		else:
 			i += 1
 
 
-func _try_find_target():
-	if is_instance_valid(_target):
-		# Current target is fine
-		return
-	
-	var enemy := _find_nearest_target(attack_range)
-	if enemy:
-		_target = enemy
-		if _state != UnitState.ATTACKING:
-			state_changed.emit(UnitState.ATTACKING)
-	else:
-		_target = null
-		if _state != UnitState.MOVING:
-			state_changed.emit(UnitState.MOVING)
+func internal_check_target_dead(unit : UnitBase, new_state : UnitState, _old_state : UnitState): 
+	if unit == _current_target and new_state == UnitState.DEAD:
+		self.target_dead.emit(self, unit)
+		clear_target()
 
 
 func _find_nearest_target(max_range : float) -> UnitBase:
 	var nearest_enemy : UnitBase = null
 	var nearest_distance_squared = max_range * max_range
 	
+	# Gets a list of enemies from the left or right side detection area
+	_clean_target_lists()
 	var other_units := _right_list
 	if team == TeamDefs.Enemy:
 		other_units = _left_list
 	
+	# Search all units in detection area
 	for in_group in other_units:  # Could speed up with 1d tree even.
 		var candidate_unit := in_group as UnitBase
 		assert(candidate_unit, "All units should be UnitBase")
 		if team == candidate_unit.team:
 			continue
-		if candidate_unit._is_dead:
+		if candidate_unit._state == UnitState.DEAD:
 			continue
 		
 		var distance_squared = global_position.distance_squared_to(candidate_unit.global_position)

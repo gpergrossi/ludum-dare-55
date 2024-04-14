@@ -52,7 +52,7 @@ func generate_mesh_background(array_mesh : ArrayMesh):
 	var index_end := Vector2i(divs.x - flat_margins * resolution, divs.y)
 	var offset := Vector3(-0.5 * width, 0.0, -0.5 * lane_depth - background_depth) - Vector3(flat_margins, 0, flat_margins)
 	var size := Vector3(width + 2 * flat_margins, height, background_depth + flat_margins)
-	generate_mesh_section(array_mesh, background_z_curve, divs, offset, size, material_ground, Color.WEB_GREEN, "background", index_begin, index_end)
+	generate_mesh_section(array_mesh, background_z_curve, divs, offset, size, material_ground, "background", index_begin, index_end)
 
 
 func generate_mesh_lane(array_mesh : ArrayMesh):
@@ -61,7 +61,7 @@ func generate_mesh_lane(array_mesh : ArrayMesh):
 	var index_end := Vector2i(divs.x - flat_margins * resolution, divs.y)
 	var offset := Vector3(-0.5 * width, 0.0, -0.5 * lane_depth) - Vector3(flat_margins, 0, 0)
 	var size := Vector3(width + 2 * flat_margins, height, lane_depth)
-	generate_mesh_section(array_mesh, lane_z_curve, divs, offset, size, material_lane, Color.FOREST_GREEN, "lane", index_begin, index_end)
+	generate_mesh_section(array_mesh, lane_z_curve, divs, offset, size, material_lane, "lane", index_begin, index_end)
 
 
 func generate_mesh_foreground(array_mesh : ArrayMesh):
@@ -70,10 +70,10 @@ func generate_mesh_foreground(array_mesh : ArrayMesh):
 	var index_end := Vector2i(divs.x - flat_margins * resolution, divs.y - flat_margins * resolution)
 	var offset := Vector3(-0.5 * width, 0.0, 0.5 * lane_depth) - Vector3(flat_margins, 0, 0)
 	var size := Vector3(width + 2 * flat_margins, height, foreground_depth + flat_margins)
-	generate_mesh_section(array_mesh, foreground_z_curve, divs, offset, size, material_ground, Color.WEB_GREEN, "foreground", index_begin, index_end)
+	generate_mesh_section(array_mesh, foreground_z_curve, divs, offset, size, material_ground, "foreground", index_begin, index_end)
 
 
-func generate_mesh_section(array_mesh : ArrayMesh, z_curve : Curve, divs : Vector2i, offset : Vector3, size : Vector3, material : Material, color : Color, surface_name : String, index_begin : Vector2i, index_end : Vector2i):
+func generate_mesh_section(array_mesh : ArrayMesh, z_curve : Curve, divs : Vector2i, offset : Vector3, size : Vector3, material : Material, surface_name : String, index_begin : Vector2i, index_end : Vector2i):
 	var vertices := [] as PackedVector3Array
 	var normals := [] as PackedVector3Array
 	var uvs := [] as PackedVector2Array

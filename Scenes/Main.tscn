@@ -107,7 +107,7 @@ mesh = SubResource("PlaneMesh_wi8sw")
 
 [node name="GroundCollider" type="StaticBody3D" parent="Ground"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.91821e-05, -0.260988, 0.0532608)
-collision_mask = 7
+collision_mask = 6
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Ground/GroundCollider"]
 shape = SubResource("WorldBoundaryShape3D_qgmkb")
@@ -1854,36 +1854,50 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.40357, -11.8402, 3.32293)
 [node name="@Node3D@46937" parent="CornField2/SpawnParent" index="32" instance=ExtResource("16_vmg7v")]
 transform = Transform3D(0.999979, 0.0064412, -0.000209167, -0.0064412, 0.997872, -0.0648768, -0.000209167, 0.0648768, 0.997893, -9.10028, -11.44, -5.79586)
 
-[node name="Left Side Things" type="Node3D" parent="."]
+[node name="Left Side Things (Player)" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -55, 0, 0)
 
-[node name="Unit Kill Plane Left" type="Area3D" parent="Left Side Things"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 0)
-collision_layer = 0
-collision_mask = 6
+[node name="Stop Player Units" type="StaticBody3D" parent="Left Side Things (Player)"]
+collision_layer = 4
+collision_mask = 2
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Left Side Things/Unit Kill Plane Left"]
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="Left Side Things (Player)/Stop Player Units"]
 shape = SubResource("WorldBoundaryShape3D_x5fky")
 
-[node name="Barn_NO_OPTIMIZATION_01" parent="Left Side Things" instance=ExtResource("9_ov2uv")]
+[node name="Kill Enemy Units" type="Area3D" parent="Left Side Things (Player)"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 0)
+collision_layer = 0
+collision_mask = 4
 
-[node name="Default Spawn Position" type="Node3D" parent="Left Side Things"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Left Side Things (Player)/Kill Enemy Units"]
+shape = SubResource("WorldBoundaryShape3D_x5fky")
+
+[node name="Barn_NO_OPTIMIZATION_01" parent="Left Side Things (Player)" instance=ExtResource("9_ov2uv")]
+
+[node name="Default Spawn Position" type="Node3D" parent="Left Side Things (Player)"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0)
 
-[node name="Right Side Things" type="Node3D" parent="."]
+[node name="Right Side Things (Enemy)" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 55, 0, 0)
 
-[node name="Unit Kill Plane Right" type="Area3D" parent="Right Side Things"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0)
-collision_layer = 0
-collision_mask = 6
+[node name="Stop Enemy Units" type="StaticBody3D" parent="Right Side Things (Enemy)"]
+collision_layer = 2
+collision_mask = 4
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Right Side Things/Unit Kill Plane Right"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Right Side Things (Enemy)/Stop Enemy Units"]
 shape = SubResource("WorldBoundaryShape3D_w46i8")
 
-[node name="Barn_NO_OPTIMIZATION_02" parent="Right Side Things" instance=ExtResource("9_ov2uv")]
+[node name="Kill Player Units" type="Area3D" parent="Right Side Things (Enemy)"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0)
+collision_layer = 0
+collision_mask = 2
 
-[node name="Default Spawn Position" type="Node3D" parent="Right Side Things"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Right Side Things (Enemy)/Kill Player Units"]
+shape = SubResource("WorldBoundaryShape3D_w46i8")
+
+[node name="Barn_NO_OPTIMIZATION_02" parent="Right Side Things (Enemy)" instance=ExtResource("9_ov2uv")]
+
+[node name="Default Spawn Position" type="Node3D" parent="Right Side Things (Enemy)"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.86055, -9.53674e-07, 0.000247955)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
@@ -1932,8 +1946,8 @@ is_interactable = false
 [node name="CameraViewPoint" type="Node3D" parent="." node_paths=PackedStringArray("left_edge", "right_edge")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0)
 script = ExtResource("5_046qu")
-left_edge = NodePath("../Left Side Things")
-right_edge = NodePath("../Right Side Things")
+left_edge = NodePath("../Left Side Things (Player)")
+right_edge = NodePath("../Right Side Things (Enemy)")
 
 [node name="Camera Rotate" type="Node3D" parent="CameraViewPoint"]
 transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 0, 0)
@@ -1946,8 +1960,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 100)
 
 [node name="UnitManager" type="Node3D" parent="." node_paths=PackedStringArray("summon_default_position_left", "summon_default_position_right")]
 script = ExtResource("8_ha0w3")
-summon_default_position_left = NodePath("../Left Side Things/Default Spawn Position")
-summon_default_position_right = NodePath("../Right Side Things/Default Spawn Position")
+summon_default_position_left = NodePath("../Left Side Things (Player)/Default Spawn Position")
+summon_default_position_right = NodePath("../Right Side Things (Enemy)/Default Spawn Position")
 
 [node name="MainCamera" type="Camera3D" parent="." node_paths=PackedStringArray("follow_target")]
 unique_name_in_owner = true
@@ -1966,8 +1980,8 @@ script = ExtResource("1_uq66x")
 script = ExtResource("1_dy58u")
 
 [connection signal="body_entered" from="Ground/Y Kill Plane" to="Ground/Y Kill Plane" method="_on_body_entered"]
-[connection signal="body_entered" from="Left Side Things/Unit Kill Plane Left" to="UnitManager" method="_on_unit_kill_plane_left_body_entered"]
-[connection signal="body_entered" from="Right Side Things/Unit Kill Plane Right" to="UnitManager" method="_on_unit_kill_plane_right_body_entered"]
+[connection signal="body_entered" from="Left Side Things (Player)/Kill Enemy Units" to="UnitManager" method="_on_unit_kill_plane_left_body_entered"]
+[connection signal="body_entered" from="Right Side Things (Enemy)/Kill Player Units" to="UnitManager" method="_on_unit_kill_plane_right_body_entered"]
 
 [editable path="GrassRocksAndTrees"]
 [editable path="CornField1"]
