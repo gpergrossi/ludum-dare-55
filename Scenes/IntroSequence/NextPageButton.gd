@@ -7,3 +7,4 @@ func _ready():
 
 func next_page():
 	scene_root.advance_page.emit();
+	# play tick sound

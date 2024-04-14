@@ -1,8 +1,19 @@
 extends VBoxContainer
 
 func _ready():
-	# Get the viewport's size
-	var viewport_size = get_viewport().get_size()
+	resize();
+
+func _process(delta):
+	var view_size = get_viewport().get_size();
+	if size.x != view_size.x || size.y != view_size.y: resize();
+
+func resize():
+	var view_size = get_viewport().get_size();
+	var children : Array = get_children();
 	
-	# Set the VBoxContainer's height to 4x the viewport height
-	size.y = viewport_size.y * 4
+	size.x = view_size.x;
+	size.y = view_size.y * children.size();
+	for child in children:
+		var child_size = child.get_size();
+		child_size.x = view_size.x;
+		child_size.y = view_size.y;

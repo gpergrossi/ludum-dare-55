@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://dowwu4o680cny"]
+[gd_scene load_steps=6 format=3 uid="uid://dowwu4o680cny"]
 
 [ext_resource type="Script" path="res://Scenes/IntroSequence/IntroSequencePageController.gd" id="1_5lyps"]
-[ext_resource type="Texture2D" uid="uid://b6k2qwqy3r4v5" path="res://Assets/Icons/icon.svg" id="2_8focc"]
+[ext_resource type="Script" path="res://Scenes/IntroSequence/TitleScreen/AutoRatio.gd" id="2_bd2q7"]
 [ext_resource type="Texture2D" uid="uid://bqh6k33dsdt5q" path="res://Assets/Images/next_button.png" id="3_3dsn1"]
 [ext_resource type="Script" path="res://Scenes/IntroSequence/NextPageButton.gd" id="3_opc1h"]
+[ext_resource type="Texture2D" uid="uid://br3cu4sdv23p4" path="res://Assets/Images/page2.png" id="3_xnrch"]
 
 [node name="Panel" type="Panel"]
 anchors_preset = 15
@@ -20,10 +21,13 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+ratio = 1.778
+stretch_mode = 1
+script = ExtResource("2_bd2q7")
 
 [node name="Background Image" type="TextureRect" parent="AspectRatioContainer"]
 layout_mode = 2
-texture = ExtResource("2_8focc")
+texture = ExtResource("3_xnrch")
 expand_mode = 1
 stretch_mode = 5
 
@@ -35,12 +39,13 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -281.0
-offset_top = -100.0
+offset_left = -176.0
+offset_top = -226.0
 grow_horizontal = 0
 grow_vertical = 0
 
 [node name="TextureButton" type="TextureButton" parent="CenterContainer2"]
 layout_mode = 2
 texture_normal = ExtResource("3_3dsn1")
+stretch_mode = 5
 script = ExtResource("3_opc1h")
