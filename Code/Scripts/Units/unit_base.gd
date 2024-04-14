@@ -87,7 +87,6 @@ func _physics_process(delta : float):
 	
 	else:
 		var slope := _slope_detect_right.get_hit_length() - _slope_detect_left.get_hit_length()
-		print("slope = " + str(slope))
 		_current_ground_angle = atan2(slope, 1)
 		_shadow.rotation.z = -_current_ground_angle
 	
