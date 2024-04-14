@@ -24,13 +24,9 @@ scale = Vector2(0.7, 0.7)
 texture = ExtResource("4_4jgcv")
 
 [node name="SigilLine" parent="." instance=ExtResource("3_xnil8")]
-scale = Vector2(1, 1)
 default_color = Color(1, 1, 0, 1)
 texture = ExtResource("3_82fk3")
 texture_mode = 2
-joint_mode = 2
-begin_cap_mode = 2
-end_cap_mode = 2
 antialiased = true
 
 [node name="SigilVertex" parent="." instance=ExtResource("1_ar3ch")]

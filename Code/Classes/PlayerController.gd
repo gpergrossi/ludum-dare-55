@@ -2,10 +2,14 @@ class_name PlayerController extends AbstractSpellCaster
 
 @onready var manabar : ProgressBar = %PlayerManaBarUi;
 @onready var sigil: SigilController = %Sigil;
-	
+
 func _on_rune_drawn(rune: Rune, location = null):
 	print(rune.canonical_edge_list);
-	var spell = Spells.getSpellFor(rune);
+	var spell = null
+	if rune.canonical_edge_list == Spells.recastRune.canonical_edge_list:
+		spell = last_spell
+	else:
+		spell = Spells.getSpellFor(rune)
 	if spell == null: return false;
 	return cast(spell, location);
 

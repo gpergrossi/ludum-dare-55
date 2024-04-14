@@ -74,6 +74,9 @@ static var definitions = [{
 	'botDoesNotCast': true,
 }];
 
+# Recasts the last spell. Special case since it is different per-player and changes properties.
+static var recastRune := Rune.new([3, 4])
+
 static var summonBasicWalker = Spells.definitions[0];
 
 static func _static_init():
