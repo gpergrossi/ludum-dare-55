@@ -2,6 +2,7 @@ class_name UnitManager extends Node3D
 
 static var _unit_manager_static : UnitManager
 @onready var playerController : PlayerController = %PlayerController;
+@onready var opponentController := %OpponentController
 
 @export var summon_default_position_left : Node3D
 @export var summon_default_position_right : Node3D
@@ -59,12 +60,16 @@ func summon(unitType : String, spell_def : Dictionary, unit_position : Vector2, 
 	
 
 func _on_unit_kill_plane_left_body_entered(body : PhysicsBody3D):
-	var unit := body as UnitBase
-	if unit:
-		unit.do_kill_plane()
+	_do_kill_plane(body, playerController)
 
 
 func _on_unit_kill_plane_right_body_entered(body : PhysicsBody3D):
+	_do_kill_plane(body, opponentController)
+
+func _do_kill_plane(body : PhysicsBody3D, target_caster : AbstractSpellCaster):
 	var unit := body as UnitBase
-	if unit:
-		unit.do_kill_plane()
+	if not unit:
+		return
+	
+	unit.do_kill_plane()
+	target_caster.setHealth(target_caster.health - unit.reach_caster_damage)

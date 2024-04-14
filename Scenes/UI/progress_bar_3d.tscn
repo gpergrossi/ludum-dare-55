@@ -1,0 +1,29 @@
+[gd_scene load_steps=6 format=3 uid="uid://p614kctv6eve"]
+
+[ext_resource type="Script" path="res://Scenes/UI/progress_bar_3d.gd" id="1_yvf3x"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lmvhj"]
+albedo_color = Color(0.0980392, 0.32549, 0.160784, 1)
+
+[sub_resource type="QuadMesh" id="QuadMesh_83838"]
+size = Vector2(1, 0.2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3n0dm"]
+albedo_color = Color(0.698039, 0.360784, 0.278431, 1)
+
+[sub_resource type="QuadMesh" id="QuadMesh_itda4"]
+material = SubResource("StandardMaterial3D_3n0dm")
+size = Vector2(1, 0.18)
+
+[node name="ProgressBar3d" type="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0100279, 0.0113591, -0.00386202)
+script = ExtResource("1_yvf3x")
+
+[node name="Background" type="MeshInstance3D" parent="."]
+material_override = SubResource("StandardMaterial3D_lmvhj")
+mesh = SubResource("QuadMesh_83838")
+
+[node name="Foreground" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.000878334, 0.0100661)
+gi_mode = 0
+mesh = SubResource("QuadMesh_itda4")
