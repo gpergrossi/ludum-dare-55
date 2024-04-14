@@ -31,6 +31,9 @@ var team_def : Team
 @export_category("Rendering")
 @export var damage_tint := 0.0 : set = set_damage_tint
 
+
+
+
 @onready var _targeting_timer := %TargetingTimer as Timer
 @onready var _ouch_animation := %OuchAnimation as AnimationPlayer
 
@@ -45,6 +48,8 @@ var _target : UnitBase = null
 signal state_changed(new_state : UnitState)
 
 
+
+
 func _ready():
 	_id = next_uid
 	next_uid += 1
@@ -55,19 +60,6 @@ func _ready():
 	state_changed.connect(on_state_changed)
 	state_changed.emit(UnitState.MOVING)
 	_targeting_timer.timeout.connect(_find_target)
-
-
-func _physics_process(delta : float):
-	var teamMoveX := team_def.get_team_move_x()
-	
-	if not is_on_floor():
-		velocity += Vector3.DOWN * gravity * delta
-	
-	if absf(velocity.x - teamMoveX * _target_speed) > 0.0:
-		var target_move_x := teamMoveX * _target_speed
-		velocity.x = move_toward(velocity.x, target_move_x, move_accel * delta)
-	
-	move_and_slide()
 
 
 func _find_target() -> void:
@@ -86,10 +78,17 @@ func _find_target() -> void:
 			state_changed.emit(UnitState.MOVING)
 
 
-func set_team_str(val : String):
-	team = val
-	team_def = TeamDefs.FromName(team)
-	on_team_change(team_def)
+func _physics_process(delta : float):
+	var teamMoveX := team_def.get_team_move_x()
+	
+	if not is_on_floor():
+		velocity += Vector3.DOWN * gravity * delta
+	
+	if absf(velocity.x - teamMoveX * _target_speed) > 0.0:
+		var target_move_x := teamMoveX * _target_speed
+		velocity.x = move_toward(velocity.x, target_move_x, move_accel * delta)
+	
+	move_and_slide()
 
 
 # Override if you want to pull stats from the spell definition dictionary
@@ -97,20 +96,17 @@ func consume_spell_def(_spell_def : Dictionary):
 	pass
 
 
-func on_team_change(new_team_def : Team):
+func on_team_change(new_team_def : Team):	
+	# Get team layer number
 	var team_layer : int
 	var other_team_layer : int
 	match new_team_def.team_name:
 		"Player": 
 			team_layer = LAYER_PLAYER
 			other_team_layer = LAYER_ENEMY
-			show_green_art(true)
-			show_red_art(false)
 		"Enemy": 
 			team_layer = LAYER_ENEMY
 			other_team_layer = LAYER_PLAYER
-			show_red_art(true)
-			show_green_art(false)
 		_: assert(false, "Bad team!")
 	
 	# Assign to own team layer + world objects layer
@@ -123,11 +119,16 @@ func on_team_change(new_team_def : Team):
 	set_collision_mask_value(other_team_layer, true)
 	set_collision_mask_value(team_layer, false)
 	
-	# Make sure art is facing the right way
+	# Make team color's sprite variants visible
+	show_green_art(new_team_def.team_name == "Player")
+	show_red_art(new_team_def.team_name == "Enemy")
+	
+	# Make sure art is facing the right way (based on move direction)
 	var art_node := find_child("Art2D") as Node3D
 	if is_instance_valid(art_node):
 		art_node.scale.x = new_team_def.get_team_move_x()
 	
+	# Enemy team gets angry eye brows
 	for eye_child in find_children("GoogleyEyesPair"):
 		var eyes := eye_child as GoogleyEyesPair
 		if is_instance_valid(eyes):
@@ -179,10 +180,6 @@ func on_state_changed(new_state : UnitState):
 				unit_anims.play("attack")
 
 
-func _to_string():
-	return unit_name + " #" + str(_id) + " (" + team_def.team_name + ")"
-
-
 # Call this from animation sequence to actually deal damage at the right time.
 func damage_target():
 	if is_instance_valid(_target):
@@ -216,6 +213,12 @@ func die() -> void:
 	queue_free()
 
 
+func set_team_str(val : String):
+	team = val
+	team_def = TeamDefs.FromName(team)
+	on_team_change(team_def)
+
+
 func set_damage_tint(amount : float):
 	var render_children := find_children("*Red")
 	render_children.append_array(find_children("*Green"))
@@ -229,3 +232,7 @@ func set_damage_tint(amount : float):
 func set_damage_tint_on(meshInst : MeshInstance3D, amount : float):
 	var material := meshInst.mesh.surface_get_material(0) as ShaderMaterial
 	material.set_shader_parameter("albedo", Color.WHITE.lerp(Color.RED, amount))
+
+
+func _to_string():
+	return unit_name + " #" + str(_id) + " (" + team_def.team_name + ")"
