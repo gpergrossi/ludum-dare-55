@@ -16,6 +16,7 @@ func _on_rune_drawn(rune: Rune, location = null):
 func _ready():
 	super();
 	sigil.rune_drawn.connect(_on_rune_drawn);
+	died.connect(_on_died)
 	teamName = TeamDefs.Player.team_name;
 
 func setMana(newAmount : float):
@@ -31,3 +32,6 @@ func cast(spell, location = null):
 		# TODO show low mana warning to player
 		pass;
 	return super(spell, location);
+
+func _on_died() -> void:
+	%AnnounceLabel.text = "You lose :'("
