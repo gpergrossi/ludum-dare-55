@@ -4,24 +4,44 @@
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_wwrqq"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6skcl"]
-resource_local_to_scene = true
-albedo_color = Color(0, 0.521569, 0.615686, 1)
+[sub_resource type="Animation" id="Animation_5g3m1"]
+resource_name = "ouch"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:damage_tint")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [1.0, 0.0]
+}
 
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_82fsw"]
-resource_local_to_scene = true
-material = SubResource("StandardMaterial3D_6skcl")
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_mrfnf"]
+_data = {
+"ouch": SubResource("Animation_5g3m1")
+}
 
 [node name="UnitBase" type="CharacterBody3D" groups=["units"]]
 floor_snap_length = 1.0
 script = ExtResource("1_j11gk")
+unit_name = "unitBase"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("CapsuleShape3D_wwrqq")
 
-[node name="Body" type="MeshInstance3D" parent="."]
+[node name="TargetingTimer" type="Timer" parent="."]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-mesh = SubResource("CapsuleMesh_82fsw")
-skeleton = NodePath("../..")
+editor_description = "How often to search for a target."
+wait_time = 0.25
+autostart = true
+
+[node name="OuchAnimation" type="AnimationPlayer" parent="."]
+unique_name_in_owner = true
+libraries = {
+"": SubResource("AnimationLibrary_mrfnf")
+}
