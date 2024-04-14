@@ -77,7 +77,6 @@ func generate_mesh_section(array_mesh : ArrayMesh, z_curve : Curve, divs : Vecto
 	var vertices := [] as PackedVector3Array
 	var normals := [] as PackedVector3Array
 	var uvs := [] as PackedVector2Array
-	var colors := [] as PackedColorArray
 	var indices := [] as PackedInt32Array
 	var curr_index := 0
 	
@@ -91,7 +90,6 @@ func generate_mesh_section(array_mesh : ArrayMesh, z_curve : Curve, divs : Vecto
 			var curve_u := clampf(float(x - index_begin.x) / float(index_end.x - index_begin.x), 0.0, 1.0)
 			
 			uvs.append(Vector2(u, v))
-			colors.append(color)
 			
 			var profile_y := profile_curve.sample_baked(curve_u)
 			var world_x := size.x * u + offset.x
@@ -134,7 +132,6 @@ func generate_mesh_section(array_mesh : ArrayMesh, z_curve : Curve, divs : Vecto
 	arrays[Mesh.ARRAY_VERTEX] = vertices
 	arrays[Mesh.ARRAY_NORMAL] = normals
 	arrays[Mesh.ARRAY_TEX_UV] = uvs
-	arrays[Mesh.ARRAY_COLOR] = colors
 	arrays[Mesh.ARRAY_INDEX] = indices
 	
 	var surface_index = array_mesh.get_surface_count()

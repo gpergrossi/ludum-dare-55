@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://civ0qmljlf0kk"]
+
+[ext_resource type="PackedScene" uid="uid://bcqnst1qcbytu" path="res://Scenes/Important/googley_eye.tscn" id="1_gxdyr"]
+[ext_resource type="Script" path="res://Scenes/Important/googley_eyes_pair.gd" id="1_todsb"]
+
+[node name="GoogleyEyesPair" type="Node3D"]
+script = ExtResource("1_todsb")
+brow_tilt = 15.07
+
+[node name="LeftEye" parent="." instance=ExtResource("1_gxdyr")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.27, 0, 0)
+brow_tilt = -15.07
+
+[node name="RightEye" parent="." instance=ExtResource("1_gxdyr")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.27, 0, 0)
+brow_tilt = 15.07

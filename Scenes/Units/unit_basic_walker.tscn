@@ -1,14 +1,14 @@
-[gd_scene load_steps=19 format=3 uid="uid://cgnuyso8cokl4"]
+[gd_scene load_steps=20 format=3 uid="uid://cgnuyso8cokl4"]
 
 [ext_resource type="PackedScene" uid="uid://kkt6g2ery6vj" path="res://Scenes/Units/unit_base.tscn" id="1_dy5r0"]
 [ext_resource type="Script" path="res://Code/Scripts/Units/unit_basic_walker.gd" id="2_c6sqf"]
 [ext_resource type="Texture2D" uid="uid://rdcuybv32pwq" path="res://Assets/mob/broccoli_green.png" id="2_ndrnn"]
 [ext_resource type="Shader" path="res://Code/Shaders/unit_sprite.gdshader" id="3_8rbeq"]
 [ext_resource type="Texture2D" uid="uid://bd884vobgkga6" path="res://Assets/mob/broccolispear_green.png" id="3_ukqnd"]
+[ext_resource type="PackedScene" uid="uid://civ0qmljlf0kk" path="res://Scenes/Important/googley_eyes_pair.tscn" id="6_8x0xh"]
 
 [sub_resource type="Animation" id="Animation_cog7k"]
 resource_name = "attack"
-length = 2.5
 loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -17,7 +17,7 @@ tracks/0/path = NodePath("BodyTransform:rotation")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 1.8, 2, 2.5),
+"times": PackedFloat32Array(0, 0.6, 0.8, 1),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
 "values": [Vector3(0, 0, 0), Vector3(0, 0, 0.174533), Vector3(0, 0, -0.0872665), Vector3(0, 0, 0)]
@@ -28,14 +28,14 @@ tracks/1/enabled = true
 tracks/1/path = NodePath("WeaponTransform")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
-tracks/1/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1.8, 1, -1.125, 0, 0, 2, 1, -0.16, 0.08, 0, 2.5, 1, 0, 0, 0)
+tracks/1/keys = PackedFloat32Array(0, 1, 0, 0, 0, 0.6, 1, -1.125, 0, 0, 0.8, 1, -0.16, 0.08, 0, 1, 1, 0, 0, 0)
 tracks/2/type = "rotation_3d"
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/path = NodePath("WeaponTransform")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
-tracks/2/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1, 1.8, 1, 0, 0, -0.259, 0.966, 2, 1, 0, 0, -0.259, 0.966, 2.5, 1, 0, 0, 0, 1)
+tracks/2/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1, 0.6, 1, 0, 0, -0.259, 0.966, 0.8, 1, 0, 0, -0.259, 0.966, 1, 1, 0, 0, 0, 1)
 tracks/3/type = "method"
 tracks/3/imported = false
 tracks/3/enabled = true
@@ -43,7 +43,7 @@ tracks/3/path = NodePath("%Art2D/..")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
-"times": PackedFloat32Array(2),
+"times": PackedFloat32Array(0.8),
 "transitions": PackedFloat32Array(1),
 "values": [{
 "args": [],
@@ -93,15 +93,9 @@ resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("3_8rbeq")
 shader_parameter/albedo = Color(1, 1, 1, 1)
-shader_parameter/point_size = 1.0
 shader_parameter/roughness = 1.0
-shader_parameter/metallic_texture_channel = null
 shader_parameter/specular = 0.5
 shader_parameter/metallic = 0.0
-shader_parameter/uv1_scale = Vector3(1, 1, 1)
-shader_parameter/uv1_offset = Vector3(0, 0, 0)
-shader_parameter/uv2_scale = Vector3(1, 1, 1)
-shader_parameter/uv2_offset = Vector3(0, 0, 0)
 shader_parameter/texture_albedo = ExtResource("2_ndrnn")
 
 [sub_resource type="QuadMesh" id="QuadMesh_rmq5w"]
@@ -116,16 +110,10 @@ load_path = "res://.godot/imported/broccoli_red.png-2aa42154cb2a1699b503303fac68
 resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("3_8rbeq")
-shader_parameter/albedo = Color(1, 1, 1, 1)
-shader_parameter/point_size = 1.0
+shader_parameter/albedo = Color(1, 0.611765, 0.388235, 1)
 shader_parameter/roughness = 1.0
-shader_parameter/metallic_texture_channel = null
 shader_parameter/specular = 0.5
 shader_parameter/metallic = 0.0
-shader_parameter/uv1_scale = Vector3(1, 1, 1)
-shader_parameter/uv1_offset = Vector3(0, 0, 0)
-shader_parameter/uv2_scale = Vector3(1, 1, 1)
-shader_parameter/uv2_offset = Vector3(0, 0, 0)
 shader_parameter/texture_albedo = SubResource("CompressedTexture2D_0ace5")
 
 [sub_resource type="QuadMesh" id="QuadMesh_1nno1"]
@@ -138,15 +126,9 @@ resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("3_8rbeq")
 shader_parameter/albedo = Color(1, 1, 1, 1)
-shader_parameter/point_size = 1.0
 shader_parameter/roughness = 1.0
-shader_parameter/metallic_texture_channel = null
 shader_parameter/specular = 0.5
 shader_parameter/metallic = 0.0
-shader_parameter/uv1_scale = Vector3(1, 1, 1)
-shader_parameter/uv1_offset = Vector3(0, 0, 0)
-shader_parameter/uv2_scale = Vector3(1, 1, 1)
-shader_parameter/uv2_offset = Vector3(0, 0, 0)
 shader_parameter/texture_albedo = ExtResource("3_ukqnd")
 
 [sub_resource type="QuadMesh" id="QuadMesh_senel"]
@@ -161,16 +143,10 @@ load_path = "res://.godot/imported/broccolispear_red.png-47da5b02c65161fb964b861
 resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("3_8rbeq")
-shader_parameter/albedo = Color(1, 1, 1, 1)
-shader_parameter/point_size = 1.0
+shader_parameter/albedo = Color(1, 0.611765, 0.388235, 1)
 shader_parameter/roughness = 1.0
-shader_parameter/metallic_texture_channel = null
 shader_parameter/specular = 0.5
 shader_parameter/metallic = 0.0
-shader_parameter/uv1_scale = Vector3(1, 1, 1)
-shader_parameter/uv1_offset = Vector3(0, 0, 0)
-shader_parameter/uv2_scale = Vector3(1, 1, 1)
-shader_parameter/uv2_offset = Vector3(0, 0, 0)
 shader_parameter/texture_albedo = SubResource("CompressedTexture2D_b2nk3")
 
 [sub_resource type="QuadMesh" id="QuadMesh_p4lxa"]
@@ -198,21 +174,25 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.209154, 0)
 [node name="BrocolliGreen" type="MeshInstance3D" parent="Art2D/BodyTransform" index="0"]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.83654, 0)
+visible = false
 mesh = SubResource("QuadMesh_rmq5w")
 skeleton = NodePath("../../..")
 
 [node name="BrocolliRed" type="MeshInstance3D" parent="Art2D/BodyTransform" index="1"]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.83654, 0)
-visible = false
 mesh = SubResource("QuadMesh_1nno1")
 skeleton = NodePath("../../..")
+
+[node name="GoogleyEyesPair" parent="Art2D/BodyTransform" index="2" instance=ExtResource("6_8x0xh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.108245, 1.54743, 0)
 
 [node name="WeaponTransform" type="Node3D" parent="Art2D" index="1"]
 
 [node name="BrocolliSpearGreen" type="MeshInstance3D" parent="Art2D/WeaponTransform" index="0"]
 unique_name_in_owner = true
 transform = Transform3D(0.838081, -0.545546, 0, 0.545546, 0.838081, 0, 0, 0, 1, 0.805894, 1.26464, 0.337855)
+visible = false
 sorting_offset = 5.0
 mesh = SubResource("QuadMesh_senel")
 skeleton = NodePath("../../..")
@@ -220,7 +200,9 @@ skeleton = NodePath("../../..")
 [node name="BrocolliSpearRed" type="MeshInstance3D" parent="Art2D/WeaponTransform" index="1"]
 unique_name_in_owner = true
 transform = Transform3D(0.838081, -0.545546, 0, 0.545546, 0.838081, 0, 0, 0, 1, 0.805894, 1.26464, 0.337855)
-visible = false
 sorting_offset = 5.0
 mesh = SubResource("QuadMesh_p4lxa")
 skeleton = NodePath("../../..")
+
+[node name="Shadow" parent="." index="5"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.130368, 0.00379139, 0)

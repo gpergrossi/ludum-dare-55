@@ -127,6 +127,11 @@ func on_team_change(new_team_def : Team):
 	var art_node := find_child("Art2D") as Node3D
 	if is_instance_valid(art_node):
 		art_node.scale.x = new_team_def.get_team_move_x()
+	
+	for eye_child in find_children("GoogleyEyesPair"):
+		var eyes := eye_child as GoogleyEyesPair
+		if is_instance_valid(eyes):
+			eyes.brow_visible = (new_team_def.team_name == "Enemy")
 
 
 func show_red_art(val : bool):
@@ -158,8 +163,6 @@ func find_nearest_enemy(max_range : float) -> UnitBase:
 			nearest_enemy = candidate_unit
 			nearest_distance_squared = distance_squared
 	
-	if is_instance_valid(nearest_enemy):
-		print(to_string() + " found target " + nearest_enemy.to_string() + " at distance " + str(sqrt(nearest_distance_squared)))
 	return nearest_enemy
 
 
@@ -167,12 +170,10 @@ func on_state_changed(new_state : UnitState):
 	var unit_anims := find_child("UnitAnimations") as AnimationPlayer
 	match(new_state):
 		UnitState.MOVING: 
-			print("Unit " + to_string() + " is now moving")
 			_target_speed = top_speed
 			if is_instance_valid(unit_anims):
 				unit_anims.play("walk")
 		UnitState.ATTACKING:
-			print("Unit " + to_string() + " is now attacking")
 			_target_speed = 0.0
 			if is_instance_valid(unit_anims):
 				unit_anims.play("attack")

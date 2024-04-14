@@ -1,0 +1,20 @@
+[gd_scene load_steps=2 format=3 uid="uid://k2edqs5c57nc"]
+
+[ext_resource type="PackedScene" uid="uid://b0i7c73uam2l5" path="res://Assets/Models/Barn_NO_OPTIMIZATION_01.glb" id="1_lakck"]
+
+[node name="Barn_NO_OPTIMIZATION_01" instance=ExtResource("1_lakck")]
+
+[node name="group1" parent="." index="0"]
+transform = Transform3D(0.01, 0, 0, 0, 0, -0.01, 0, 0.01, 0, 55.0375, 0, 0)
+
+[node name="group2" parent="." index="1"]
+transform = Transform3D(0.01, -4.37114e-10, 4.37114e-10, 4.37114e-10, 0, -0.01, -4.37114e-10, -0.01, 0, 55.0375, 0, 0)
+
+[node name="pCube5_001" parent="group2" index="0"]
+transform = Transform3D(1.2, 1.77636e-14, -1.24345e-14, 2.4869e-14, 0.917286, 0.398229, -2.4869e-14, -0.398229, 0.917286, -2696.07, 122.8, -323.819)
+
+[node name="group10" parent="." index="2"]
+transform = Transform3D(0.01, 0, 0, 0, 0, -0.01, 0, 0.01, 0, 55.0375, 0, 0)
+
+[node name="pCylinder1" parent="group10" index="100"]
+transform = Transform3D(1.78814e-07, 0, 1, 0, 1, 0, -1, 0, 1.78814e-07, -5188.14, 0, -789.705)
