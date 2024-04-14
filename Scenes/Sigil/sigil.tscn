@@ -10,6 +10,9 @@
 position = Vector2(625, 439)
 scale = Vector2(0.7, 0.7)
 script = ExtResource("1_plqdm")
+is_interactable = true
+playback_per_edge_s = 0.4
+playback_release_after_s = 1.0
 interaction_distance = 250.0
 snap_distance = 30.0
 vertices = [NodePath("SigilVertex"), NodePath("SigilVertex2"), NodePath("SigilVertex3"), NodePath("SigilVertex4"), NodePath("SigilVertex5")]

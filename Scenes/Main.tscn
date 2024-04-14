@@ -89,7 +89,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.037, 0)
 mesh = SubResource("PlaneMesh_wi8sw")
 
 [node name="GroundCollider" type="StaticBody3D" parent="Ground"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0373723, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.91821e-05, -0.260988, 0.0532608)
 collision_mask = 7
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Ground/GroundCollider"]
