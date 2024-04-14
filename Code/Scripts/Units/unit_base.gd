@@ -158,8 +158,8 @@ func damage_target():
 		state_changed.emit(UnitState.MOVING)
 
 
-func take_damage(damage : float) -> void:
-	_health -= damage
+func take_damage(taken_damage : float) -> void:
+	_health -= taken_damage
 	_ouch_animation.play("ouch")
 	velocity += Vector3(-team.get_team_move_x(), 0.5, 0).normalized() * 10.0
 	if _health < 0:
