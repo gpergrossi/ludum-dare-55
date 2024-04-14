@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://ddjbrnypilhof"]
+[gd_scene load_steps=28 format=3 uid="uid://ddjbrnypilhof"]
 
 [ext_resource type="Script" path="res://Code/Classes/OpponentController.gd" id="1_dy58u"]
 [ext_resource type="PackedScene" uid="uid://b1xmmcg7sdyrb" path="res://Scenes/Terrain/terrain_gen.tscn" id="1_ho15n"]
@@ -8,9 +8,10 @@
 [ext_resource type="PackedScene" uid="uid://dlnfpl2m6m6xk" path="res://Scenes/Props/scenery.tscn" id="4_a7gfu"]
 [ext_resource type="Script" path="res://Code/Scripts/camera_controls.gd" id="5_046qu"]
 [ext_resource type="Script" path="res://Code/Scripts/mouse_capture_handler.gd" id="5_mdxii"]
+[ext_resource type="PackedScene" uid="uid://p614kctv6eve" path="res://Scenes/UI/progress_bar_3d.tscn" id="6_jfgym"]
+[ext_resource type="PackedScene" uid="uid://boebmi3wby3r" path="res://Scenes/Props/PlayerBarn.tscn" id="6_nwu4v"]
 [ext_resource type="PackedScene" uid="uid://cnfygjo801chm" path="res://Scenes/Sigil/sigil.tscn" id="7_56svx"]
 [ext_resource type="Script" path="res://Code/Scripts/Units/unit_manager.gd" id="8_ha0w3"]
-[ext_resource type="PackedScene" uid="uid://k2edqs5c57nc" path="res://Assets/Models/barn_no_optimization_01.tscn" id="9_ov2uv"]
 [ext_resource type="Script" path="res://Code/Scripts/camera_follow.gd" id="13_jv6l7"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_cv4jk"]
@@ -129,10 +130,14 @@ collision_mask = 4
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Left Side Things (Player)/Kill Enemy Units"]
 shape = SubResource("WorldBoundaryShape3D_x5fky")
 
-[node name="Barn_NO_OPTIMIZATION_01" parent="Left Side Things (Player)" instance=ExtResource("9_ov2uv")]
-
 [node name="Default Spawn Position" type="Node3D" parent="Left Side Things (Player)"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0)
+
+[node name="PlayerHealthBar" parent="Left Side Things (Player)" instance=ExtResource("6_jfgym")]
+transform = Transform3D(15, 0, 0, 0, 15, 0, 0, 0, 15, 0, 20, 0)
+fraction = 0.637
+
+[node name="PlayerBarn" parent="Left Side Things (Player)" instance=ExtResource("6_nwu4v")]
 
 [node name="Right Side Things (Enemy)" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 55, 0, 0)
@@ -152,10 +157,14 @@ collision_mask = 2
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Right Side Things (Enemy)/Kill Player Units"]
 shape = SubResource("WorldBoundaryShape3D_w46i8")
 
-[node name="Barn_NO_OPTIMIZATION_02" parent="Right Side Things (Enemy)" instance=ExtResource("9_ov2uv")]
-
 [node name="Default Spawn Position" type="Node3D" parent="Right Side Things (Enemy)"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.86055, -9.53674e-07, 0.000247955)
+
+[node name="EnemyHealthBar" parent="Right Side Things (Enemy)" instance=ExtResource("6_jfgym")]
+transform = Transform3D(15, 0, 0, 0, 15, 0, 0, 0, 15, 0, 20, 0)
+fraction = 0.637
+
+[node name="PlayerBarn2" parent="Right Side Things (Enemy)" instance=ExtResource("6_nwu4v")]
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -229,12 +238,15 @@ near = 5.0
 script = ExtResource("13_jv6l7")
 follow_target = NodePath("../CameraViewPoint/Camera Rotate/Camera Offset/Camera Follow Point")
 
-[node name="PlayerController" type="Node" parent="."]
+[node name="PlayerController" type="Node" parent="." node_paths=PackedStringArray("healthBar")]
 unique_name_in_owner = true
 script = ExtResource("1_uq66x")
+healthBar = NodePath("../Left Side Things (Player)/PlayerHealthBar")
 
-[node name="OpponentController" type="Node" parent="."]
+[node name="OpponentController" type="Node" parent="." node_paths=PackedStringArray("healthBar")]
+unique_name_in_owner = true
 script = ExtResource("1_dy58u")
+healthBar = NodePath("../Right Side Things (Enemy)/EnemyHealthBar")
 
 [connection signal="body_entered" from="Ground/Y Kill Plane" to="Ground/Y Kill Plane" method="_on_body_entered"]
 [connection signal="body_entered" from="Left Side Things (Player)/Kill Enemy Units" to="UnitManager" method="_on_unit_kill_plane_left_body_entered"]

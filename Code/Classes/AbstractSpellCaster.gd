@@ -8,10 +8,15 @@ var level := 1;
 var maxMana : int;
 var mana : float;
 
+@export var maxHealth := 100.0
+var health : float
+@export var healthBar : Progressbar3d
+
 var last_spell = null
 
 func _ready():
 	initMana(level);
+	setHealth(maxHealth)
 
 func _process(delta):
 	regenMana(delta);
@@ -55,3 +60,8 @@ func getDefaultLocation(spell):
 		'*': return Vector2.ZERO;
 		'ground': return loc;
 		'sky': return loc + Vector2(0, -10);
+
+func setHealth(new_health : float) -> void:
+	health = clamp(new_health, 0, maxHealth)
+	healthBar.fraction = health / maxHealth
+	# TODO to die

@@ -32,6 +32,7 @@ var team : Team
 @export_category("Attack")
 @export var attack_range := 2.0
 @export var damage := 30.0
+@export var reach_caster_damage := 10.0
 
 @export_category("Rendering")
 @export var damage_tint := 0.0 : set = set_damage_tint

@@ -1,0 +1,7 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://cmhgv21mxv657"]
+
+[resource]
+resource_name = "m_roof_Tile1"
+cull_mode = 2
+albedo_color = Color(0.282307, 0.344941, 0.384106, 1)
+metallic = 1.0
