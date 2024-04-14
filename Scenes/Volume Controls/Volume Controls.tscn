@@ -1,0 +1,39 @@
+[gd_scene load_steps=3 format=3 uid="uid://c8lp1xd01ns5b"]
+
+[ext_resource type="AudioStream" uid="uid://t77fe45hbdkf" path="res://Assets/sound/swap-click.wav" id="1_yinpu"]
+[ext_resource type="Script" path="res://Scenes/TitleScreen/VolumeController.gd" id="2_560fo"]
+
+[node name="VolumeControls" type="HBoxContainer"]
+
+[node name="Control" type="Control" parent="."]
+editor_description = "Just used to allow the label to rotate; containers prevent that."
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+
+[node name="Volume Label" type="Label" parent="Control"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -23.0
+offset_right = 112.0
+grow_vertical = 0
+rotation = -1.5708
+text = "Sound Volume"
+language = "English"
+
+[node name="Volume Slider" type="VSlider" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 220)
+layout_mode = 2
+size_flags_vertical = 4
+value = 15.0
+rounded = true
+tick_count = 6
+ticks_on_borders = true
+
+[node name="Volume Slider Test Sound Player" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("1_yinpu")
+volume_db = -0.808
+script = ExtResource("2_560fo")
