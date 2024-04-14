@@ -99,7 +99,6 @@ func play_rune(rune : Rune) -> void:
 	var shown_path_idx := -1
 	while shown_path_idx < rune.path.size() - 1:
 		var current_path_idx := (Time.get_ticks_msec() - start_ticks_ms) / (playback_per_edge_s * 1000.0)
-		print("shown: %d, current: %f" % [shown_path_idx, current_path_idx])
 		while floor(current_path_idx) > shown_path_idx && shown_path_idx + 1 < rune.path.size():
 			_maybe_add_to_path(rune.path[shown_path_idx + 1])
 			shown_path_idx += 1
