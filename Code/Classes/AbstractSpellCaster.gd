@@ -8,6 +8,8 @@ var level := 1;
 var maxMana : int;
 var mana : float;
 
+var last_spell = null
+
 func _ready():
 	initMana(level);
 
@@ -43,6 +45,7 @@ func cast(spell, location = null):
 
 	setMana(mana - spell['manaCost']);
 	spell['castFunc'].call(spell, location, teamName);
+	last_spell = spell
 	return true;
 
 func getDefaultLocation(spell):
