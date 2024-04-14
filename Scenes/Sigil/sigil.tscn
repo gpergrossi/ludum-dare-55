@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://cnfygjo801chm"]
+[gd_scene load_steps=6 format=3 uid="uid://cnfygjo801chm"]
 
 [ext_resource type="PackedScene" uid="uid://yopsmt22mosh" path="res://Scenes/Sigil/sigil_vertex.tscn" id="1_ar3ch"]
 [ext_resource type="Script" path="res://Scenes/Sigil/sigil.gd" id="1_plqdm"]
+[ext_resource type="Texture2D" uid="uid://bejjr70kteol1" path="res://Assets/sigil/band.png" id="3_82fk3"]
 [ext_resource type="PackedScene" uid="uid://dcwcg2jsay5ac" path="res://Scenes/Sigil/sigil_line.tscn" id="3_xnil8"]
 [ext_resource type="Texture2D" uid="uid://bwc32gr5ebmj5" path="res://Assets/sigil/board.png" id="4_4jgcv"]
 
@@ -15,6 +16,22 @@ playback_release_after_s = 1.0
 interaction_distance = 250.0
 snap_distance = 30.0
 vertices = [NodePath("SigilVertex"), NodePath("SigilVertex2"), NodePath("SigilVertex3"), NodePath("SigilVertex4"), NodePath("SigilVertex5")]
+
+[node name="Board" type="Sprite2D" parent="."]
+modulate = Color(1, 1, 1, 0.301961)
+position = Vector2(0, -178)
+scale = Vector2(0.7, 0.7)
+texture = ExtResource("4_4jgcv")
+
+[node name="SigilLine" parent="." instance=ExtResource("3_xnil8")]
+scale = Vector2(1, 1)
+default_color = Color(1, 1, 0, 1)
+texture = ExtResource("3_82fk3")
+texture_mode = 2
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
+antialiased = true
 
 [node name="SigilVertex" parent="." instance=ExtResource("1_ar3ch")]
 visible = false
@@ -35,12 +52,3 @@ position = Vector2(143, -134)
 [node name="SigilVertex5" parent="." instance=ExtResource("1_ar3ch")]
 visible = false
 position = Vector2(0, -30)
-
-[node name="SigilLine" parent="." instance=ExtResource("3_xnil8")]
-
-[node name="Board" type="Sprite2D" parent="."]
-modulate = Color(1, 1, 1, 0.301961)
-show_behind_parent = true
-position = Vector2(0, -178)
-scale = Vector2(0.7, 0.7)
-texture = ExtResource("4_4jgcv")

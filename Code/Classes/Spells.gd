@@ -1,11 +1,5 @@
 class_name Spells
 
-const defaultTarget = {
-	'*': Vector2.ZERO,
-	'ground': Vector2(-50, 0),
-	'sky': Vector2(-50, -10),
-}
-
 static var definitions = [{
 	'programmaticName': 'summonBasicWalker',
 	'name': 'Summon Broccoli',
@@ -14,6 +8,7 @@ static var definitions = [{
 	'preferredLocation': 'ground',
 	'rune': Rune.new([0, 3, 2]), # For visual runes, see the Miro board at https://miro.com/app/board/uXjVKUq1fIo=/
 	'castFunc': UnitManager.summonBasicWalker,
+	'botCooldownSeconds': 1,
 }, {
 	'programmaticName': 'summonFlyingBomber',
 	'name': 'Summon Crow',
@@ -22,6 +17,7 @@ static var definitions = [{
 	'preferredLocation': 'sky',
 	'rune': Rune.new([0, 3, 1, 2, 0]),
 	'castFunc': Spells.dummy, # TODO
+	'botCooldownSeconds': 5,
 }, {
 	'programmaticName': 'summonRanged',
 	'name': 'Summon Tomato',
@@ -30,6 +26,7 @@ static var definitions = [{
 	'preferredLocation': 'ground',
 	'rune': Rune.new([0, 3, 2, 1]),
 	'castFunc': Spells.dummy, # TODO
+	'botCooldownSeconds': 5,
 }, {
 	'programmaticName': 'summonWall',
 	'name': 'Summon Lettuce',
@@ -38,6 +35,7 @@ static var definitions = [{
 	'preferredLocation': 'ground',
 	'rune': Rune.new([2, 0, 4, 1, 3]),
 	'castFunc': Spells.dummy, # TODO
+	'botCooldownSeconds': 5,
 }, {
 	'programmaticName': 'summonBoulder',
 	'name': 'Summon Pumpkin',
@@ -46,6 +44,7 @@ static var definitions = [{
 	'preferredLocation': 'ground',
 	'rune': Rune.new([0, 1, 3, 4, 2, 0]),
 	'castFunc': Spells.dummy, # TODO
+	'botCooldownSeconds': 10,
 }, {
 	'programmaticName': 'summonFallingSpear',
 	'name': 'Summon Carrot',
@@ -54,6 +53,7 @@ static var definitions = [{
 	'preferredLocation': '*',
 	'rune': Rune.new([0, 1, 4, 0]),
 	'castFunc': Spells.dummy, # TODO
+	'botCooldownSeconds': 5,
 }, {
 	'programmaticName': 'summonExploder',
 	'name': 'Summon Popcorn',
@@ -62,6 +62,7 @@ static var definitions = [{
 	'preferredLocation': 'ground',
 	'rune': Rune.new([4, 1, 2]),
 	'castFunc': Spells.dummy, # TODO
+	'botCooldownSeconds': 15,
 }, {
 	'programmaticName': 'summonMeme',
 	'name': 'Summon Potato', # is potato
@@ -70,15 +71,19 @@ static var definitions = [{
 	'preferredLocation': '*',
 	'rune': Rune.new([2, 0, 1, 3, 4, 2, 1, 4, 0, 3, 2]),
 	'castFunc': Spells.dummy, # TODO
+	'botDoesNotCast': true,
 }];
 
 static var summonBasicWalker = Spells.definitions[0];
 
 static func _static_init():
+	var id = 0;
 	for spell in definitions:
 		var level : int = spell['level'];
 		var manaPerSecondAtLevel : float = PlayerController.getManaRegenPerSecond(level);
 		spell['manaCost'] = manaPerSecondAtLevel * spell['manaSecondsAtLevel'];
+		spell['id'] = id;
+		id += 1;
 
 static func getSpellFor(rune: Rune):
 	for spell in definitions:

@@ -1,5 +1,6 @@
-[gd_scene load_steps=26 format=3 uid="uid://ddjbrnypilhof"]
+[gd_scene load_steps=27 format=3 uid="uid://ddjbrnypilhof"]
 
+[ext_resource type="Script" path="res://Code/Classes/OpponentController.gd" id="1_dy58u"]
 [ext_resource type="PackedScene" uid="uid://b1xmmcg7sdyrb" path="res://Scenes/Terrain/terrain_gen.tscn" id="1_ho15n"]
 [ext_resource type="Script" path="res://Code/Classes/PlayerController.gd" id="1_uq66x"]
 [ext_resource type="Script" path="res://Code/Scripts/kill_plane.gd" id="2_ftuh1"]
@@ -68,6 +69,7 @@ border_width_bottom = 2
 bg_color = Color(0.580392, 0.513726, 1, 1)
 
 [node name="Main" type="Node3D"]
+script = ExtResource("1_dy58u")
 
 [node name="TeamDefinitions" type="Node3D" parent="."]
 
@@ -1142,6 +1144,9 @@ summon_default_position_right = NodePath("../Right Side Things/Default Spawn Pos
 [node name="PlayerController" type="Node" parent="."]
 unique_name_in_owner = true
 script = ExtResource("1_uq66x")
+
+[node name="OpponentController" type="Node" parent="."]
+script = ExtResource("1_dy58u")
 
 [connection signal="body_entered" from="Ground/Y Kill Plane" to="Ground/Y Kill Plane" method="_on_body_entered"]
 [connection signal="body_entered" from="Left Side Things/Unit Kill Plane Left" to="UnitManager" method="_on_unit_kill_plane_left_body_entered"]
