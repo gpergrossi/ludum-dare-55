@@ -1,0 +1,7 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://bdgomb0ro5x06"]
+
+[resource]
+resource_name = "m_RedBarn"
+cull_mode = 2
+albedo_color = Color(0.674507, 0.156863, 0.278434, 1)
+metallic = 1.0

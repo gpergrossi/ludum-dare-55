@@ -1,0 +1,23 @@
+[gd_scene load_steps=10 format=3 uid="uid://bx0w5oc21dce"]
+
+[ext_resource type="PackedScene" uid="uid://bs0m8xix033tq" path="res://Assets/Models/Barn_v2.glb" id="1_gx242"]
+[ext_resource type="Material" uid="uid://cdiajdn2t53r8" path="res://Assets/Materials/m_Gold.tres" id="2_knjl3"]
+[ext_resource type="Material" uid="uid://bd20oaw3n5nn0" path="res://Assets/Materials/m_roof_Tile2.tres" id="3_kjrih"]
+[ext_resource type="Material" uid="uid://cmhgv21mxv657" path="res://Assets/Materials/m_roof_Tile1.tres" id="4_7xpgq"]
+[ext_resource type="Material" uid="uid://bdgomb0ro5x06" path="res://Assets/Materials/m_RedBarn.tres" id="5_xccnd"]
+[ext_resource type="Material" uid="uid://cjy1wfjs34eo2" path="res://Assets/Materials/m_White.tres" id="6_xie3f"]
+[ext_resource type="Material" uid="uid://dl1suqg5362ke" path="res://Assets/Materials/m_Red_Under.tres" id="7_l2pio"]
+[ext_resource type="Material" uid="uid://ctyvd5vc1kprw" path="res://Assets/Materials/m_Void.tres" id="8_ybm0c"]
+[ext_resource type="Material" uid="uid://dk8gx2eu58eta" path="res://Assets/Materials/m_Roof.tres" id="9_x7ya7"]
+
+[node name="Barn_v2" instance=ExtResource("1_gx242")]
+
+[node name="Barn_Pentagram_merged" parent="." index="0"]
+surface_material_override/0 = ExtResource("2_knjl3")
+surface_material_override/1 = ExtResource("3_kjrih")
+surface_material_override/2 = ExtResource("4_7xpgq")
+surface_material_override/3 = ExtResource("5_xccnd")
+surface_material_override/4 = ExtResource("6_xie3f")
+surface_material_override/5 = ExtResource("7_l2pio")
+surface_material_override/6 = ExtResource("8_ybm0c")
+surface_material_override/7 = ExtResource("9_x7ya7")
