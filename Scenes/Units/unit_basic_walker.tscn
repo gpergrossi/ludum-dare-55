@@ -5,7 +5,6 @@
 [ext_resource type="Texture2D" uid="uid://rdcuybv32pwq" path="res://Assets/mob/broccoli_green.png" id="2_ndrnn"]
 [ext_resource type="Shader" path="res://Code/Shaders/unit_sprite.gdshader" id="3_8rbeq"]
 [ext_resource type="Texture2D" uid="uid://bd884vobgkga6" path="res://Assets/mob/broccolispear_green.png" id="3_ukqnd"]
-[ext_resource type="Texture2D" uid="uid://cb3qloqju7q0x" path="res://Assets/mob/broccolispear_red.png" id="4_65lol"]
 
 [sub_resource type="Animation" id="Animation_cog7k"]
 resource_name = "attack"
@@ -89,7 +88,7 @@ _data = {
 "walk": SubResource("Animation_xiaj8")
 }
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_xnqyq"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_r5ikc"]
 resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("3_8rbeq")
@@ -107,13 +106,13 @@ shader_parameter/texture_albedo = ExtResource("2_ndrnn")
 
 [sub_resource type="QuadMesh" id="QuadMesh_rmq5w"]
 resource_local_to_scene = true
-material = SubResource("ShaderMaterial_xnqyq")
+material = SubResource("ShaderMaterial_r5ikc")
 size = Vector2(2.85, 4.08)
 
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_ieku4"]
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_0ace5"]
 load_path = "res://.godot/imported/broccoli_red.png-2aa42154cb2a1699b503303fac68c380.ctex"
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_xs5kv"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_claiw"]
 resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("3_8rbeq")
@@ -127,13 +126,14 @@ shader_parameter/uv1_scale = Vector3(1, 1, 1)
 shader_parameter/uv1_offset = Vector3(0, 0, 0)
 shader_parameter/uv2_scale = Vector3(1, 1, 1)
 shader_parameter/uv2_offset = Vector3(0, 0, 0)
-shader_parameter/texture_albedo = SubResource("CompressedTexture2D_ieku4")
+shader_parameter/texture_albedo = SubResource("CompressedTexture2D_0ace5")
 
-[sub_resource type="QuadMesh" id="QuadMesh_ylg3k"]
-material = SubResource("ShaderMaterial_xs5kv")
+[sub_resource type="QuadMesh" id="QuadMesh_1nno1"]
+resource_local_to_scene = true
+material = SubResource("ShaderMaterial_claiw")
 size = Vector2(2.85, 4.08)
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_4dn50"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_gk3ms"]
 resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("3_8rbeq")
@@ -151,10 +151,13 @@ shader_parameter/texture_albedo = ExtResource("3_ukqnd")
 
 [sub_resource type="QuadMesh" id="QuadMesh_senel"]
 resource_local_to_scene = true
-material = SubResource("ShaderMaterial_4dn50")
+material = SubResource("ShaderMaterial_gk3ms")
 size = Vector2(2.35, 0.87)
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_18vmj"]
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_b2nk3"]
+load_path = "res://.godot/imported/broccolispear_red.png-47da5b02c65161fb964b861f6e9ed57c.ctex"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fki5d"]
 resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("3_8rbeq")
@@ -168,11 +171,11 @@ shader_parameter/uv1_scale = Vector3(1, 1, 1)
 shader_parameter/uv1_offset = Vector3(0, 0, 0)
 shader_parameter/uv2_scale = Vector3(1, 1, 1)
 shader_parameter/uv2_offset = Vector3(0, 0, 0)
-shader_parameter/texture_albedo = ExtResource("4_65lol")
+shader_parameter/texture_albedo = SubResource("CompressedTexture2D_b2nk3")
 
-[sub_resource type="QuadMesh" id="QuadMesh_rrreh"]
+[sub_resource type="QuadMesh" id="QuadMesh_p4lxa"]
 resource_local_to_scene = true
-material = SubResource("ShaderMaterial_18vmj")
+material = SubResource("ShaderMaterial_fki5d")
 size = Vector2(2.35, 0.87)
 
 [node name="UnitBasicWalker" instance=ExtResource("1_dy5r0")]
@@ -202,7 +205,7 @@ skeleton = NodePath("../../..")
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.83654, 0)
 visible = false
-mesh = SubResource("QuadMesh_ylg3k")
+mesh = SubResource("QuadMesh_1nno1")
 skeleton = NodePath("../../..")
 
 [node name="WeaponTransform" type="Node3D" parent="Art2D" index="1"]
@@ -219,5 +222,5 @@ unique_name_in_owner = true
 transform = Transform3D(0.838081, -0.545546, 0, 0.545546, 0.838081, 0, 0, 0, 1, 0.805894, 1.26464, 0.337855)
 visible = false
 sorting_offset = 5.0
-mesh = SubResource("QuadMesh_rrreh")
+mesh = SubResource("QuadMesh_p4lxa")
 skeleton = NodePath("../../..")
