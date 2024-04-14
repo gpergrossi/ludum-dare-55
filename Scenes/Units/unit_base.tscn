@@ -26,6 +26,7 @@ _data = {
 }
 
 [node name="UnitBase" type="CharacterBody3D" groups=["units"]]
+axis_lock_linear_z = true
 floor_snap_length = 1.0
 script = ExtResource("1_j11gk")
 unit_name = "unitBase"

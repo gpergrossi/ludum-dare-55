@@ -58,21 +58,23 @@ func _ready():
 
 
 func _physics_process(delta : float):
-	if _state == UnitState.MOVING:
-		var teamMoveX := team_def.get_team_move_x()
-		
-		if not is_on_floor():
-			velocity += Vector3.DOWN * gravity * delta
-		
-		if absf(velocity.x - teamMoveX * _target_speed) > 0.0:
-			var target_move_x := teamMoveX * _target_speed
-			velocity.x = move_toward(velocity.x, target_move_x, move_accel * delta)
-		
-		move_and_slide()
+	var teamMoveX := team_def.get_team_move_x()
+	
+	if not is_on_floor():
+		velocity += Vector3.DOWN * gravity * delta
+	
+	if absf(velocity.x - teamMoveX * _target_speed) > 0.0:
+		var target_move_x := teamMoveX * _target_speed
+		velocity.x = move_toward(velocity.x, target_move_x, move_accel * delta)
+	
+	move_and_slide()
 
 
 func _find_target() -> void:
-	if is_instance_valid(_target): return
+	if is_instance_valid(_target):
+		# Current target is fine
+		return
+	
 	var enemy := find_nearest_enemy(attack_range)
 	if enemy:
 		_target = enemy
@@ -147,18 +149,14 @@ func find_nearest_enemy(max_range : float) -> UnitBase:
 		var candidate_unit = in_group as UnitBase
 		assert(candidate_unit, "All units should be UnitBase")
 		if team_def == candidate_unit.team_def:
-			print("Candidate is same team")
 			continue
 		if candidate_unit._is_dead:
-			print("Candidate is dead")
 			continue
 		
 		var distance_squared = global_position.distance_squared_to(candidate_unit.global_position)
 		if distance_squared < nearest_distance_squared:
 			nearest_enemy = candidate_unit
 			nearest_distance_squared = distance_squared
-		else:
-			print("Candidate is too far")
 	
 	if is_instance_valid(nearest_enemy):
 		print(to_string() + " found target " + nearest_enemy.to_string() + " at distance " + str(sqrt(nearest_distance_squared)))
@@ -170,10 +168,12 @@ func on_state_changed(new_state : UnitState):
 	match(new_state):
 		UnitState.MOVING: 
 			print("Unit " + to_string() + " is now moving")
+			_target_speed = top_speed
 			if is_instance_valid(unit_anims):
 				unit_anims.play("walk")
 		UnitState.ATTACKING:
 			print("Unit " + to_string() + " is now attacking")
+			_target_speed = 0.0
 			if is_instance_valid(unit_anims):
 				unit_anims.play("attack")
 
@@ -184,17 +184,28 @@ func _to_string():
 
 # Call this from animation sequence to actually deal damage at the right time.
 func damage_target():
-	if is_instance_valid(_target): 
-		print("Unit " + to_string() + " has damaged its target")
-		_target.take_damage(damage)
-		if _target._is_dead:
+	if is_instance_valid(_target):
+		var dist := global_position.distance_to(_target.global_position)
+		
+		# Current swing is still allowed to hit up to 2x attack range
+		if dist < attack_range * 2:
+			# Apply damage
+			_target.take_damage(damage)
+			if _target._is_dead:
+				_target = null
+		
+		# But the target will still be dropped afterward if out of attack range.
+		if dist > attack_range:
 			_target = null
-			state_changed.emit(UnitState.MOVING)
+	
+	if not is_instance_valid(_target):
+		state_changed.emit(UnitState.MOVING)
 
 
 func take_damage(damage : float) -> void:
 	_health -= damage
 	_ouch_animation.play("ouch")
+	velocity += Vector3(-team_def.get_team_move_x(), 0.5, 0).normalized() * 10.0
 	if _health < 0:
 		die()
 
