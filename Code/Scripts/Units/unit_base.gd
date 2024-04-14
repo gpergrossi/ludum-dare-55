@@ -35,7 +35,10 @@ var team : Team
 @export var reach_caster_damage := 10.0
 
 @export_category("Rendering")
-@export var damage_tint := 0.0 : set = set_damage_tint
+@export var color_tint := Color.WHITE : set = set_color_tint
+@export var damage_flash_time := 0.3
+@export var damage_flash_intensity := 0.3
+@export var damage_flash_color := Color.RED
 
 
 
@@ -53,12 +56,9 @@ signal unit_off_ground(me : UnitBase)
 
 
 
-@onready var _ouch_animation := %OuchAnimation as AnimationPlayer
-
-@onready var _slope_detect_left := $TerrainSlopeDetectLeft as SpringArm3D
-@onready var _slope_detect_right := $TerrainSlopeDetectRight as SpringArm3D
-
-@onready var _shadow := $Shadow as MeshInstance3D
+@onready var _slope_detect_left := %TerrainSlopeDetectLeft as SpringArm3D
+@onready var _slope_detect_right := %TerrainSlopeDetectRight as SpringArm3D
+@onready var _shadow := %Shadow as MeshInstance3D
 @onready var _eyes := _find_eyes()
 
 
@@ -78,6 +78,8 @@ var _brow_tilt_full_damage := -20.0
 
 var _was_on_floor := false
 
+var _lane_offset := Vector3.ZERO : set = set_lane_offset
+var _damage_flash_time_remaining := 0.0
 
 
 
@@ -96,7 +98,16 @@ func _ready():
 	change_state(UnitState.INITIALIZE)
 
 
-func _physics_process(delta : float):	
+func _physics_process(delta : float):
+	# Color animation because I had to use code to get this working
+	if _damage_flash_time_remaining > 0.0:
+		print(str(_damage_flash_time_remaining))
+		_damage_flash_time_remaining -= delta
+		var intensity := get_damage_flash_intensity()
+		for meshInst in get_renderables():
+			set_color_tint_on_mesh(meshInst, color_tint.lerp(damage_flash_color, intensity))
+		
+	
 	if is_on_floor():
 		# Update slope/shadow
 		var slope := _slope_detect_right.get_hit_length() - _slope_detect_left.get_hit_length()
@@ -171,6 +182,28 @@ func clear_target():
 		target_lost.emit(self, _current_target)
 	_current_target = null
 
+
+func get_renderables() -> Array[MeshInstance3D]:
+	var render_children := [] as Array[Node]
+	if team == TeamDefs.Player:
+		render_children = find_children("*Green")
+		print("Found " + str(len(render_children)) + " render children")
+	elif team == TeamDefs.Enemy:
+		render_children = find_children("*Red")
+		print("Found " + str(len(render_children)) + " render children")
+	
+	var renderables := [] as Array[MeshInstance3D]
+	for child in render_children:
+		var meshInst := child as MeshInstance3D
+		if is_instance_valid(meshInst):
+			renderables.append(meshInst)
+	return renderables
+
+
+func set_color_tint_on_mesh(meshInst : MeshInstance3D, color : Color):
+	var material := meshInst.mesh.surface_get_material(0) as ShaderMaterial
+	material.set_shader_parameter("albedo", color)
+
 ################################################################################
 ######   END HELPFUL METHODS FOR SUBCLASS  ##################################
 ##########################################################################
@@ -191,9 +224,10 @@ func set_team_name(val : String):
 		_on_team_assigned(team)
 
 
-func set_damage_tint(amount : float):
-	damage_tint = amount
-	_on_damage_tint_changed()
+func set_color_tint(color : Color):
+	color_tint = color
+	# HACK: Force a color update 
+	_damage_flash_time_remaining = minf(0.01, _damage_flash_time_remaining)
 
 
 func do_kill_plane() -> void:
@@ -234,38 +268,37 @@ func damage_target():
 
 
 func take_damage(amount : float) -> void:
+	var prev_health := _health
+	
+	print("Taking damage: " + str(amount))
 	_health -= amount
-	update_brow_tilt()
-	_ouch_animation.play("ouch")
-	
-	var knockback := knockback_multiplier_self * Vector3(-team.get_team_move_x(), 1.0, 0).normalized() * 10.0
-	velocity += knockback
-	
 	damage_taken.emit(self, amount, _health, max_health)
-	if _health <= 0:
-		die()
+	
+	if not is_equal_approx(_health, prev_health):
+		update_brow_tilt()
+		_damage_flash_time_remaining = damage_flash_time
+		
+		var knockback := knockback_multiplier_self * Vector3(-team.get_team_move_x(), 1.0, 0).normalized() * 10.0
+		velocity += knockback
+		
+		if _health <= 0:
+			die()
 
 
 func die() -> void:
 	# Event fired above is allowed to change the health last second.
 	if _health <= 0:
 		change_state(UnitState.DEAD)
-		queue_free()
+		
+		# In case an event handler wanted to save it
+		if _state == UnitState.DEAD:
+			# Allow time for knockback
+			await get_tree().create_timer(0.25).timeout
+			queue_free()
 
 
-func _on_damage_tint_changed():
-	var render_children := find_children("*Red")
-	render_children.append_array(find_children("*Green"))
-	for child in render_children:
-		var meshInst := child as MeshInstance3D
-		if is_instance_valid(meshInst):
-			if meshInst.visible:
-				set_damage_tint_on_mesh(meshInst, damage_tint)
-
-
-func set_damage_tint_on_mesh(meshInst : MeshInstance3D, amount : float):
-	var material := meshInst.mesh.surface_get_material(0) as ShaderMaterial
-	material.set_shader_parameter("albedo", Color.WHITE.lerp(Color.RED, amount))
+func get_damage_flash_intensity() -> float:
+	return lerpf(0.0, damage_flash_intensity, clampf(_damage_flash_time_remaining / damage_flash_time, 0.0, 1.0))
 
 ################################################################################
 ######   END TAKING DAMAGE  #################################################
@@ -441,3 +474,12 @@ func _find_nearest_target(max_range : float) -> UnitBase:
 ################################################################################
 ######   END TARGET AQUISITION   ############################################
 ##########################################################################
+
+
+func set_lane_offset(offset : Vector3):
+	_lane_offset = offset
+	var offset_node := $LaneOffset as Node3D
+	if is_instance_valid(offset_node):
+		# Don't let a unit move "in front of" (team based) it's collision position.
+		offset.x = team.team_side * absf(offset.x)
+		offset_node.position = offset

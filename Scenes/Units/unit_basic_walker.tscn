@@ -39,7 +39,7 @@ tracks/2/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1, 0.6, 1, 0, 0, -0.259, 0.966
 tracks/3/type = "method"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("%Art2D/..")
+tracks/3/path = NodePath("%Art2D/../..")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -156,11 +156,12 @@ size = Vector2(2.35, 0.87)
 
 [node name="UnitBasicWalker" instance=ExtResource("1_dy5r0")]
 script = ExtResource("2_c6sqf")
+attack_interval = 1.0
 unit_name = "Basic Walker"
 
 [node name="UnitAnimations" type="AnimationPlayer" parent="." index="1"]
 unique_name_in_owner = true
-root_node = NodePath("../Art2D")
+root_node = NodePath("../LaneOffset/Art2D")
 libraries = {
 "": SubResource("AnimationLibrary_yj3yy")
 }
@@ -169,45 +170,45 @@ libraries = {
 unique_name_in_owner = true
 wait_time = 0.25
 
-[node name="Art2D" type="Node3D" parent="." index="3"]
+[node name="Shadow" parent="." index="3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.130368, 0.00379139, 0)
+
+[node name="Art2D" type="Node3D" parent="LaneOffset" index="0"]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.209154, 0)
 
-[node name="BodyTransform" type="Node3D" parent="Art2D" index="0"]
+[node name="BodyTransform" type="Node3D" parent="LaneOffset/Art2D" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.10672, 0.209, 0)
 
-[node name="BrocolliGreen" type="MeshInstance3D" parent="Art2D/BodyTransform" index="0"]
+[node name="BrocolliGreen" type="MeshInstance3D" parent="LaneOffset/Art2D/BodyTransform" index="0"]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.83654, 0)
 visible = false
 mesh = SubResource("QuadMesh_rmq5w")
-skeleton = NodePath("../../..")
+skeleton = NodePath("../../../..")
 
-[node name="BrocolliRed" type="MeshInstance3D" parent="Art2D/BodyTransform" index="1"]
+[node name="BrocolliRed" type="MeshInstance3D" parent="LaneOffset/Art2D/BodyTransform" index="1"]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.83654, 0)
 mesh = SubResource("QuadMesh_1nno1")
-skeleton = NodePath("../../..")
+skeleton = NodePath("../../../..")
 
-[node name="GoogleyEyesPair" parent="Art2D/BodyTransform" index="2" instance=ExtResource("6_8x0xh")]
+[node name="GoogleyEyesPair" parent="LaneOffset/Art2D/BodyTransform" index="2" instance=ExtResource("6_8x0xh")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.108245, 1.54743, 0)
 dampening = 0.9
 
-[node name="WeaponTransform" type="Node3D" parent="Art2D" index="1"]
+[node name="WeaponTransform" type="Node3D" parent="LaneOffset/Art2D" index="1"]
 
-[node name="BrocolliSpearGreen" type="MeshInstance3D" parent="Art2D/WeaponTransform" index="0"]
+[node name="BrocolliSpearGreen" type="MeshInstance3D" parent="LaneOffset/Art2D/WeaponTransform" index="0"]
 unique_name_in_owner = true
 transform = Transform3D(0.838081, -0.545546, 0, 0.545546, 0.838081, 0, 0, 0, 1, 0.805894, 1.26464, 0.337855)
 visible = false
 sorting_offset = 5.0
 mesh = SubResource("QuadMesh_senel")
-skeleton = NodePath("../../..")
+skeleton = NodePath("../../../..")
 
-[node name="BrocolliSpearRed" type="MeshInstance3D" parent="Art2D/WeaponTransform" index="1"]
+[node name="BrocolliSpearRed" type="MeshInstance3D" parent="LaneOffset/Art2D/WeaponTransform" index="1"]
 unique_name_in_owner = true
 transform = Transform3D(0.838081, -0.545546, 0, 0.545546, 0.838081, 0, 0, 0, 1, 0.805894, 1.26464, 0.337855)
 sorting_offset = 5.0
 mesh = SubResource("QuadMesh_p4lxa")
-skeleton = NodePath("../../..")
-
-[node name="Shadow" parent="." index="5"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.130368, 0.00379139, 0)
+skeleton = NodePath("../../../..")

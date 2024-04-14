@@ -21,9 +21,11 @@ script = ExtResource("1_yvf3x")
 
 [node name="Background" type="MeshInstance3D" parent="."]
 material_override = SubResource("StandardMaterial3D_lmvhj")
+cast_shadow = 0
 mesh = SubResource("QuadMesh_83838")
 
 [node name="Foreground" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.000878334, 0.0100661)
+cast_shadow = 0
 gi_mode = 0
 mesh = SubResource("QuadMesh_itda4")

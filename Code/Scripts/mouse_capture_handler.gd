@@ -9,9 +9,15 @@ var _is_captured := false
 
 @onready var camera := %MainCamera as Camera3D
 
+var _release_time := 0
+
+func _ready():
+	_release_time = Time.get_ticks_msec() - 3001
+
 
 func _process(_delta : float):
 	if Input.is_action_just_pressed("escape"):
+		_release_time = Time.get_ticks_msec()
 		release_mouse()
 
 
@@ -24,7 +30,7 @@ func _input(event : InputEvent):
 		
 		if _is_captured and (pos.y < release_margin_y or (pos.y > get_viewport_rect().size.y - release_margin_y)):
 			release_mouse()
-		else:
+		elif Time.get_ticks_msec() > _release_time + 3000:
 			capture_mouse()
 	
 	elif event is InputEventMouse:
