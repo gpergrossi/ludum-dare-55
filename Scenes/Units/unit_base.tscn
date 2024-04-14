@@ -52,12 +52,6 @@ damage_tint = 1.0
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("CapsuleShape3D_wwrqq")
 
-[node name="TargetingTimer" type="Timer" parent="."]
-unique_name_in_owner = true
-editor_description = "How often to search for a target."
-wait_time = 0.25
-autostart = true
-
 [node name="OuchAnimation" type="AnimationPlayer" parent="."]
 unique_name_in_owner = true
 libraries = {

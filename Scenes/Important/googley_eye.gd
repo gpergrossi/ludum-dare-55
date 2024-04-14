@@ -11,6 +11,7 @@ class_name GoogleyEye extends Node3D
 @export var brow_visible := false : set = set_brow_visible
 @export var brow_tilt := 8.9 : set = set_brow_tilt
 @export var brow_height := 0.25 : set = set_brow_height
+@export var brow_thickness := 0.05 : set = set_brow_thickness
 
 @onready var brow := %Brow as MeshInstance3D
 @onready var black_part := %BlackPart as MeshInstance3D
@@ -24,11 +25,13 @@ var prev_pupil_pos := Vector3.ZERO
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	# Make sure all appearance updates have been made
 	set_radius_white(radius_white)
 	set_radius_black(radius_black)
 	set_brow_visible(brow_visible)
 	set_brow_tilt(brow_tilt)
 	set_brow_height(brow_height)
+	set_brow_thickness(brow_thickness)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -58,7 +61,7 @@ func _physics_process(delta : float):
 			
 			# Reflect outward velocity
 			var norm := pupil_pos.normalized()
-			var outward_vel := norm.dot(pupil_vel) * norm
+			var outward_vel := maxf(0.0, norm.dot(pupil_vel)) * norm
 			pupil_vel -= outward_vel
 	
 	# Actually move the black part
@@ -102,3 +105,10 @@ func set_brow_height(height : float):
 	brow_height = height
 	if is_instance_valid(brow):
 		brow.position.y = height
+
+
+func set_brow_thickness(thick : float):
+	brow_thickness = thick
+	if is_instance_valid(brow):
+		(brow.mesh as QuadMesh).size.y = thick
+	

@@ -1,15 +1,10 @@
-class_name UnitBasicWalker extends UnitBase
+class_name UnitStationaryGuard extends UnitBase
 
 @onready var _unit_anims := %UnitAnimations as AnimationPlayer
-@onready var _targeting_timer := %TargetingTimer as Timer
 
 
 func _ready() -> void:
 	state_changed.connect(_on_state_changed)
-	target_acquired.connect(_on_target_acquired)
-	target_lost.connect(_on_target_lost)
-	target_dead.connect(_on_target_dead)
-	_targeting_timer.timeout.connect(_on_targeting_timer)
 	super._ready()
 
 
@@ -31,32 +26,13 @@ func _on_target_dead(_me : UnitBase, _prev_target : UnitBase):
 
 
 func _on_state_changed(_me : UnitBase, new_state : UnitState, old_state : UnitState):
-	match(old_state):
-		UnitState.MOVING:
-			_targeting_timer.stop()
-	
 	match(new_state):
-		UnitState.INITIALIZE:
-			change_state(UnitState.MOVING) 
-		
-		UnitState.MOVING: 
-			_unit_anims.play("walk")
-			_targeting_timer.start()
-		
-		UnitState.ATTACKING:
-			_unit_anims.play("attack")
-		
-		_:
-			_unit_anims.stop()
+		UnitState.INITIALIZE: 
+			change_state(UnitState.DEFENDING)
 
 
 func process_unit(delta : float) -> void:
-	match(_state):
-		UnitState.MOVING:
-			walk(top_speed, delta)
-		UnitState.ATTACKING:
-			# This is necessary for them to stop moving when knockback sends them sliding
-			walk(0, delta)
+	walk(0, delta)
 
 
 func _on_targeting_timer():

@@ -4,13 +4,14 @@ class_name GoogleyEyesPair extends Node3D
 @export var radius_white := 0.25 : set = set_radius_white
 @export var radius_black := 0.09 : set = set_radius_black
 
-@export var spring_const := 1.0  : set = set_spring_const
-@export var mass := 1.0          : set = set_mass
-@export var dampening := 0.9     : set = set_dampening
+@export var spring_const := 5.0  : set = set_spring_const
+@export var mass := 2.0          : set = set_mass
+@export var dampening := 0.34    : set = set_dampening
 
 @export var brow_visible := false  : set = set_brow_visible
 @export var brow_tilt := 8.9       : set = set_brow_tilt
 @export var brow_height := 0.25    : set = set_brow_height
+@export var brow_thickness := 0.05 : set = set_brow_thickness
 
 @onready var left_eye := $LeftEye as GoogleyEye
 @onready var right_eye := $RightEye as GoogleyEye
@@ -78,3 +79,11 @@ func set_brow_height(height : float):
 		left_eye.brow_height = height
 	if is_instance_valid(right_eye):
 		right_eye.brow_height = height
+
+
+func set_brow_thickness(thick : float):
+	brow_thickness = thick
+	if is_instance_valid(left_eye):
+		left_eye.brow_thickness = thick
+	if is_instance_valid(right_eye):
+		right_eye.brow_thickness = thick

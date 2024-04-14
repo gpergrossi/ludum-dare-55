@@ -352,7 +352,6 @@ func get_transformed_aabb(collider : CollisionShape3D) -> AABB:
 	
 
 func find_child_sphere_collider(node : Node) -> CollisionShape3D:
-	var child_collision_shape : CollisionShape3D = null
 	var area := node.find_child("SpawnRadius") as Area3D
 	if is_instance_valid(area):
 		for i in range(area.get_child_count()):
@@ -363,13 +362,11 @@ func find_child_sphere_collider(node : Node) -> CollisionShape3D:
 
 
 func find_child_collision_shape(node : Node3D) -> CollisionShape3D:
-	var child_collision_shape : CollisionShape3D = null
 	for i in range(node.get_child_count()):
 		var area := node.get_child(i) as Area3D
 		if is_instance_valid(area):
 			for j in range(area.get_child_count()):
 				var shape := area.get_child(i) as CollisionShape3D
 				if is_instance_valid(shape):
-					child_collision_shape = shape
-					break
-	return child_collision_shape
+					return shape
+	return null

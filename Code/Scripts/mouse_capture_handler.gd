@@ -6,7 +6,6 @@ class_name MouseCaptureHandler extends PanelContainer
 var _is_mouse_scrolling_left := false
 var _is_mouse_scrolling_right := false
 var _is_captured := false
-var _is_release_message_shown := false
 
 @onready var camera := %MainCamera as Camera3D
 

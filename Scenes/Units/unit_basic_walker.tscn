@@ -165,7 +165,11 @@ libraries = {
 "": SubResource("AnimationLibrary_yj3yy")
 }
 
-[node name="Art2D" type="Node3D" parent="." index="2"]
+[node name="TargetingTimer" type="Timer" parent="." index="2"]
+unique_name_in_owner = true
+wait_time = 0.25
+
+[node name="Art2D" type="Node3D" parent="." index="3"]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.209154, 0)
 
@@ -186,6 +190,7 @@ skeleton = NodePath("../../..")
 
 [node name="GoogleyEyesPair" parent="Art2D/BodyTransform" index="2" instance=ExtResource("6_8x0xh")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.108245, 1.54743, 0)
+dampening = 0.9
 
 [node name="WeaponTransform" type="Node3D" parent="Art2D" index="1"]
 
