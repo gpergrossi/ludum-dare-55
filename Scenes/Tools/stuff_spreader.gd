@@ -297,7 +297,7 @@ func find_avoid_spheres(node : Node3D) -> Array[CollisionShape3D]:
 		if is_instance_valid(collider):
 			avoid_spheres.append(collider)
 		else:
-			printerr("Found spawnable " + name + " with missing or incorrectly-defined SpawnRadius shape.")
+			printerr("Found spawnable " + child.name + " with missing or incorrectly-defined SpawnRadius shape.")
 	
 	return avoid_spheres
 
@@ -353,15 +353,13 @@ func get_transformed_aabb(collider : CollisionShape3D) -> AABB:
 
 func find_child_sphere_collider(node : Node) -> CollisionShape3D:
 	var child_collision_shape : CollisionShape3D = null
-	for i in range(node.get_child_count()):
-		var area := node.get_child(i) as Area3D
-		if is_instance_valid(area):
-			for j in range(area.get_child_count()):
-				var shape := area.get_child(i) as CollisionShape3D
-				if is_instance_valid(shape) and (shape.shape is SphereShape3D):
-					child_collision_shape = shape
-					break
-	return child_collision_shape
+	var area := node.find_child("SpawnRadius") as Area3D
+	if is_instance_valid(area):
+		for i in range(area.get_child_count()):
+			var shape := area.get_child(i) as CollisionShape3D
+			if is_instance_valid(shape) and (shape.shape is SphereShape3D):
+				return shape
+	return null
 
 
 func find_child_collision_shape(node : Node3D) -> CollisionShape3D:

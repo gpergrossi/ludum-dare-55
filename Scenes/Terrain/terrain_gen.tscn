@@ -84,7 +84,6 @@ unique_name_in_owner = true
 mesh = SubResource("ArrayMesh_5a2uj")
 
 [node name="TerrainCollider" type="StaticBody3D" parent="."]
-visible = false
 collision_mask = 7
 
 [node name="CollisionHeightmap" type="CollisionShape3D" parent="TerrainCollider"]
