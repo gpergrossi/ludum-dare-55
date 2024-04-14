@@ -102,8 +102,9 @@ func play_rune(rune : Rune) -> void:
 		while floor(current_path_idx) > shown_path_idx && shown_path_idx + 1 < rune.path.size():
 			_maybe_add_to_path(rune.path[shown_path_idx + 1])
 			shown_path_idx += 1
-		if shown_path_idx < rune.path.size() - 1:
-			_set_path_display_endpoint(vertices[shown_path_idx].position.lerp(vertices[shown_path_idx + 1].position, fmod(current_path_idx, 1.0)))
+		if shown_path_idx >= 0 and shown_path_idx < rune.path.size() - 1:
+			var endpoint_pos = vertices[rune.path[shown_path_idx]].position.lerp(vertices[rune.path[shown_path_idx + 1]].position, fmod(current_path_idx, 1.0))
+			_set_path_display_endpoint(endpoint_pos)
 		await get_tree().process_frame
 	
 	await get_tree().create_timer(playback_release_after_s).timeout

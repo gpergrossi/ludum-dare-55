@@ -69,7 +69,6 @@ border_width_bottom = 2
 bg_color = Color(0.580392, 0.513726, 1, 1)
 
 [node name="Main" type="Node3D"]
-script = ExtResource("1_dy58u")
 
 [node name="TeamDefinitions" type="Node3D" parent="."]
 
@@ -1109,14 +1108,24 @@ size_flags_vertical = 8
 theme_override_styles/fill = SubResource("StyleBoxFlat_kn3u8")
 value = 80.0
 
-[node name="CenterContainer" type="CenterContainer" parent="CanvasLayer/UI Container"]
+[node name="PlayerSigilContainer" type="CenterContainer" parent="CanvasLayer/UI Container"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 8
 
-[node name="Sigil" parent="CanvasLayer/UI Container/CenterContainer" instance=ExtResource("7_56svx")]
+[node name="Sigil" parent="CanvasLayer/UI Container/PlayerSigilContainer" instance=ExtResource("7_56svx")]
 unique_name_in_owner = true
 position = Vector2(0, 0)
+
+[node name="OpponentSigilContainer" type="CenterContainer" parent="CanvasLayer/UI Container"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+
+[node name="OpponentSigil" parent="CanvasLayer/UI Container/OpponentSigilContainer" instance=ExtResource("7_56svx")]
+unique_name_in_owner = true
+position = Vector2(-130, 0)
+is_interactable = false
 
 [node name="CameraViewPoint" type="Node3D" parent="." node_paths=PackedStringArray("left_edge", "right_edge")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0)
