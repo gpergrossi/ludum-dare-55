@@ -43,7 +43,7 @@ func summon(unitType : String, spell_def : Dictionary, unit_position : Vector2, 
 			return
 	
 	var unit := packed_scene.instantiate() as UnitBase
-	unit.team = team
+	unit.team_name = team
 	unit.position = Vector3(unit_position.x, -unit_position.y, 0.0)
 	unit.consume_spell_def(spell_def)
 	add_child(unit)

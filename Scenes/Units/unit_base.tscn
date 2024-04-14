@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://kkt6g2ery6vj"]
+[gd_scene load_steps=9 format=3 uid="uid://kkt6g2ery6vj"]
 
 [ext_resource type="Script" path="res://Code/Scripts/Units/unit_base.gd" id="1_j11gk"]
 [ext_resource type="Texture2D" uid="uid://1yaupgrvy6mm" path="res://Assets/Images/shadow.png" id="2_druni"]
@@ -39,6 +39,8 @@ texture_repeat = false
 material = SubResource("StandardMaterial3D_hncq6")
 size = Vector2(1.5, 1.5)
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_3ww6h"]
+
 [node name="UnitBase" type="CharacterBody3D" groups=["units"]]
 axis_lock_linear_z = true
 floor_snap_length = 1.0
@@ -65,3 +67,28 @@ libraries = {
 [node name="Shadow" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0445204, 0)
 mesh = SubResource("PlaneMesh_qe580")
+
+[node name="ScanRight" type="Area3D" parent="."]
+collision_mask = 6
+
+[node name="Box" type="CollisionShape3D" parent="ScanRight"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.15, 1, 0)
+shape = SubResource("BoxShape3D_3ww6h")
+
+[node name="ScanLeft" type="Area3D" parent="."]
+collision_mask = 6
+
+[node name="Box" type="CollisionShape3D" parent="ScanLeft"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.15, 1, 0)
+shape = SubResource("BoxShape3D_3ww6h")
+
+[node name="TerrainSlopeDetectLeft" type="SpringArm3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -0.5, 0.5, 0)
+
+[node name="TerrainSlopeDetectRight" type="SpringArm3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0.5, 0.5, 0)
+
+[connection signal="body_entered" from="ScanRight" to="." method="_on_scan_right_body_entered"]
+[connection signal="body_exited" from="ScanRight" to="." method="_on_scan_right_body_exited"]
+[connection signal="body_entered" from="ScanLeft" to="." method="_on_scan_left_body_entered"]
+[connection signal="body_exited" from="ScanLeft" to="." method="_on_scan_left_body_exited"]
