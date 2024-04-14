@@ -206,23 +206,32 @@ size_flags_vertical = 8
 
 [node name="OpponentSigil" parent="CanvasLayer/UI Container/OpponentSigilContainer" instance=ExtResource("7_56svx")]
 unique_name_in_owner = true
+modulate = Color(0.701961, 0, 0.576471, 1)
 position = Vector2(-130, 0)
 is_interactable = false
 
-[node name="CameraViewPoint" type="Node3D" parent="." node_paths=PackedStringArray("left_edge", "right_edge")]
+[node name="AnnounceContainer" type="CenterContainer" parent="CanvasLayer/UI Container"]
+layout_mode = 2
+
+[node name="AnnounceLabel" type="Label" parent="CanvasLayer/UI Container/AnnounceContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+
+[node name="CameraController" type="Node3D" parent="." node_paths=PackedStringArray("left_edge", "right_edge")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0)
 script = ExtResource("5_046qu")
 left_edge = NodePath("../Left Side Things (Player)")
 right_edge = NodePath("../Right Side Things (Enemy)")
 
-[node name="Camera Rotate" type="Node3D" parent="CameraViewPoint"]
+[node name="Camera Rotate" type="Node3D" parent="CameraController"]
 transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 0, 0)
 
-[node name="Camera Offset" type="Node3D" parent="CameraViewPoint/Camera Rotate"]
+[node name="Camera Offset" type="Node3D" parent="CameraController/Camera Rotate"]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 100)
 
-[node name="Camera Follow Point" type="Node3D" parent="CameraViewPoint/Camera Rotate/Camera Offset"]
+[node name="Camera Follow Point" type="Node3D" parent="CameraController/Camera Rotate/Camera Offset"]
 
 [node name="UnitManager" type="Node3D" parent="." node_paths=PackedStringArray("summon_default_position_left", "summon_default_position_right")]
 script = ExtResource("8_ha0w3")
@@ -236,7 +245,7 @@ fov = 30.0
 size = 60.0
 near = 5.0
 script = ExtResource("13_jv6l7")
-follow_target = NodePath("../CameraViewPoint/Camera Rotate/Camera Offset/Camera Follow Point")
+follow_target = NodePath("../CameraController/Camera Rotate/Camera Offset/Camera Follow Point")
 
 [node name="PlayerController" type="Node" parent="." node_paths=PackedStringArray("healthBar")]
 unique_name_in_owner = true

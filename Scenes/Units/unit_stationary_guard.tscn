@@ -54,37 +54,34 @@ knockback_multiplier_self = 0.0
 max_health = 200.0
 attack_range = 0.0
 damage = 0.0
-damage_tint = 0.0
 
 [node name="UnitAnimations" type="AnimationPlayer" parent="." index="1"]
 unique_name_in_owner = true
-root_node = NodePath("../Art2D")
+root_node = NodePath("../LaneOffset/Art2D")
 libraries = {
 "": SubResource("AnimationLibrary_yj3yy")
 }
 
-[node name="Art2D" type="Node3D" parent="." index="2"]
+[node name="Art2D" type="Node3D" parent="LaneOffset" index="0"]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.209154, 0)
 
-[node name="BodyTransform" type="Node3D" parent="Art2D" index="0"]
+[node name="BodyTransform" type="Node3D" parent="LaneOffset/Art2D" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.120237, 0, 0)
 
-[node name="LettuceGreen" type="MeshInstance3D" parent="Art2D/BodyTransform" index="0"]
+[node name="LettuceGreen" type="MeshInstance3D" parent="LaneOffset/Art2D/BodyTransform" index="0"]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.83654, 0)
 mesh = SubResource("QuadMesh_dqnig")
-skeleton = NodePath("../../..")
+skeleton = NodePath("../../../..")
 
-[node name="LettuceRed" type="MeshInstance3D" parent="Art2D/BodyTransform" index="1"]
+[node name="LettuceRed" type="MeshInstance3D" parent="LaneOffset/Art2D/BodyTransform" index="1"]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.83654, 0)
 visible = false
 mesh = SubResource("QuadMesh_aw138")
-skeleton = NodePath("../../..")
+skeleton = NodePath("../../../..")
 
-[node name="GoogleyEyesPair" parent="Art2D/BodyTransform" index="2" instance=ExtResource("5_iqxfc")]
+[node name="GoogleyEyesPair" parent="LaneOffset/Art2D/BodyTransform" index="2" instance=ExtResource("5_iqxfc")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.108245, 1.54743, 0)
 dampening = 0.9
-
-[node name="Shadow" parent="." index="4"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.130368, 0.00379139, 0)

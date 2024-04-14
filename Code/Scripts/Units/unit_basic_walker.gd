@@ -1,5 +1,7 @@
 class_name UnitBasicWalker extends UnitBase
 
+@export var attack_interval := 1.0
+
 @onready var _unit_anims := %UnitAnimations as AnimationPlayer
 @onready var _targeting_timer := %TargetingTimer as Timer
 
@@ -41,7 +43,8 @@ func _on_state_changed(_me : UnitBase, new_state : UnitState, old_state : UnitSt
 		
 		UnitState.MOVING: 
 			_unit_anims.play("walk")
-			_targeting_timer.start()
+			# Slight random offset to target timer so they don't synchronize.
+			_targeting_timer.start(attack_interval * 0.1 * (1.0 + randf()))
 		
 		UnitState.ATTACKING:
 			_unit_anims.play("attack")

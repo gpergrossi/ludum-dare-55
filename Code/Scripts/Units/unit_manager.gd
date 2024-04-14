@@ -55,6 +55,7 @@ func summon(unitType : String, spell_def : Dictionary, unit_position : Vector2, 
 	var unit := packed_scene.instantiate() as UnitBase
 	unit.consume_spell_def(spell_def)
 	unit.position = Vector3(unit_position.x, -unit_position.y, 0.0)
+	unit._lane_offset = Vector3(randf() * 2.0 - 1.0, 0.0, randf() * 2.0 - 1.0)
 	add_child(unit)
 	unit.team_name = team
 	
@@ -65,6 +66,7 @@ func _on_unit_kill_plane_left_body_entered(body : PhysicsBody3D):
 
 func _on_unit_kill_plane_right_body_entered(body : PhysicsBody3D):
 	_do_kill_plane(body, opponentController)
+
 
 func _do_kill_plane(body : PhysicsBody3D, target_caster : AbstractSpellCaster):
 	var unit := body as UnitBase
