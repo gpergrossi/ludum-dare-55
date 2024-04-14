@@ -3,8 +3,6 @@
 [ext_resource type="Script" path="res://Scenes/Important/googley_eye.gd" id="1_roj0n"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_q2u6q"]
-render_priority = 2
-no_depth_test = true
 albedo_color = Color(0, 0, 0, 1)
 metallic_specular = 0.48
 roughness = 0.2
@@ -15,8 +13,6 @@ material = SubResource("StandardMaterial3D_q2u6q")
 size = Vector2(0.495, 0.05)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rlpac"]
-render_priority = 1
-no_depth_test = true
 metallic_specular = 0.48
 roughness = 0.2
 emission_enabled = true
@@ -42,16 +38,19 @@ brow_visible = true
 [node name="Brow" type="MeshInstance3D" parent="."]
 unique_name_in_owner = true
 transform = Transform3D(0.98796, -0.15471, 0, 0.15471, 0.98796, 0, 0, 0, 1, 0, 0.25, 0.0309447)
+cast_shadow = 0
 mesh = SubResource("QuadMesh_8glqm")
 
 [node name="WhitePart" type="MeshInstance3D" parent="."]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
 sorting_offset = 10.0
+cast_shadow = 0
 mesh = SubResource("SphereMesh_pgpj6")
 
 [node name="BlackPart" type="MeshInstance3D" parent="."]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 0.15, -6.55671e-09, 0, -0.06, 0.000190973)
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 0.15, -6.55671e-09, 0, -0.0600002, 0.0542071)
 sorting_offset = 10.0
+cast_shadow = 0
 mesh = SubResource("SphereMesh_tj0mp")
