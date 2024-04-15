@@ -22,7 +22,7 @@ texture_repeat = false
 material = SubResource("StandardMaterial3D_hncq6")
 size = Vector2(3, 1.5)
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_kbbq5"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_bbq1d"]
 resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("3_7w2fu")
@@ -32,22 +32,23 @@ shader_parameter/specular = null
 shader_parameter/metallic = null
 shader_parameter/texture_albedo = ExtResource("4_v085u")
 
-[sub_resource type="QuadMesh" id="QuadMesh_72gyx"]
+[sub_resource type="QuadMesh" id="QuadMesh_6t0tr"]
 resource_local_to_scene = true
-material = SubResource("ShaderMaterial_kbbq5")
+material = SubResource("ShaderMaterial_bbq1d")
 size = Vector2(4.69, 1.82)
 
 [node name="UnitFlyingBomber" instance=ExtResource("1_eb3im")]
 script = ExtResource("2_uemwd")
 flapHeightMin = 8.0
-flapHeightMax = 30.0
+flapHeightMax = 35.0
 flapMagnitudeMin = 6.0
-flapMagnitudeMax = 17.0
+flapMagnitudeMax = 25.0
 moveSpeedMin = 6.0
-moveSpeedMax = 17.0
+moveSpeedMax = 25.0
 patrolRange = 0.9
 unit_name = "Flying Bomber"
 unit_move_type = 1
+max_health = 50.0
 
 [node name="Shadow" parent="LaneOffset" index="0"]
 mesh = SubResource("PlaneMesh_0vjf4")
@@ -62,7 +63,7 @@ asset_var_name = "crow_sprite"
 
 [node name="GreenCrowSprite" type="MeshInstance3D" parent="LaneOffset/FacingRotation/Sprites/BodyTransform/TeamSprite" index="0" instance=ExtResource("5_evmmp")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.22343, 0.905456, 0)
-mesh = SubResource("QuadMesh_72gyx")
+mesh = SubResource("QuadMesh_6t0tr")
 
 [node name="GoogleyEyesPair" parent="LaneOffset/FacingRotation/Sprites/BodyTransform" index="1" instance=ExtResource("6_2g7rt")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.32291, 0.673568, 0)
