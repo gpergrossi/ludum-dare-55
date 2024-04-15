@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://bqawklefsoqfx"]
+[gd_scene load_steps=11 format=3 uid="uid://bqawklefsoqfx"]
 
 [ext_resource type="PackedScene" uid="uid://kkt6g2ery6vj" path="res://Scenes/Units/unit_base.tscn" id="1_767v5"]
 [ext_resource type="Script" path="res://Code/Scripts/Units/unit_stationary_guard.gd" id="2_42hmg"]
@@ -9,7 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://civ0qmljlf0kk" path="res://Scenes/Important/googley_eyes_pair.tscn" id="5_iqxfc"]
 [ext_resource type="AudioStream" uid="uid://by43dp2devid0" path="res://Assets/sound/lettucecrunch.wav" id="7_fdh6r"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_mgnk2"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_yfuc2"]
 resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("3_8l4jg")
@@ -19,22 +19,14 @@ shader_parameter/specular = null
 shader_parameter/metallic = null
 shader_parameter/texture_albedo = ExtResource("4_0r405")
 
-[sub_resource type="QuadMesh" id="QuadMesh_i7lte"]
+[sub_resource type="QuadMesh" id="QuadMesh_hvw27"]
 resource_local_to_scene = true
-material = SubResource("ShaderMaterial_mgnk2")
+material = SubResource("ShaderMaterial_yfuc2")
 size = Vector2(3.78, 4.9)
-
-[sub_resource type="Animation" id="Animation_h2e2t"]
-resource_name = "defend"
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_yj3yy"]
-_data = {
-"defend": SubResource("Animation_h2e2t")
-}
 
 [node name="UnitStationaryGuard" instance=ExtResource("1_767v5")]
 script = ExtResource("2_42hmg")
-unit_name = "Stationary Guard"
+unit_name = "Lettuce Wall"
 top_speed = 0
 move_accel = 10000.0
 max_health = 300.0
@@ -53,20 +45,13 @@ asset_var_name = "lettuce_sprite"
 
 [node name="GreenLettuceSprite" type="MeshInstance3D" parent="LaneOffset/FacingRotation/Sprites/BodyTransform/Lettuce" index="0" instance=ExtResource("4_nrqie")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.22343, 2.42097, 0)
-mesh = SubResource("QuadMesh_i7lte")
+mesh = SubResource("QuadMesh_hvw27")
 
 [node name="GoogleyEyesPair" parent="LaneOffset/FacingRotation/Sprites/BodyTransform" index="1" instance=ExtResource("5_iqxfc")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.28206, 0)
 dampening = 0.9
 
-[node name="UnitAnimations" type="AnimationPlayer" parent="." index="1"]
-unique_name_in_owner = true
-root_node = NodePath("")
-libraries = {
-"": SubResource("AnimationLibrary_yj3yy")
-}
-
-[node name="Lettuce Crunch Sound Player" type="AudioStreamPlayer" parent="." index="3"]
+[node name="Lettuce Crunch Sound Player" type="AudioStreamPlayer" parent="." index="2"]
 unique_name_in_owner = true
 stream = ExtResource("7_fdh6r")
 volume_db = -20.0

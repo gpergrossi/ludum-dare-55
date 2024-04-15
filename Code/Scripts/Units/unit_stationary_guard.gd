@@ -1,7 +1,6 @@
 class_name UnitStationaryGuard extends UnitBase
 
 @onready var sound := %"Lettuce Crunch Sound Player" as AudioStreamPlayer;
-@onready var _unit_anims := %UnitAnimations as AnimationPlayer
 @onready var _body := %BodyTransform as Node3D
 
 var _damage_taken_rolling_dps := 0.0
