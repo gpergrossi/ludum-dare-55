@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://brw83d7inidir" path="res://Assets/mob/pumpkin_green.png" id="2_n5ywj"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_q6r08"]
+resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("1_ppvtb")
 shader_parameter/albedo = Color(1, 1, 1, 1)
@@ -13,6 +14,7 @@ shader_parameter/metallic = null
 shader_parameter/texture_albedo = ExtResource("2_n5ywj")
 
 [sub_resource type="QuadMesh" id="QuadMesh_hvl1r"]
+resource_local_to_scene = true
 material = SubResource("ShaderMaterial_q6r08")
 size = Vector2(4.83, 4.56)
 

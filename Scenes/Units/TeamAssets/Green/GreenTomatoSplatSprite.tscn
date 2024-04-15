@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://d33ae43o7hvtl" path="res://Assets/mob/tomatosplat_green.png" id="2_tyon3"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_fos22"]
+resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("1_cahb3")
 shader_parameter/albedo = Color(1, 1, 1, 1)
@@ -13,6 +14,7 @@ shader_parameter/metallic = null
 shader_parameter/texture_albedo = ExtResource("2_tyon3")
 
 [sub_resource type="QuadMesh" id="QuadMesh_atxpt"]
+resource_local_to_scene = true
 material = SubResource("ShaderMaterial_fos22")
 size = Vector2(3.13, 2.91)
 

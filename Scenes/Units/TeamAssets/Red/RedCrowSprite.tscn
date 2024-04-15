@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://d1ovdp4maetqk" path="res://Assets/mob/crow_red.png" id="2_i2k8p"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_y6s4k"]
+resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("1_yc5xh")
 shader_parameter/albedo = Color(1, 1, 1, 1)
@@ -13,6 +14,7 @@ shader_parameter/metallic = null
 shader_parameter/texture_albedo = ExtResource("2_i2k8p")
 
 [sub_resource type="QuadMesh" id="QuadMesh_jc23t"]
+resource_local_to_scene = true
 material = SubResource("ShaderMaterial_y6s4k")
 size = Vector2(4.69, 1.82)
 

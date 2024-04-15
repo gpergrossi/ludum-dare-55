@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://xdln7t1ygbom" path="res://Assets/mob/eggsplat_red.png" id="2_gu4k8"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ln2i3"]
+resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("1_ckppw")
 shader_parameter/albedo = Color(1, 1, 1, 1)
@@ -13,6 +14,7 @@ shader_parameter/metallic = null
 shader_parameter/texture_albedo = ExtResource("2_gu4k8")
 
 [sub_resource type="QuadMesh" id="QuadMesh_h0q2l"]
+resource_local_to_scene = true
 material = SubResource("ShaderMaterial_ln2i3")
 size = Vector2(1.66, 1.83)
 

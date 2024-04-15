@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://7fomyk4gvvpb" path="res://Assets/mob/cornprojectile_red.png" id="2_qrcke"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_2fm8n"]
+resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("1_mkl4u")
 shader_parameter/albedo = Color(1, 1, 1, 1)
@@ -13,6 +14,7 @@ shader_parameter/metallic = null
 shader_parameter/texture_albedo = ExtResource("2_qrcke")
 
 [sub_resource type="QuadMesh" id="QuadMesh_403sj"]
+resource_local_to_scene = true
 material = SubResource("ShaderMaterial_2fm8n")
 size = Vector2(0.24, 0.23)
 

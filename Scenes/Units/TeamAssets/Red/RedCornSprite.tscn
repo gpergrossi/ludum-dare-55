@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://ckjxq3d17uaqd" path="res://Assets/mob/corn_red.png" id="2_x275w"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_p254p"]
+resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("1_v3im1")
 shader_parameter/albedo = Color(1, 1, 1, 1)
@@ -13,6 +14,7 @@ shader_parameter/metallic = null
 shader_parameter/texture_albedo = ExtResource("2_x275w")
 
 [sub_resource type="QuadMesh" id="QuadMesh_42pxq"]
+resource_local_to_scene = true
 material = SubResource("ShaderMaterial_p254p")
 size = Vector2(1.83, 4.81)
 

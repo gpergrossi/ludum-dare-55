@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://dhhldltpwq1uw" path="res://Assets/mob/fallingcarrot_red.png" id="2_73khv"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_w8ull"]
+resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("1_asx2s")
 shader_parameter/albedo = Color(1, 1, 1, 1)
@@ -13,6 +14,7 @@ shader_parameter/metallic = null
 shader_parameter/texture_albedo = ExtResource("2_73khv")
 
 [sub_resource type="QuadMesh" id="QuadMesh_pd2r5"]
+resource_local_to_scene = true
 material = SubResource("ShaderMaterial_w8ull")
 size = Vector2(1.66, 4.91)
 

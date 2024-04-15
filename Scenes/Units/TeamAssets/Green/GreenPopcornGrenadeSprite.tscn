@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://cogjkfc1pgemp" path="res://Assets/mob/popcorngrenade_green.png" id="2_i2123"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_111vh"]
+resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("1_4t8n7")
 shader_parameter/albedo = Color(1, 1, 1, 1)
@@ -13,6 +14,7 @@ shader_parameter/metallic = null
 shader_parameter/texture_albedo = ExtResource("2_i2123")
 
 [sub_resource type="QuadMesh" id="QuadMesh_vjj01"]
+resource_local_to_scene = true
 material = SubResource("ShaderMaterial_111vh")
 size = Vector2(0.61, 0.76)
 

@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://b6ajukt6chu68" path="res://Assets/mob/broccoli_red.png" id="2_3bxuu"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_mjthq"]
+resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("1_na8r8")
 shader_parameter/albedo = Color(1, 1, 1, 1)
@@ -13,6 +14,7 @@ shader_parameter/metallic = null
 shader_parameter/texture_albedo = ExtResource("2_3bxuu")
 
 [sub_resource type="QuadMesh" id="QuadMesh_6sy0x"]
+resource_local_to_scene = true
 material = SubResource("ShaderMaterial_mjthq")
 size = Vector2(2.85, 4.08)
 
