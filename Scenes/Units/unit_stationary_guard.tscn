@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://bqawklefsoqfx"]
+[gd_scene load_steps=15 format=3 uid="uid://bqawklefsoqfx"]
 
 [ext_resource type="PackedScene" uid="uid://kkt6g2ery6vj" path="res://Scenes/Units/unit_base.tscn" id="1_767v5"]
 [ext_resource type="Script" path="res://Code/Scripts/Units/unit_stationary_guard.gd" id="2_42hmg"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://5swkwfkufl1m" path="res://Assets/mob/lettuce_green.png" id="4_0r405"]
 [ext_resource type="PackedScene" uid="uid://civ0qmljlf0kk" path="res://Scenes/Important/googley_eyes_pair.tscn" id="5_iqxfc"]
 [ext_resource type="Texture2D" uid="uid://cpf2une6g0xhq" path="res://Assets/mob/lettuce_red.png" id="5_n08ao"]
+[ext_resource type="AudioStream" uid="uid://by43dp2devid0" path="res://Assets/sound/lettucecrunch.wav" id="7_fdh6r"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_j2c36"]
 radius = 0.637
@@ -92,3 +93,8 @@ skeleton = NodePath("../../../..")
 [node name="GoogleyEyesPair" parent="LaneOffset/Art2D/BodyTransform" index="2" instance=ExtResource("5_iqxfc")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.28206, 0)
 dampening = 0.9
+
+[node name="Lettuce Crunch Sound Player" type="AudioStreamPlayer" parent="." index="5"]
+unique_name_in_owner = true
+stream = ExtResource("7_fdh6r")
+volume_db = -20.0

@@ -1,5 +1,6 @@
 class_name UnitStationaryGuard extends UnitBase
 
+@onready var sound := %"Lettuce Crunch Sound Player" as AudioStreamPlayer;
 @onready var _unit_anims := %UnitAnimations as AnimationPlayer
 @onready var _body := %BodyTransform as Node3D
 
@@ -18,6 +19,7 @@ func damage_target():
 
 func _on_damage_taken(_me : UnitBase, damage_amount : float, _new_health : float):
 	_damage_taken_rolling_dps += damage_amount
+	sound.play();
 
 
 func _on_state_changed(_me : UnitBase, new_state : UnitState, _old_state : UnitState):
