@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://dre3aolektu3m"]
+
+[ext_resource type="PackedScene" uid="uid://yq28ppervjq4" path="res://Assets/Models/Rock_02.glb" id="1_eubxu"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_npp8t"]
+radius = 1.0
+
+[node name="Rock_02" instance=ExtResource("1_eubxu")]
+
+[node name="SpawnRadius" type="Area3D" parent="." index="1"]
+input_ray_pickable = false
+monitoring = false
+monitorable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SpawnRadius" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.230715, 0)
+shape = SubResource("SphereShape3D_npp8t")

@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://ddjbrnypilhof"]
+[gd_scene load_steps=25 format=3 uid="uid://ddjbrnypilhof"]
 
 [ext_resource type="Script" path="res://Code/Classes/OpponentController.gd" id="1_dy58u"]
 [ext_resource type="Script" path="res://Code/Classes/PlayerController.gd" id="1_uq66x"]
@@ -12,7 +12,7 @@
 [ext_resource type="Script" path="res://Code/Scripts/Units/unit_manager.gd" id="8_ha0w3"]
 [ext_resource type="PackedScene" uid="uid://dub5xj3whpcmw" path="res://Scenes/PositionSelector/position_selector.tscn" id="9_ypx28"]
 [ext_resource type="Script" path="res://Code/Scripts/camera_follow.gd" id="13_jv6l7"]
-[ext_resource type="PackedScene" uid="uid://db6isycrw3qsa" path="res://Scenes/Props/bird_flock.tscn" id="16_ctnln"]
+[ext_resource type="PackedScene" path="res://Scenes/Props/bird_flock.tscn" id="16_ctnln"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_cv4jk"]
 
@@ -72,8 +72,10 @@ directional_shadow_split_1 = 0.2
 directional_shadow_split_2 = 0.4
 directional_shadow_split_3 = 0.6
 directional_shadow_max_distance = 300.0
+metadata/_edit_lock_ = true
 
 [node name="Scenery" parent="." instance=ExtResource("4_a7gfu")]
+metadata/_edit_lock_ = true
 
 [node name="TerrainGen" parent="." instance=ExtResource("2_mh00c")]
 unique_name_in_owner = true
@@ -84,9 +86,11 @@ background_z_curve = SubResource("Curve_7xy4i")
 lane_depth = 3
 foreground_depth = 30
 background_depth = 30
+metadata/_edit_lock_ = true
 
 [node name="Left Side Things (Player)" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -55, 0, 0)
+metadata/_edit_group_ = true
 
 [node name="Stop Left Units and Flyers" type="StaticBody3D" parent="Left Side Things (Player)"]
 collision_layer = 12
@@ -114,6 +118,7 @@ fraction = 0.637
 
 [node name="Right Side Things (Enemy)" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 55, 0, 0)
+metadata/_edit_group_ = true
 
 [node name="Stop Right Units and Flyers" type="StaticBody3D" parent="Right Side Things (Enemy)"]
 collision_layer = 10
@@ -136,6 +141,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.86055, -9.53674e-07, 0.000
 [node name="EnemyHealthBar" parent="Right Side Things (Enemy)" instance=ExtResource("6_jfgym")]
 transform = Transform3D(15, 0, 0, 0, 15, 0, 0, 0, 15, 0, 20, 0)
 fraction = 0.637
+metadata/_edit_lock_ = true
 
 [node name="PlayerBarn2" parent="Right Side Things (Enemy)" instance=ExtResource("6_nwu4v")]
 
@@ -236,6 +242,5 @@ healthBar = NodePath("../Right Side Things (Enemy)/EnemyHealthBar")
 [node name="BirdFlock" parent="." instance=ExtResource("16_ctnln")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -600, 25, -150)
 
-[connection signal="body_entered" from="Ground/Y Kill Plane" to="Ground/Y Kill Plane" method="_on_body_entered"]
 [connection signal="body_entered" from="Left Side Things (Player)/Kill Enemy Units" to="UnitManager" method="_on_unit_kill_plane_left_body_entered"]
 [connection signal="body_entered" from="Right Side Things (Enemy)/Kill Player Units" to="UnitManager" method="_on_unit_kill_plane_right_body_entered"]
