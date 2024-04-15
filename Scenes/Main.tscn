@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://ddjbrnypilhof"]
+[gd_scene load_steps=28 format=3 uid="uid://ddjbrnypilhof"]
 
 [ext_resource type="Script" path="res://Code/Classes/OpponentController.gd" id="1_dy58u"]
 [ext_resource type="Script" path="res://Code/Classes/PlayerController.gd" id="1_uq66x"]
@@ -11,6 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://cnfygjo801chm" path="res://Scenes/Sigil/sigil.tscn" id="7_56svx"]
 [ext_resource type="Script" path="res://Code/Scripts/Units/unit_manager.gd" id="8_ha0w3"]
 [ext_resource type="PackedScene" uid="uid://dub5xj3whpcmw" path="res://Scenes/PositionSelector/position_selector.tscn" id="9_ypx28"]
+[ext_resource type="Script" path="res://Scenes/ProjectileManager.gd" id="11_movbk"]
 [ext_resource type="AudioStream" uid="uid://b6pi35hy72g4r" path="res://Assets/sound/spellsuccess.wav" id="12_1q0wg"]
 [ext_resource type="AudioStream" uid="uid://b2pohh20c130" path="res://Assets/sound/spellfizzle.wav" id="13_h1i8k"]
 [ext_resource type="Script" path="res://Code/Scripts/camera_follow.gd" id="13_jv6l7"]
@@ -28,6 +29,11 @@ sky = SubResource("Sky_em07v")
 fog_light_color = Color(0.466667, 0.552941, 0, 1)
 fog_light_energy = 0.79
 fog_density = 0.0044
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_3sww6"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kn3u8"]
+bg_color = Color(0.580392, 0.513726, 1, 1)
 
 [sub_resource type="Curve" id="Curve_3mu6w"]
 resource_local_to_scene = true
@@ -55,17 +61,34 @@ plane = Plane(1, 0, 0, 0)
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_w46i8"]
 plane = Plane(-1, 0, 0, 0)
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_3sww6"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kn3u8"]
-bg_color = Color(0.580392, 0.513726, 1, 1)
-
 [node name="Main" type="Node3D"]
-
-[node name="TeamDefinitions" type="Node3D" parent="."]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_e4w5b")
+
+[node name="MainCamera" type="Camera3D" parent="." node_paths=PackedStringArray("follow_target")]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 35.8819, 96.5926)
+fov = 30.0
+size = 60.0
+near = 5.0
+script = ExtResource("13_jv6l7")
+follow_target = NodePath("../CameraController/Camera Rotate/Camera Offset/Camera Follow Point")
+
+[node name="CameraController" type="Node3D" parent="." node_paths=PackedStringArray("left_edge", "right_edge")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0)
+script = ExtResource("5_046qu")
+left_edge = NodePath("../Left Side Things (Player)")
+right_edge = NodePath("../Right Side Things (Enemy)")
+
+[node name="Camera Rotate" type="Node3D" parent="CameraController"]
+transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 0, 0)
+
+[node name="Camera Offset" type="Node3D" parent="CameraController/Camera Rotate"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 100)
+
+[node name="Camera Follow Point" type="Node3D" parent="CameraController/Camera Rotate/Camera Offset"]
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.790833, -0.436582, 0.428927, 0.1096, 0.790518, 0.602552, -0.602138, -0.429508, 0.673017, 0, 27.1219, 0)
@@ -76,8 +99,66 @@ directional_shadow_split_3 = 0.6
 directional_shadow_max_distance = 300.0
 metadata/_edit_lock_ = true
 
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="UI Container" type="PanelContainer" parent="CanvasLayer"]
+unique_name_in_owner = true
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 1
+theme_override_styles/panel = SubResource("StyleBoxEmpty_3sww6")
+script = ExtResource("5_mdxii")
+
+[node name="PlayerManaBarUi" type="ProgressBar" parent="CanvasLayer/UI Container"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(400, 20)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+theme_override_styles/fill = SubResource("StyleBoxFlat_kn3u8")
+value = 80.0
+
+[node name="PlayerSigilContainer" type="CenterContainer" parent="CanvasLayer/UI Container"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+
+[node name="Sigil" parent="CanvasLayer/UI Container/PlayerSigilContainer" instance=ExtResource("7_56svx")]
+unique_name_in_owner = true
+position = Vector2(0, 0)
+
+[node name="OpponentSigilContainer" type="CenterContainer" parent="CanvasLayer/UI Container"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+
+[node name="OpponentSigil" parent="CanvasLayer/UI Container/OpponentSigilContainer" instance=ExtResource("7_56svx")]
+unique_name_in_owner = true
+modulate = Color(0.701961, 0, 0.576471, 1)
+position = Vector2(-130, 0)
+is_interactable = false
+
+[node name="AnnounceContainer" type="CenterContainer" parent="CanvasLayer/UI Container"]
+layout_mode = 2
+
+[node name="AnnounceLabel" type="Label" parent="CanvasLayer/UI Container/AnnounceContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+
+[node name="PositionSelector" parent="CanvasLayer" instance=ExtResource("9_ypx28")]
+unique_name_in_owner = true
+
 [node name="Scenery" parent="." instance=ExtResource("4_a7gfu")]
 metadata/_edit_lock_ = true
+
+[node name="BirdFlock" parent="." instance=ExtResource("16_ctnln")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -600, 25, -150)
 
 [node name="TerrainGen" parent="." instance=ExtResource("2_mh00c")]
 unique_name_in_owner = true
@@ -147,89 +228,16 @@ metadata/_edit_lock_ = true
 
 [node name="PlayerBarn2" parent="Right Side Things (Enemy)" instance=ExtResource("6_nwu4v")]
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-
-[node name="UI Container" type="PanelContainer" parent="CanvasLayer"]
-unique_name_in_owner = true
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-mouse_filter = 1
-theme_override_styles/panel = SubResource("StyleBoxEmpty_3sww6")
-script = ExtResource("5_mdxii")
-
-[node name="PlayerManaBarUi" type="ProgressBar" parent="CanvasLayer/UI Container"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(400, 20)
-layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 8
-theme_override_styles/fill = SubResource("StyleBoxFlat_kn3u8")
-value = 80.0
-
-[node name="PlayerSigilContainer" type="CenterContainer" parent="CanvasLayer/UI Container"]
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 8
-
-[node name="Sigil" parent="CanvasLayer/UI Container/PlayerSigilContainer" instance=ExtResource("7_56svx")]
-unique_name_in_owner = true
-position = Vector2(0, 0)
-
-[node name="OpponentSigilContainer" type="CenterContainer" parent="CanvasLayer/UI Container"]
-layout_mode = 2
-size_flags_horizontal = 8
-size_flags_vertical = 8
-
-[node name="OpponentSigil" parent="CanvasLayer/UI Container/OpponentSigilContainer" instance=ExtResource("7_56svx")]
-unique_name_in_owner = true
-modulate = Color(0.701961, 0, 0.576471, 1)
-position = Vector2(-130, 0)
-is_interactable = false
-
-[node name="AnnounceContainer" type="CenterContainer" parent="CanvasLayer/UI Container"]
-layout_mode = 2
-
-[node name="AnnounceLabel" type="Label" parent="CanvasLayer/UI Container/AnnounceContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_font_sizes/font_size = 30
-
-[node name="PositionSelector" parent="CanvasLayer" instance=ExtResource("9_ypx28")]
-unique_name_in_owner = true
-
-[node name="CameraController" type="Node3D" parent="." node_paths=PackedStringArray("left_edge", "right_edge")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0)
-script = ExtResource("5_046qu")
-left_edge = NodePath("../Left Side Things (Player)")
-right_edge = NodePath("../Right Side Things (Enemy)")
-
-[node name="Camera Rotate" type="Node3D" parent="CameraController"]
-transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 0, 0)
-
-[node name="Camera Offset" type="Node3D" parent="CameraController/Camera Rotate"]
-unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 100)
-
-[node name="Camera Follow Point" type="Node3D" parent="CameraController/Camera Rotate/Camera Offset"]
+[node name="TeamDefinitions" type="Node3D" parent="."]
 
 [node name="UnitManager" type="Node3D" parent="." node_paths=PackedStringArray("summon_default_position_left", "summon_default_position_right")]
 script = ExtResource("8_ha0w3")
 summon_default_position_left = NodePath("../Left Side Things (Player)/Default Spawn Position")
 summon_default_position_right = NodePath("../Right Side Things (Enemy)/Default Spawn Position")
 
-[node name="MainCamera" type="Camera3D" parent="." node_paths=PackedStringArray("follow_target")]
+[node name="ProjectileManager" type="Node3D" parent="."]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 35.8819, 96.5926)
-fov = 30.0
-size = 60.0
-near = 5.0
-script = ExtResource("13_jv6l7")
-follow_target = NodePath("../CameraController/Camera Rotate/Camera Offset/Camera Follow Point")
+script = ExtResource("11_movbk")
 
 [node name="PlayerController" type="Node" parent="." node_paths=PackedStringArray("healthBar")]
 unique_name_in_owner = true
@@ -251,9 +259,6 @@ max_polyphony = 2
 unique_name_in_owner = true
 script = ExtResource("1_dy58u")
 healthBar = NodePath("../Right Side Things (Enemy)/EnemyHealthBar")
-
-[node name="BirdFlock" parent="." instance=ExtResource("16_ctnln")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -600, 25, -150)
 
 [connection signal="body_entered" from="Left Side Things (Player)/Kill Enemy Units" to="UnitManager" method="_on_unit_kill_plane_left_body_entered"]
 [connection signal="body_entered" from="Right Side Things (Enemy)/Kill Player Units" to="UnitManager" method="_on_unit_kill_plane_right_body_entered"]
