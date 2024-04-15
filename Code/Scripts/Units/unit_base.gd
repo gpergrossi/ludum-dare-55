@@ -460,31 +460,40 @@ func _find_nearest_target_with_scanners(max_range : float) -> UnitBase:
 	var nearest_distance_squared = max_range * max_range
 	
 	# Gets a list of enemies from the left or right side detection area
+	var candidates = _get_possible_targets();
+	
+	# Search all units in detection area
+	for unit in candidates:
+		var distance_squared = global_position.distance_squared_to(unit.global_position)
+		if distance_squared < nearest_distance_squared:
+			nearest_enemy = unit
+			nearest_distance_squared = distance_squared
+	
+	return nearest_enemy
+
+func _get_possible_targets():
 	_clean_target_lists()
 	var other_units := _right_list
 	if team == TeamDefs.Enemy:
 		other_units = _left_list
 	
-	# Search all units in detection area
+	var candidates = [];
 	for in_group in other_units:  # Could speed up with 1d tree even.
-		var candidate_unit := in_group as UnitBase
-		assert(candidate_unit, "All units should be UnitBase")
-		if team == candidate_unit.team:
-			continue
-		if candidate_unit._state == UnitState.DEAD:
-			continue
-		
-		var distance_squared = global_position.distance_squared_to(candidate_unit.global_position)
-		if distance_squared < nearest_distance_squared:
-			nearest_enemy = candidate_unit
-			nearest_distance_squared = distance_squared
+		if (_isValidTarget(in_group)):
+			candidates.push_back(in_group);
 	
-	return nearest_enemy
+	return candidates;
 
+func _isValidTarget(in_group):
+	var candidate_unit := in_group as UnitBase
+	assert(candidate_unit, "All units should be UnitBase")
+	if team == candidate_unit.team: return false;
+	if candidate_unit._state == UnitState.DEAD: return false;
+	return true;
+  
 ################################################################################
 ######   END TARGET AQUISITION   ############################################
 ##########################################################################
-
 
 func set_lane_offset(offset : Vector3):
 	_lane_offset = offset
