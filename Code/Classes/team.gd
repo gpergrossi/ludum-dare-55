@@ -2,8 +2,8 @@
 class_name Team
 
 static func _static_init():
-	green_assets = preload("res://Scenes/Units/TeamAssets/Green/TeamAssetsGreen.tres") as TeamAssets
-	red_assets = preload("res://Scenes/Units/TeamAssets/Red/TeamAssetsRed.tres") as TeamAssets
+	green_assets = load("res://Scenes/Units/TeamAssets/Green/TeamAssetsGreen.tres") as TeamAssets
+	red_assets = load("res://Scenes/Units/TeamAssets/Red/TeamAssetsRed.tres") as TeamAssets
 	PLAYER_TEST = Team.new(TeamColor.GREEN, TeamSide.LEFT, TeamCharacter.AZRA, TeamController.PLAYER)
 	ENEMY_TEST = Team.new(TeamColor.RED, TeamSide.RIGHT, TeamCharacter.RORY, TeamController.AI)
 

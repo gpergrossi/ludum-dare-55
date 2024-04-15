@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-[gd_scene load_steps=23 format=3 uid="uid://ddjbrnypilhof"]
-=======
-[gd_scene load_steps=27 format=3 uid="uid://ddjbrnypilhof"]
->>>>>>> ea782841c05502ca7949e949b2841f7546499dfa
+[gd_scene load_steps=25 format=3 uid="uid://ddjbrnypilhof"]
 
 [ext_resource type="Script" path="res://Code/Classes/OpponentController.gd" id="1_dy58u"]
 [ext_resource type="Script" path="res://Code/Classes/PlayerController.gd" id="1_uq66x"]
@@ -18,7 +14,7 @@
 [ext_resource type="AudioStream" uid="uid://b6pi35hy72g4r" path="res://Assets/sound/spellsuccess.wav" id="12_1q0wg"]
 [ext_resource type="AudioStream" uid="uid://b2pohh20c130" path="res://Assets/sound/spellfizzle.wav" id="13_h1i8k"]
 [ext_resource type="Script" path="res://Code/Scripts/camera_follow.gd" id="13_jv6l7"]
-[ext_resource type="PackedScene" uid="uid://db6isycrw3qsa" path="res://Scenes/Props/bird_flock.tscn" id="16_ctnln"]
+[ext_resource type="PackedScene" path="res://Scenes/Props/bird_flock.tscn" id="16_ctnln"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_cv4jk"]
 

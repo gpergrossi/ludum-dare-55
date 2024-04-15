@@ -299,7 +299,7 @@ func is_valid_target(candidate : UnitBase) -> bool:
 
 func get_unit_type_mask(unit : UnitBase) -> UnitTypeMask:
 	if unit is UnitBasicWalker: return UnitTypeMask.BROCOLLI
-	#if unit is UnitFlyingBomber: return UnitTypeMask.CROW
-	#if unit is UnitStationaryGuard: return UnitTypeMask.LETTUCE
+	if unit is UnitFlyingBomber: return UnitTypeMask.CROW
+	if unit is UnitStationaryGuard: return UnitTypeMask.LETTUCE
 	assert(false)
 	return 0

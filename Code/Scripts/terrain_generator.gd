@@ -19,8 +19,8 @@ class_name TerrainGenerator extends Node3D
 
 @onready var terrain_mesh_instance := %Terrain as MeshInstance3D
 @onready var collision_heightmap := %CollisionHeightmap as CollisionShape3D
-@onready var material_lane := preload("res://Scenes/Terrain/terrain_gen_lane.material") as StandardMaterial3D
-@onready var material_ground := preload("res://Scenes/Terrain/terrain_gen_ground.material") as StandardMaterial3D
+@onready var material_lane := load("res://Scenes/Terrain/terrain_gen_lane.material") as StandardMaterial3D
+@onready var material_ground := load("res://Scenes/Terrain/terrain_gen_ground.material") as StandardMaterial3D
 
 var _dirty = true
 
