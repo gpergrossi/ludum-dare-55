@@ -48,7 +48,7 @@ shape = SubResource("BoxShape3D_3ww6h")
 
 [node name="Shadow" type="MeshInstance3D" parent="LaneOffset"]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.159912, 0.127769)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.172081, 0.127769)
 mesh = SubResource("PlaneMesh_qe580")
 skeleton = NodePath("../..")
 

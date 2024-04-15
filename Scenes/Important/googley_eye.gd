@@ -13,9 +13,13 @@ class_name GoogleyEye extends Node3D
 @export var brow_height := 0.25 : set = set_brow_height
 @export var brow_thickness := 0.05 : set = set_brow_thickness
 
-@onready var brow := %Brow as MeshInstance3D
-@onready var black_part := %BlackPart as MeshInstance3D
+@onready var brow_front := %Brow as MeshInstance3D
+@onready var brow_back := %Brow2 as MeshInstance3D
+@onready var black_part_front := %BlackPart as MeshInstance3D
+@onready var black_part_back  := %BlackPart2 as MeshInstance3D
+@onready var pupils  := %Pupils as Node3D
 @onready var white_part := %WhitePart as MeshInstance3D
+
 
 
 var pupil_vel := Vector2.ZERO
@@ -65,8 +69,8 @@ func _physics_process(delta : float):
 			pupil_vel -= outward_vel
 	
 	# Actually move the black part
-	black_part.position.x = pupil_pos.x
-	black_part.position.y = pupil_pos.y
+	pupils.position.x = pupil_pos.x
+	pupils.position.y = pupil_pos.y
 	
 	# Pull toward previous world position
 	var pull := (white_part.global_position - prev_pupil_pos) * 0.5
@@ -84,31 +88,42 @@ func set_radius_white(r : float):
 
 func set_radius_black(r : float):
 	radius_black = r
-	if is_instance_valid(black_part):
-		var sphere := black_part.mesh as SphereMesh
+	if is_instance_valid(black_part_front):
+		var sphere := black_part_front.mesh as SphereMesh
+		sphere.radius = r
+	if is_instance_valid(black_part_back):
+		var sphere := black_part_back.mesh as SphereMesh
 		sphere.radius = r
 	
 
 func set_brow_visible(b : bool):
 	brow_visible = b
-	if is_instance_valid(brow):
-		brow.visible = b
+	if is_instance_valid(brow_front):
+		brow_front.visible = b
+	if is_instance_valid(brow_back):
+		brow_back.visible = b
 
 
 func set_brow_tilt(tilt : float):
 	brow_tilt = tilt
-	if is_instance_valid(brow):
-		brow.rotation_degrees.z = tilt
+	if is_instance_valid(brow_front):
+		brow_front.rotation_degrees.z = tilt
+	if is_instance_valid(brow_back):
+		brow_back.rotation_degrees.z = tilt
 
 
 func set_brow_height(height : float):
 	brow_height = height
-	if is_instance_valid(brow):
-		brow.position.y = height
+	if is_instance_valid(brow_front):
+		brow_front.position.y = height
+	if is_instance_valid(brow_back):
+		brow_back.position.y = height
 
 
 func set_brow_thickness(thick : float):
 	brow_thickness = thick
-	if is_instance_valid(brow):
-		(brow.mesh as QuadMesh).size.y = thick
+	if is_instance_valid(brow_front):
+		(brow_front.mesh as QuadMesh).size.y = thick
+	if is_instance_valid(brow_back):
+		(brow_back.mesh as QuadMesh).size.y = thick
 	

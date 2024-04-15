@@ -174,7 +174,7 @@ wait_time = 0.25
 unique_name_in_owner = true
 
 [node name="BodyTransform" type="Node3D" parent="LaneOffset/Art2D" index="0"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.10672, 0.209, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.107, 0.289, 0)
 
 [node name="BrocolliGreen" type="MeshInstance3D" parent="LaneOffset/Art2D/BodyTransform" index="0"]
 unique_name_in_owner = true
