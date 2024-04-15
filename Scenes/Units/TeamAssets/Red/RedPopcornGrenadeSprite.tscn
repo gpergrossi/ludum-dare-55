@@ -1,0 +1,20 @@
+[gd_scene load_steps=5 format=3 uid="uid://dq04if3pww01i"]
+
+[ext_resource type="Shader" path="res://Code/Shaders/unit_sprite.gdshader" id="1_j4ekx"]
+[ext_resource type="Texture2D" uid="uid://culsabsrb4eie" path="res://Assets/mob/popcorngrenade_red.png" id="2_ektsc"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_btd0j"]
+render_priority = 0
+shader = ExtResource("1_j4ekx")
+shader_parameter/albedo = Color(1, 1, 1, 1)
+shader_parameter/roughness = null
+shader_parameter/specular = null
+shader_parameter/metallic = null
+shader_parameter/texture_albedo = ExtResource("2_ektsc")
+
+[sub_resource type="QuadMesh" id="QuadMesh_gyi4w"]
+material = SubResource("ShaderMaterial_btd0j")
+size = Vector2(0.61, 0.76)
+
+[node name="RedPopcornGrenadeSprite" type="MeshInstance3D"]
+mesh = SubResource("QuadMesh_gyi4w")

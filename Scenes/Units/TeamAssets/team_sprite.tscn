@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://bhp551sabqfag"]
+
+[ext_resource type="Script" path="res://Scenes/Units/TeamAssets/TeamSprite.gd" id="1_axmrp"]
+
+[node name="TeamSprite" type="Node3D"]
+script = ExtResource("1_axmrp")
+asset_var_name = "brocolli_spear_sprite"

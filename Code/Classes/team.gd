@@ -1,37 +1,71 @@
-class_name Team extends Resource
+@tool
+class_name Team
 
-var team_name : String   : set = set_team_name
-var team_number : int    : set = set_team_number
-var team_color : Color   : set = set_team_color
-var team_side : int      : set = set_team_side
-var _initialized := false
+static func _static_init():
+	green_assets = preload("res://Scenes/Units/TeamAssets/Green/TeamAssetsGreen.tres") as TeamAssets
+	red_assets = preload("res://Scenes/Units/TeamAssets/Red/TeamAssetsRed.tres") as TeamAssets
 
-func _init(name : String, number : int, color : Color, side : int):
-	team_name = name
-	team_number = number
-	team_color = color
-	team_side = side
-	_initialized = true
+static var green_assets : TeamAssets
+static var red_assets : TeamAssets
 
-func set_team_name(val : String):
-	# Ignore setter after initialization
-	if _initialized: return
-	team_name = val
+enum TeamColor {
+	GREEN,
+	RED
+}
 
-func set_team_number(val : int):
-	# Ignore setter after initialization
-	if _initialized: return
-	team_number = val
+enum TeamSide {
+	LEFT,
+	RIGHT
+}
 
-func set_team_color(val : Color):
-	# Ignore setter after initialization
-	if _initialized: return
-	team_color = val
+enum TeamCharacter {
+	AZRA,
+	RORY
+}
 
-func set_team_side(val : int):
-	# Ignore setter after initialization
-	if _initialized: return
-	team_side = val
+enum TeamController {
+	PLAYER,
+	AI
+}
 
-func get_team_move_x() -> float:
-	return -team_side
+var color : TeamColor
+var side : TeamSide
+var character : TeamCharacter
+var controller : TeamController
+
+func _init(color_ : TeamColor, side_ : TeamSide, character_ : TeamCharacter, controller_ : TeamController):
+	color = color_
+	side = side_
+	character = character_
+	controller = controller_
+
+func get_assets() -> TeamAssets:
+	match(color):
+		TeamColor.GREEN:  return green_assets
+		TeamColor.RED:  return red_assets
+		_:  assert(false, ":(");  return null
+
+func get_barn_asset() -> PackedScene:
+	var assets := get_assets()
+	match(side):
+		TeamSide.LEFT:  return assets.barn_asset_left
+		TeamSide.RIGHT:  return assets.barn_asset_right
+		_:  assert(false, ":(");  return null
+
+func get_move_direction_x() -> int:
+	match(side):
+		TeamSide.LEFT:  return 1
+		TeamSide.RIGHT:  return -1
+		_:  assert(false, ":(");  return 0
+
+func get_character_name() -> String:
+	match(character):
+		TeamCharacter.AZRA:  return "Azra"
+		TeamCharacter.RORY:  return "Rory"
+		_:  assert(false, ":(");  return ""
+
+func get_controlled_by_name() -> String:
+	match(controller):
+		TeamController.PLAYER:  return "Player"
+		TeamController.AI:  return "AI"
+		_:  assert(false, ":(");  return ""

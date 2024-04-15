@@ -1,0 +1,21 @@
+[gd_scene load_steps=5 format=3 uid="uid://cxy2uj8uhmxer"]
+
+[ext_resource type="Shader" path="res://Code/Shaders/unit_sprite.gdshader" id="1_asx2s"]
+[ext_resource type="Texture2D" uid="uid://dhhldltpwq1uw" path="res://Assets/mob/fallingcarrot_red.png" id="2_73khv"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_w8ull"]
+render_priority = 0
+shader = ExtResource("1_asx2s")
+shader_parameter/albedo = Color(1, 1, 1, 1)
+shader_parameter/roughness = null
+shader_parameter/specular = null
+shader_parameter/metallic = null
+shader_parameter/texture_albedo = ExtResource("2_73khv")
+
+[sub_resource type="QuadMesh" id="QuadMesh_pd2r5"]
+material = SubResource("ShaderMaterial_w8ull")
+size = Vector2(1.66, 4.91)
+
+[node name="RedCarrotFallingSprite" type="MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0632946, 0.917524, 0)
+mesh = SubResource("QuadMesh_pd2r5")

@@ -1,0 +1,21 @@
+[gd_scene load_steps=5 format=3 uid="uid://cqev3ghm5cq7m"]
+
+[ext_resource type="Shader" path="res://Code/Shaders/unit_sprite.gdshader" id="1_yc5xh"]
+[ext_resource type="Texture2D" uid="uid://d1ovdp4maetqk" path="res://Assets/mob/crow_red.png" id="2_i2k8p"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_y6s4k"]
+render_priority = 0
+shader = ExtResource("1_yc5xh")
+shader_parameter/albedo = Color(1, 1, 1, 1)
+shader_parameter/roughness = null
+shader_parameter/specular = null
+shader_parameter/metallic = null
+shader_parameter/texture_albedo = ExtResource("2_i2k8p")
+
+[sub_resource type="QuadMesh" id="QuadMesh_jc23t"]
+material = SubResource("ShaderMaterial_y6s4k")
+size = Vector2(4.69, 1.82)
+
+[node name="RedCrowSprite" type="MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.22343, 0.905456, 0)
+mesh = SubResource("QuadMesh_jc23t")

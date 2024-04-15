@@ -1,0 +1,21 @@
+[gd_scene load_steps=5 format=3 uid="uid://byrhn5prsqo6c"]
+
+[ext_resource type="Shader" path="res://Code/Shaders/unit_sprite.gdshader" id="1_6sr8j"]
+[ext_resource type="Texture2D" uid="uid://b33bj8e2vxw7s" path="res://Assets/mob/crow_green.png" id="2_w1y16"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_cyvii"]
+render_priority = 0
+shader = ExtResource("1_6sr8j")
+shader_parameter/albedo = Color(1, 1, 1, 1)
+shader_parameter/roughness = null
+shader_parameter/specular = null
+shader_parameter/metallic = null
+shader_parameter/texture_albedo = ExtResource("2_w1y16")
+
+[sub_resource type="QuadMesh" id="QuadMesh_tvm3f"]
+material = SubResource("ShaderMaterial_cyvii")
+size = Vector2(4.69, 1.82)
+
+[node name="GreenCrowSprite" type="MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.22343, 0.905456, 0)
+mesh = SubResource("QuadMesh_tvm3f")

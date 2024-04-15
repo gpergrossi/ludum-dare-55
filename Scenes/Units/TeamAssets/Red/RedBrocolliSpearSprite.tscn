@@ -1,0 +1,21 @@
+[gd_scene load_steps=5 format=3 uid="uid://jbo1yv1omjm7"]
+
+[ext_resource type="Shader" path="res://Code/Shaders/unit_sprite.gdshader" id="1_bjle0"]
+[ext_resource type="Texture2D" uid="uid://cb3qloqju7q0x" path="res://Assets/mob/broccolispear_red.png" id="2_5tkji"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qj3lb"]
+render_priority = 0
+shader = ExtResource("1_bjle0")
+shader_parameter/albedo = Color(1, 1, 1, 1)
+shader_parameter/roughness = null
+shader_parameter/specular = null
+shader_parameter/metallic = null
+shader_parameter/texture_albedo = ExtResource("2_5tkji")
+
+[sub_resource type="QuadMesh" id="QuadMesh_ihmbg"]
+material = SubResource("ShaderMaterial_qj3lb")
+size = Vector2(2.65, 0.87)
+
+[node name="RedBrocolliSprite" type="MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.129062, -0.00628173, 0)
+mesh = SubResource("QuadMesh_ihmbg")

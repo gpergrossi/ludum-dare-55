@@ -1,0 +1,42 @@
+[gd_resource type="Resource" script_class="TeamAssets" load_steps=20 format=3 uid="uid://c6nnp16l8e7uh"]
+
+[ext_resource type="PackedScene" uid="uid://bfujaq27ckelr" path="res://Scenes/Units/TeamAssets/Red/RedCastleLeft.tscn" id="1_it5hr"]
+[ext_resource type="PackedScene" uid="uid://ciywccbt7ffxk" path="res://Scenes/Units/TeamAssets/Red/RedCastleRight.tscn" id="2_46swa"]
+[ext_resource type="PackedScene" uid="uid://jbo1yv1omjm7" path="res://Scenes/Units/TeamAssets/Red/RedBrocolliSpearSprite.tscn" id="3_hjkst"]
+[ext_resource type="PackedScene" uid="uid://cfx1aek5ala2q" path="res://Scenes/Units/TeamAssets/Red/RedBrocolliSprite.tscn" id="4_0u5pp"]
+[ext_resource type="PackedScene" uid="uid://cov0dd256f85m" path="res://Scenes/Units/TeamAssets/Red/RedCarrotSprite.tscn" id="5_f4edm"]
+[ext_resource type="PackedScene" uid="uid://ba8qafgk2xo3i" path="res://Scenes/Units/TeamAssets/Red/RedCornProjectileSprite.tscn" id="6_glkrr"]
+[ext_resource type="PackedScene" uid="uid://d4ei4a7f8583b" path="res://Scenes/Units/TeamAssets/Red/RedCornSprite.tscn" id="7_qlj8t"]
+[ext_resource type="PackedScene" uid="uid://cqev3ghm5cq7m" path="res://Scenes/Units/TeamAssets/Red/RedCrowSprite.tscn" id="8_b6jwp"]
+[ext_resource type="PackedScene" uid="uid://13wx5ymi74ig" path="res://Scenes/Units/TeamAssets/Red/RedEggSplatSprite.tscn" id="9_xpu2b"]
+[ext_resource type="PackedScene" uid="uid://oreprq2iy8uj" path="res://Scenes/Units/TeamAssets/Red/RedEggSprite.tscn" id="10_h57gb"]
+[ext_resource type="PackedScene" uid="uid://cxy2uj8uhmxer" path="res://Scenes/Units/TeamAssets/Red/RedCarrotFallingSprite.tscn" id="11_uq4j3"]
+[ext_resource type="PackedScene" uid="uid://dkjrhn0gmcpot" path="res://Scenes/Units/TeamAssets/Red/RedLettuceSprite.tscn" id="12_v37n7"]
+[ext_resource type="PackedScene" uid="uid://dq04if3pww01i" path="res://Scenes/Units/TeamAssets/Red/RedPopcornGrenadeSprite.tscn" id="13_xbpk8"]
+[ext_resource type="PackedScene" uid="uid://bktn8f633svrs" path="res://Scenes/Units/TeamAssets/Red/RedPopcornSprite.tscn" id="14_b6kkp"]
+[ext_resource type="PackedScene" uid="uid://dsl060tpovtp1" path="res://Scenes/Units/TeamAssets/Red/RedPumpkinSprite.tscn" id="15_6kubr"]
+[ext_resource type="Script" path="res://Code/Scripts/Units/team_assets.gd" id="16_3uva7"]
+[ext_resource type="PackedScene" uid="uid://ccws6yhfaql7p" path="res://Scenes/Units/TeamAssets/Red/RedTomatoProjectileSprite.tscn" id="17_fu25n"]
+[ext_resource type="PackedScene" uid="uid://c7s46cwp5y3fr" path="res://Scenes/Units/TeamAssets/Red/RedTomatoSplatSprite.tscn" id="18_hfk1a"]
+[ext_resource type="PackedScene" uid="uid://cxj7381p6i5" path="res://Scenes/Units/TeamAssets/Red/RedTomatoSprite.tscn" id="19_o5av2"]
+
+[resource]
+script = ExtResource("16_3uva7")
+barn_asset_left = ExtResource("1_it5hr")
+barn_asset_right = ExtResource("2_46swa")
+brocolli_sprite = ExtResource("4_0u5pp")
+brocolli_spear_sprite = ExtResource("3_hjkst")
+lettuce_sprite = ExtResource("12_v37n7")
+crow_sprite = ExtResource("8_b6jwp")
+egg_sprite = ExtResource("10_h57gb")
+egg_splat_sprite = ExtResource("9_xpu2b")
+carrot_sprite = ExtResource("5_f4edm")
+falling_carrot_sprite = ExtResource("11_uq4j3")
+corn_sprite = ExtResource("7_qlj8t")
+corn_projectile_sprite = ExtResource("6_glkrr")
+popcorn_grenade_sprite = ExtResource("13_xbpk8")
+popcorn_sprite = ExtResource("14_b6kkp")
+pumpkin_sprite = ExtResource("15_6kubr")
+tomato_sprite = ExtResource("19_o5av2")
+tomato_projectile_sprite = ExtResource("17_fu25n")
+tomato_splat_sprite = ExtResource("18_hfk1a")

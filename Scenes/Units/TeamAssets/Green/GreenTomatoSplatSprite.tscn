@@ -1,0 +1,21 @@
+[gd_scene load_steps=5 format=3 uid="uid://b6c26x06uo1l"]
+
+[ext_resource type="Shader" path="res://Code/Shaders/unit_sprite.gdshader" id="1_cahb3"]
+[ext_resource type="Texture2D" uid="uid://d33ae43o7hvtl" path="res://Assets/mob/tomatosplat_green.png" id="2_tyon3"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fos22"]
+render_priority = 0
+shader = ExtResource("1_cahb3")
+shader_parameter/albedo = Color(1, 1, 1, 1)
+shader_parameter/roughness = null
+shader_parameter/specular = null
+shader_parameter/metallic = null
+shader_parameter/texture_albedo = ExtResource("2_tyon3")
+
+[sub_resource type="QuadMesh" id="QuadMesh_atxpt"]
+material = SubResource("ShaderMaterial_fos22")
+size = Vector2(3.13, 2.91)
+
+[node name="GreenTomatoSplatSprite" type="MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.34465e-07, -2.83122e-07, 0)
+mesh = SubResource("QuadMesh_atxpt")

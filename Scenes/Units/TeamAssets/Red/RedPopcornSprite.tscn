@@ -1,0 +1,20 @@
+[gd_scene load_steps=5 format=3 uid="uid://bktn8f633svrs"]
+
+[ext_resource type="Shader" path="res://Code/Shaders/unit_sprite.gdshader" id="1_c26ci"]
+[ext_resource type="Texture2D" uid="uid://dj7hl33o5fvow" path="res://Assets/mob/popcorn_red.png" id="2_1g00j"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_nvd02"]
+render_priority = 0
+shader = ExtResource("1_c26ci")
+shader_parameter/albedo = Color(1, 1, 1, 1)
+shader_parameter/roughness = null
+shader_parameter/specular = null
+shader_parameter/metallic = null
+shader_parameter/texture_albedo = ExtResource("2_1g00j")
+
+[sub_resource type="QuadMesh" id="QuadMesh_nbl23"]
+material = SubResource("ShaderMaterial_nvd02")
+size = Vector2(0.81, 0.75)
+
+[node name="RedPopcornSprite" type="MeshInstance3D"]
+mesh = SubResource("QuadMesh_nbl23")

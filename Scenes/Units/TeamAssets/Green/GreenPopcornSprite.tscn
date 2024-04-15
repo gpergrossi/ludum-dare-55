@@ -1,0 +1,20 @@
+[gd_scene load_steps=5 format=3 uid="uid://cdp6s266u5183"]
+
+[ext_resource type="Shader" path="res://Code/Shaders/unit_sprite.gdshader" id="1_rtda1"]
+[ext_resource type="Texture2D" uid="uid://gd8snabhqhui" path="res://Assets/mob/popcorn_green.png" id="2_2xk1o"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_q6r08"]
+render_priority = 0
+shader = ExtResource("1_rtda1")
+shader_parameter/albedo = Color(1, 1, 1, 1)
+shader_parameter/roughness = null
+shader_parameter/specular = null
+shader_parameter/metallic = null
+shader_parameter/texture_albedo = ExtResource("2_2xk1o")
+
+[sub_resource type="QuadMesh" id="QuadMesh_hvl1r"]
+material = SubResource("ShaderMaterial_q6r08")
+size = Vector2(0.81, 0.75)
+
+[node name="GreenPopcornSprite" type="MeshInstance3D"]
+mesh = SubResource("QuadMesh_hvl1r")

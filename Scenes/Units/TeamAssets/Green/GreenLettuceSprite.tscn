@@ -1,0 +1,21 @@
+[gd_scene load_steps=5 format=3 uid="uid://oy74hac1q45g"]
+
+[ext_resource type="Shader" path="res://Code/Shaders/unit_sprite.gdshader" id="1_4diuc"]
+[ext_resource type="Texture2D" uid="uid://5swkwfkufl1m" path="res://Assets/mob/lettuce_green.png" id="2_ge4kr"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2e6s7"]
+render_priority = 0
+shader = ExtResource("1_4diuc")
+shader_parameter/albedo = Color(1, 1, 1, 1)
+shader_parameter/roughness = null
+shader_parameter/specular = null
+shader_parameter/metallic = null
+shader_parameter/texture_albedo = ExtResource("2_ge4kr")
+
+[sub_resource type="QuadMesh" id="QuadMesh_o6g3p"]
+material = SubResource("ShaderMaterial_2e6s7")
+size = Vector2(3.78, 4.9)
+
+[node name="GreenLettuceSprite" type="MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.22343, 2.42097, 0)
+mesh = SubResource("QuadMesh_o6g3p")
