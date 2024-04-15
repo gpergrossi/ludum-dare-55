@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://bqawklefsoqfx"]
+[gd_scene load_steps=15 format=3 uid="uid://bqawklefsoqfx"]
 
 [ext_resource type="PackedScene" uid="uid://kkt6g2ery6vj" path="res://Scenes/Units/unit_base.tscn" id="1_767v5"]
 [ext_resource type="Script" path="res://Code/Scripts/Units/unit_stationary_guard.gd" id="2_42hmg"]
@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://5swkwfkufl1m" path="res://Assets/mob/lettuce_green.png" id="4_0r405"]
 [ext_resource type="PackedScene" uid="uid://oy74hac1q45g" path="res://Scenes/Units/TeamAssets/Green/GreenLettuceSprite.tscn" id="4_nrqie"]
 [ext_resource type="PackedScene" uid="uid://civ0qmljlf0kk" path="res://Scenes/Important/googley_eyes_pair.tscn" id="5_iqxfc"]
+[ext_resource type="AudioStream" uid="uid://by43dp2devid0" path="res://Assets/sound/lettucecrunch.wav" id="7_fdh6r"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jc7hq"]
 resource_local_to_scene = true
@@ -62,3 +63,8 @@ root_node = NodePath("")
 libraries = {
 "": SubResource("AnimationLibrary_yj3yy")
 }
+
+[node name="Lettuce Crunch Sound Player" type="AudioStreamPlayer" parent="." index="5"]
+unique_name_in_owner = true
+stream = ExtResource("7_fdh6r")
+volume_db = -20.0

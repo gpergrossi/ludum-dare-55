@@ -14,6 +14,15 @@ var scene_flying_bomber := preload("res://Scenes/Units/unit_flying_bomber.tscn")
 
 var summon_lock := false
 
+static func get_all_units(on_team : Team = null) -> Array[UnitBase]:
+	var children : Array[Node] = _unit_manager_static.get_children();
+	var ret : Array[UnitBase] = [];
+	for child in children:
+		var unit := child as UnitBase;
+		if not unit: continue;
+		if (on_team) && (unit.team != on_team): continue;
+		ret.push_back(unit);
+	return ret;
 
 func _ready():
 	_unit_manager_static = self

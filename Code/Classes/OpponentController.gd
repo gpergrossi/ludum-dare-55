@@ -50,9 +50,13 @@ func _process(delta):
 
 	var manaPercent = mana / maxMana * 100.0;
 	
-	# If mana above 80% summon basic infantry
+	# If mana above 80% summon something
 	if manaPercent >= 80:
-		cast(Spells.summonBasicWalker);
+		var wall_position = getDefaultLocation(Spells.summonWall) + Vector2(-10 - randf() * 100, -10)
+		if randf() > 0.8 and canCast(Spells.summonWall, wall_position):
+			cast(Spells.summonWall, wall_position)
+		else:
+			cast(Spells.summonBasicWalker);
 
 func _on_died() -> void:
 	%AnnounceLabel.text = "You win! :D - moving to level %d" % (LevelLoader.current_level + 1)

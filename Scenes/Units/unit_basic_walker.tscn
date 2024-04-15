@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://cgnuyso8cokl4"]
+[gd_scene load_steps=21 format=3 uid="uid://cgnuyso8cokl4"]
 
 [ext_resource type="PackedScene" uid="uid://kkt6g2ery6vj" path="res://Scenes/Units/unit_base.tscn" id="1_dy5r0"]
 [ext_resource type="Script" path="res://Code/Scripts/Units/unit_basic_walker.gd" id="2_c6sqf"]
@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://rdcuybv32pwq" path="res://Assets/mob/broccoli_green.png" id="6_gee6q"]
 [ext_resource type="PackedScene" uid="uid://civ0qmljlf0kk" path="res://Scenes/Important/googley_eyes_pair.tscn" id="7_1ye23"]
 [ext_resource type="PackedScene" uid="uid://b6skacn5bx6uh" path="res://Scenes/Units/TeamAssets/Green/GreenBrocolliSpearSprite.tscn" id="7_q3a5c"]
+[ext_resource type="AudioStream" uid="uid://x7l2850b4seo" path="res://Assets/sound/broccolispear.wav" id="7_vtv84"]
 
 [sub_resource type="Animation" id="Animation_jau8h"]
 resource_name = "walking"
@@ -135,3 +136,9 @@ sort_offset = 0.5
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.129062, -0.00628173, 0)
 sorting_offset = 0.5
 mesh = SubResource("QuadMesh_62o4b")
+skeleton = NodePath("../../../..")
+
+[node name="Broccoli Spear Sound Player" type="AudioStreamPlayer" parent="." index="6"]
+unique_name_in_owner = true
+stream = ExtResource("7_vtv84")
+volume_db = -15.0

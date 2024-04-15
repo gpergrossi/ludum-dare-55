@@ -1,9 +1,10 @@
 [gd_scene load_steps=3 format=3 uid="uid://dub5xj3whpcmw"]
 
-[ext_resource type="Texture2D" uid="uid://de54elxets55p" path="res://Scenes/PositionSelector/reticle-ph.png" id="1_owxkm"]
+[ext_resource type="Texture2D" uid="uid://bewyp1olua5ee" path="res://Scenes/PositionSelector/cross.png" id="1_ivk8j"]
 [ext_resource type="Script" path="res://Scenes/PositionSelector/position_selector.gd" id="2_xq23j"]
 
 [node name="PositionSelector" type="Sprite2D"]
 visible = false
-texture = ExtResource("1_owxkm")
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("1_ivk8j")
 script = ExtResource("2_xq23j")

@@ -9,11 +9,11 @@ static var db : float;
 @onready var originalLabelText = label.text;
 
 func _ready():
-	setVolume(0.15);
+	VolumeController.setVolume(0.15);
 	%"Volume Slider".value_changed.connect(_on_value_changed);
 
 func _on_value_changed (value):
-	setVolume(value / 100.0);
+	VolumeController.setVolume(value / 100.0);
 	var busIndex = AudioServer.get_bus_index(bus);
 	
 	if volume > 0:

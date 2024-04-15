@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://de54elxets55p"
-path="res://.godot/imported/reticle-ph.png-697ef40e5da84e7600cfa4c0922750dd.ctex"
+uid="uid://bewyp1olua5ee"
+path="res://.godot/imported/cross.png-2aa18e88a8da59c83b07792935d3dd77.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Scenes/PositionSelector/reticle-ph.png"
-dest_files=["res://.godot/imported/reticle-ph.png-697ef40e5da84e7600cfa4c0922750dd.ctex"]
+source_file="res://Scenes/PositionSelector/cross.png"
+dest_files=["res://.godot/imported/cross.png-2aa18e88a8da59c83b07792935d3dd77.ctex"]
 
 [params]
 

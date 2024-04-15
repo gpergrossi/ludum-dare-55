@@ -3,19 +3,20 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cuy75bh7k41es"
-path="res://.godot/imported/egg_red.png-20a39da6e52e18511a9919db6c4fd71e.ctex"
+path.s3tc="res://.godot/imported/egg_red.png-20a39da6e52e18511a9919db6c4fd71e.s3tc.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
 }
 
 [deps]
 
 source_file="res://Assets/mob/egg_red.png"
-dest_files=["res://.godot/imported/egg_red.png-20a39da6e52e18511a9919db6c4fd71e.ctex"]
+dest_files=["res://.godot/imported/egg_red.png-20a39da6e52e18511a9919db6c4fd71e.s3tc.ctex"]
 
 [params]
 
-compress/mode=3
+compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/hdr_compression=1
