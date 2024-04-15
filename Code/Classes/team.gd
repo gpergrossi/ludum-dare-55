@@ -74,3 +74,12 @@ func get_controlled_by_name() -> String:
 		TeamController.PLAYER:  return "Player"
 		TeamController.AI:  return "AI"
 		_:  assert(false, ":(");  return ""
+
+
+func get_opposed_team() -> Team:
+	if self == PLAYER_TEST:
+		return ENEMY_TEST
+	if self == ENEMY_TEST:
+		return PLAYER_TEST
+	assert(false)
+	return null

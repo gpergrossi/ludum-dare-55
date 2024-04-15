@@ -89,19 +89,6 @@ func resume():
 func _ready():
 	_current_targets.clear()
 	
-	target_acquired.connect(
-		func (new_target : UnitBase, new_target_count : int):  
-			print(_parent_unit.name + ": Target acquired " + new_target.name + " (" + str(new_target_count) + ")")
-	)
-	target_lost.connect(
-		func (new_target : UnitBase, new_target_count : int):  
-			print(_parent_unit.name + ": Target lost " + new_target.name + " (" + str(new_target_count) + ")")
-	)
-	target_killed.connect(
-		func (new_target : UnitBase, new_target_count : int):  
-			print(_parent_unit.name + ": Target killed " + new_target.name + " (" + str(new_target_count) + ")")
-	)
-	
 	_timer.timeout.connect(_on_timer)
 	_timer.wait_time = target_scan_interval
 	_timer.start()
@@ -180,6 +167,7 @@ func _find_targets_by_damage(max_count := -1, highest_first := false) -> Array[U
 func _find_targets_by_cluster_score(max_count := -1, highest_first := false) -> Array[UnitBase]:
 	var candidates := _get_possible_targets();
 	var candidate_cluster_scores := [] as PackedFloat32Array
+	candidate_cluster_scores.resize(len(candidates))
 	candidate_cluster_scores.fill(1.0)
 	
 	var splash_radius_squared := splash_radius * splash_radius

@@ -22,7 +22,7 @@ texture_repeat = false
 material = SubResource("StandardMaterial3D_hncq6")
 size = Vector2(3, 1.5)
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_pe6vn"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_tncaw"]
 resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("3_7w2fu")
@@ -32,33 +32,22 @@ shader_parameter/specular = null
 shader_parameter/metallic = null
 shader_parameter/texture_albedo = ExtResource("4_v085u")
 
-[sub_resource type="QuadMesh" id="QuadMesh_hny8j"]
+[sub_resource type="QuadMesh" id="QuadMesh_xv0mr"]
 resource_local_to_scene = true
-material = SubResource("ShaderMaterial_pe6vn")
+material = SubResource("ShaderMaterial_tncaw")
 size = Vector2(4.69, 1.82)
 
 [node name="UnitFlyingBomber" instance=ExtResource("1_eb3im")]
 script = ExtResource("2_uemwd")
-flapHeightMin = null
-flapHeightMax = null
-flapMagnitudeMin = null
-flapMagnitudeMax = null
-moveSpeedMin = null
-moveSpeedMax = null
-patrolRange = null
+flapHeightMin = 8.0
+flapHeightMax = 30.0
+flapMagnitudeMin = 6.0
+flapMagnitudeMax = 17.0
+moveSpeedMin = 6.0
+moveSpeedMax = 17.0
+patrolRange = 0.9
 unit_name = "Flying Bomber"
 unit_move_type = 1
-facing = null
-top_speed = null
-move_accel = null
-gravity = null
-turning_time = null
-max_health = null
-knockback_immunity = null
-attack_range = null
-damage = null
-reach_caster_damage = null
-knockback = null
 
 [node name="Shadow" parent="LaneOffset" index="0"]
 mesh = SubResource("PlaneMesh_0vjf4")
@@ -73,7 +62,7 @@ asset_var_name = "crow_sprite"
 
 [node name="GreenCrowSprite" type="MeshInstance3D" parent="LaneOffset/FacingRotation/Sprites/BodyTransform/TeamSprite" index="0" instance=ExtResource("5_evmmp")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.22343, 0.905456, 0)
-mesh = SubResource("QuadMesh_hny8j")
+mesh = SubResource("QuadMesh_xv0mr")
 
 [node name="GoogleyEyesPair" parent="LaneOffset/FacingRotation/Sprites/BodyTransform" index="1" instance=ExtResource("6_2g7rt")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.32291, 0.673568, 0)
@@ -84,7 +73,10 @@ unique_name_in_owner = true
 wait_time = 0.25
 
 [node name="UnitTargeting" parent="." index="2"]
+max_forward_range = 30.0
+max_backward_range = 10.0
 max_vertical_range = 1000.0
 splash_radius = 5.0
 max_targets = 10
+algorithm = 5
 targeting_mask = 253

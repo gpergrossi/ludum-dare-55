@@ -1,6 +1,12 @@
-[gd_scene load_steps=2 format=3 uid="uid://40nphdf2ukmq"]
+[gd_scene load_steps=3 format=3 uid="uid://40nphdf2ukmq"]
 
+[ext_resource type="AudioStream" uid="uid://dyfd43uyehokt" path="res://Assets/sound/eggsplat.wav" id="2_6meyp"]
 [ext_resource type="Script" path="res://Scenes/Units/Projectile/Projectile.gd" id="2_axfga"]
 
 [node name="EggBomb" type="Sprite3D"]
 script = ExtResource("2_axfga")
+
+[node name="Egg Splat Sound Player" type="AudioStreamPlayer" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("2_6meyp")
+volume_db = -25.0

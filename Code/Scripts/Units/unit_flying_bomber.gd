@@ -1,5 +1,11 @@
 class_name UnitFlyingBomber extends UnitBase
 
+const scene_egg_bomb := preload("res://Scenes/Units/Projectile/egg_bomb.tscn") as PackedScene
+
+const eggSplatRadius := 5.0
+const eggCooldownDurationMillis := 1000
+var eggCooldown := 0
+
 @export_category("Just Bird Things")
 @export var flapHeightMin := 8.0
 @export var flapHeightMax := 30.0
@@ -16,10 +22,23 @@ var flapHeight : float
 var flapMagnitude : float
 var moveSpeed : float
 
-
 func _ready() -> void:
 	selectIdiosyncracies();
 	state_changed.connect(_on_state_changed)
+	
+	_unit_targeting.target_acquired.connect(
+		func (new_target : UnitBase, new_target_count : int):  
+			print(name + ": Target acquired " + new_target.name + " (" + str(new_target_count) + ")")
+	)
+	_unit_targeting.target_lost.connect(
+		func (new_target : UnitBase, new_target_count : int):  
+			print(name + ": Target lost " + new_target.name + " (" + str(new_target_count) + ")")
+	)
+	_unit_targeting.target_killed.connect(
+		func (new_target : UnitBase, new_target_count : int):  
+			print(name + ": Target killed " + new_target.name + " (" + str(new_target_count) + ")")
+	)
+	
 	super._ready()
 
 
@@ -64,5 +83,18 @@ func process_unit(delta : float) -> void:
 				var target_x := targets[0].position.x
 				if position.x == target_x:
 					# Drop egg
-					_manager.summonEggProjectile()
-				
+					attemptAttack()
+
+
+func attemptAttack():
+	var time := Time.get_ticks_msec();
+	if time > eggCooldown:
+		eggCooldown = time + eggCooldownDurationMillis;
+		layEgg();
+
+
+func layEgg():
+	var projectile : Projectile = scene_egg_bomb.instantiate();
+	projectile.set_team(team);
+	projectile.position = position;
+	ProjectileManager.singleton.add_child(projectile);

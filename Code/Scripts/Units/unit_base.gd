@@ -112,7 +112,7 @@ func _physics_process(delta : float):
 		
 	else:
 		# Apply gravity
-		_velocity += (-Vector2.DOWN) * gravity * delta
+		_velocity += Vector2(0, -1) * gravity * delta
 		
 		# Update slope/shadow
 		_current_ground_angle = 0.0
@@ -150,12 +150,14 @@ func _physics_process(delta : float):
 	# Collision
 	var ground_y := get_ground_height(_position.x)
 	
-	if _on_floor and (_position.y - ground_y) < 0.1:
+	if _on_floor and absf(_position.y - ground_y) < 0.1:
 		# Snap to floor
+		if self is UnitFlyingBomber: print("Snapping to floor!")
 		_position.y = ground_y
 	
 	elif _position.y < ground_y:
 		# Otherwise stay on top of the floor.
+		if self is UnitFlyingBomber: print("Below the floor!")
 		_position.y = ground_y
 		_on_floor = true
 		
