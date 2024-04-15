@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://dduxobin5h6y1"]
+
+[ext_resource type="Script" path="res://Scenes/OutroSequence/OutroSequenceController.gd" id="1_5pkfm"]
+[ext_resource type="Texture2D" uid="uid://dr44vdsi3evxk" path="res://Assets/Images/azra_outro_unfinished.png" id="2_bdih6"]
+
+[node name="OutroSequence" type="CanvasLayer"]
+script = ExtResource("1_5pkfm")
+
+[node name="Outro Image" type="TextureRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = 3672.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_bdih6")
+expand_mode = 1
