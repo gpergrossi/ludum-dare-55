@@ -9,3 +9,8 @@ static func FromName(name : String) -> Team:
 		"Enemy": return Enemy
 	assert(false, "Unknown team name \"" + name + "\"!")
 	return null
+
+static func get_opposed_team(team : Team) -> Team:
+	if (team == Player): return Enemy;
+	if (team == Enemy): return Player;
+	return null;
