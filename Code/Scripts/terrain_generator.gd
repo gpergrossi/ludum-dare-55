@@ -34,6 +34,23 @@ func _process(_delta):
 		_dirty = false
 
 
+func get_height(x : float) -> float:
+	var total_width := width + 2 * flat_margins
+	x += 0.5 * total_width
+	if x < flat_margins:
+		return 0.0
+	elif x > total_width - flat_margins:
+		return 0.0
+	else:
+		return profile_curve.sample_baked(clampf((x - flat_margins) / width, 0.0, 1.0)) * height
+
+
+func get_slope(x : float, epsilon := 0.1) -> float:
+	return (get_height(x + epsilon) - get_height(x - epsilon)) / (2 * epsilon)
+
+
+
+
 
 func rebuild_mesh():
 	var array_mesh := terrain_mesh_instance.mesh as ArrayMesh

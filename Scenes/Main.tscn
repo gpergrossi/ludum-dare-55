@@ -1,11 +1,8 @@
-[gd_scene load_steps=30 format=3 uid="uid://ddjbrnypilhof"]
+[gd_scene load_steps=24 format=3 uid="uid://ddjbrnypilhof"]
 
 [ext_resource type="Script" path="res://Code/Classes/OpponentController.gd" id="1_dy58u"]
-[ext_resource type="PackedScene" uid="uid://b1xmmcg7sdyrb" path="res://Scenes/Terrain/terrain_gen.tscn" id="1_ho15n"]
 [ext_resource type="Script" path="res://Code/Classes/PlayerController.gd" id="1_uq66x"]
-[ext_resource type="Script" path="res://Code/Scripts/kill_plane.gd" id="2_ftuh1"]
-[ext_resource type="Material" uid="uid://byb1abxtxwmm" path="res://Scenes/Terrain/terrain_gen_ground.material" id="3_y30vu"]
-[ext_resource type="PackedScene" uid="uid://c4kivv7xi2kf1" path="res://Assets/Models/terrain_t_01.tscn" id="4_2xnqm"]
+[ext_resource type="PackedScene" uid="uid://b1xmmcg7sdyrb" path="res://Scenes/Terrain/terrain_gen.tscn" id="2_mh00c"]
 [ext_resource type="PackedScene" uid="uid://dlnfpl2m6m6xk" path="res://Scenes/Props/scenery.tscn" id="4_a7gfu"]
 [ext_resource type="Script" path="res://Code/Scripts/camera_controls.gd" id="5_046qu"]
 [ext_resource type="Script" path="res://Code/Scripts/mouse_capture_handler.gd" id="5_mdxii"]
@@ -29,33 +26,25 @@ fog_light_color = Color(0.466667, 0.552941, 0, 1)
 fog_light_energy = 0.79
 fog_density = 0.0044
 
-[sub_resource type="Curve" id="Curve_n5su7"]
+[sub_resource type="Curve" id="Curve_3mu6w"]
 resource_local_to_scene = true
 _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.25, 0.25), 0.0, 0.0, 0, 0, Vector2(0.5, 0), 0.0, 0.0, 0, 0, Vector2(0.75, 0.25), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
 point_count = 5
 
-[sub_resource type="Curve" id="Curve_l4u15"]
+[sub_resource type="Curve" id="Curve_mqksf"]
 resource_local_to_scene = true
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
 point_count = 2
 
-[sub_resource type="Curve" id="Curve_biaqd"]
+[sub_resource type="Curve" id="Curve_fdmik"]
 resource_local_to_scene = true
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
 point_count = 2
 
-[sub_resource type="Curve" id="Curve_wpluj"]
+[sub_resource type="Curve" id="Curve_7xy4i"]
 resource_local_to_scene = true
 _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
 point_count = 2
-
-[sub_resource type="PlaneMesh" id="PlaneMesh_wi8sw"]
-material = ExtResource("3_y30vu")
-size = Vector2(500, 500)
-
-[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_qgmkb"]
-
-[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_11f8j"]
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_x5fky"]
 plane = Plane(1, 0, 0, 0)
@@ -83,38 +72,17 @@ directional_shadow_split_2 = 0.4
 directional_shadow_split_3 = 0.6
 directional_shadow_max_distance = 300.0
 
-[node name="TerrainGen" parent="." instance=ExtResource("1_ho15n")]
-profile_curve = SubResource("Curve_n5su7")
-foreground_z_curve = SubResource("Curve_l4u15")
-lane_z_curve = SubResource("Curve_biaqd")
-background_z_curve = SubResource("Curve_wpluj")
+[node name="Scenery" parent="." instance=ExtResource("4_a7gfu")]
+
+[node name="TerrainGen" parent="." instance=ExtResource("2_mh00c")]
+unique_name_in_owner = true
+profile_curve = SubResource("Curve_3mu6w")
+foreground_z_curve = SubResource("Curve_mqksf")
+lane_z_curve = SubResource("Curve_fdmik")
+background_z_curve = SubResource("Curve_7xy4i")
 lane_depth = 3
 foreground_depth = 30
 background_depth = 30
-
-[node name="Terrain_T01" parent="." instance=ExtResource("4_2xnqm")]
-
-[node name="Ground" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.037, 0)
-mesh = SubResource("PlaneMesh_wi8sw")
-
-[node name="GroundCollider" type="StaticBody3D" parent="Ground"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.91821e-05, -0.260988, 0.0532608)
-collision_mask = 6
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground/GroundCollider"]
-shape = SubResource("WorldBoundaryShape3D_qgmkb")
-
-[node name="Y Kill Plane" type="Area3D" parent="Ground"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -10, 0)
-collision_layer = 0
-collision_mask = 6
-script = ExtResource("2_ftuh1")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground/Y Kill Plane"]
-shape = SubResource("WorldBoundaryShape3D_11f8j")
-
-[node name="Scenery" parent="." instance=ExtResource("4_a7gfu")]
 
 [node name="Left Side Things (Player)" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -55, 0, 0)
@@ -264,6 +232,5 @@ unique_name_in_owner = true
 script = ExtResource("1_dy58u")
 healthBar = NodePath("../Right Side Things (Enemy)/EnemyHealthBar")
 
-[connection signal="body_entered" from="Ground/Y Kill Plane" to="Ground/Y Kill Plane" method="_on_body_entered"]
 [connection signal="body_entered" from="Left Side Things (Player)/Kill Enemy Units" to="UnitManager" method="_on_unit_kill_plane_left_body_entered"]
 [connection signal="body_entered" from="Right Side Things (Enemy)/Kill Player Units" to="UnitManager" method="_on_unit_kill_plane_right_body_entered"]

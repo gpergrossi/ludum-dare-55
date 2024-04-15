@@ -6,6 +6,7 @@ const MAX_RAYS_PER_CYCLE := 50
 
 @export_category("Spawning")
 @export var spawnables : Array[PackedScene]
+@export var names : Array[String]
 @export var rarity_curve := 1.0   # The weight of each spawnable in the list will be multiplied by pow(rarity_curve, index).
 @export var spawn_seed : int
 
@@ -14,7 +15,6 @@ const MAX_RAYS_PER_CYCLE := 50
 @export var amount_max : int = 7
 
 @export_category("Spawn Position")
-@export var spawn_radius := 3.0
 @export var throw_vector := Vector3.DOWN
 @export var spread_distance : float = 0.1      # Margin around each spawned object.
 
@@ -22,6 +22,7 @@ const MAX_RAYS_PER_CYCLE := 50
 @export var min_angle_y : int = -180
 @export var max_angle_y : int = 180
 @export var match_normal := true
+@export var weaken_normal := 0.0
 @export var discard_angle := 90.0
 
 @export_category("Spawn Size")
@@ -34,7 +35,7 @@ const MAX_RAYS_PER_CYCLE := 50
 @export var do_spawn := false : set = set_do_spawn
 
 @onready var _spawn_parent := %SpawnParent as Node3D
-@onready var _sphere_shape := %SphereShape as CollisionShape3D
+@onready var _spawn_shape := %SpawnShape as CollisionShape3D
 
 var _random : RandomNumberGenerator
 var _avoid_spheres : Array[CollisionShape3D]
@@ -47,12 +48,6 @@ var _spawned_object_count := 0
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	_random = RandomNumberGenerator.new()
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_delta):
-	if (_sphere_shape.shape as SphereShape3D).radius != spawn_radius:
-		(_sphere_shape.shape as SphereShape3D).radius = spawn_radius
 
 
 func _physics_process(_delta : float):
@@ -114,7 +109,8 @@ func spawn_stuff():
 		rarity *= rarity_curve
 	for i in range(len(spawnables)):
 		_normalized_spawnable_odds[i] /= total
-
+		print("Odds of " + str(spawnables[i]) + " is " + str(_normalized_spawnable_odds[i]))
+ 
 
 func try_spawn_shape(collider : CollisionShape3D, space_state : PhysicsDirectSpaceState3D) -> bool:
 	if not is_instance_valid(collider):
@@ -151,18 +147,22 @@ func try_spawn_location(location : Vector3, space_state : PhysicsDirectSpaceStat
 	
 	# Choose a spawnable
 	var spawnable_roll := _random.randf()
+	print("Rolled " + str(spawnable_roll))
 	var selected : PackedScene = null
+	var selected_name := ""
 	for i in range(len(spawnables)):
-		if spawnable_roll <= _normalized_spawnable_odds[i]:
+		if spawnable_roll >= 0 and spawnable_roll <= _normalized_spawnable_odds[i]:
 			selected = spawnables[i]
-		else:
-			spawnable_roll -= _normalized_spawnable_odds[i]
+			if i < len(names):
+				selected_name =  names[i]
+		spawnable_roll -= _normalized_spawnable_odds[i]
 	if selected == null:
 		printerr("No spawnables roll result!")
 		return false
 	
 	# Instantiate one
 	var instance := selected.instantiate() as Node3D
+	instance.name = selected_name + " (" + str(_spawn_parent.get_child_count()) + ")"
 	_spawn_parent.add_child(instance)
 	instance.owner = owner
 	
@@ -211,7 +211,7 @@ func try_spawn_location_instance(location : Vector3, instance : Node3D, space_st
 		if cross.is_zero_approx():
 			cross = Vector3(-throw_vector.y, -throw_vector.z, -throw_vector.x)
 		cross = cross.normalized()
-		instance.basis = instance.basis.rotated(cross, (-throw_vector).signed_angle_to(_normal, cross))
+		instance.basis = instance.basis.rotated(cross, (-throw_vector).signed_angle_to(_normal, cross) * (1.0 - weaken_normal))
 	
 	# Roll rotation angle
 	var angle_y := _random.randf_range(min_angle_y, max_angle_y)

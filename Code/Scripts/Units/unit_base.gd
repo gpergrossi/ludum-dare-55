@@ -56,9 +56,6 @@ signal unit_off_ground(me : UnitBase)
 
 
 
-
-@onready var _slope_detect_left := %TerrainSlopeDetectLeft as SpringArm3D
-@onready var _slope_detect_right := %TerrainSlopeDetectRight as SpringArm3D
 @onready var _shadow := %Shadow as MeshInstance3D
 @onready var _eyes := _find_eyes()
 
@@ -82,6 +79,8 @@ var _was_on_floor := false
 var _lane_offset := Vector3.ZERO : set = set_lane_offset
 var _damage_flash_time_remaining := 0.0
 
+var _renderables := [] as Array[MeshInstance3D]
+var _terrain : TerrainGenerator
 
 
 
@@ -102,18 +101,15 @@ func _ready():
 func _physics_process(delta : float):
 	# Color animation because I had to use code to get this working
 	if _damage_flash_time_remaining > 0.0:
-		print(str(_damage_flash_time_remaining))
 		_damage_flash_time_remaining -= delta
 		var intensity := get_damage_flash_intensity()
 		for meshInst in get_renderables():
 			set_color_tint_on_mesh(meshInst, color_tint.lerp(damage_flash_color, intensity))
-		
 	
 	if is_on_floor():
 		# Update slope/shadow
-		var slope := _slope_detect_right.get_hit_length() - _slope_detect_left.get_hit_length()
-		_current_ground_angle = atan2(slope, 1)
-		_shadow.rotation.z = -_current_ground_angle
+		_current_ground_angle = atan2(get_ground_slope(global_position.x), 1)
+		_shadow.rotation.z = _current_ground_angle
 		_shadow.visible = true
 		
 		if not _was_on_floor:
@@ -134,7 +130,6 @@ func _physics_process(delta : float):
 	
 	process_unit(delta)
 	move_and_slide()
-
 
 
 
@@ -213,26 +208,37 @@ func clear_target():
 	_current_target = null
 
 
-func get_renderables() -> Array[MeshInstance3D]:
+func get_renderables(force_update := false) -> Array[MeshInstance3D]:
+	if _renderables != null and not force_update:
+		return _renderables
+	
 	var render_children := [] as Array[Node]
 	if team == TeamDefs.Player:
 		render_children = find_children("*Green")
-		print("Found " + str(len(render_children)) + " render children")
 	elif team == TeamDefs.Enemy:
 		render_children = find_children("*Red")
-		print("Found " + str(len(render_children)) + " render children")
 	
-	var renderables := [] as Array[MeshInstance3D]
+	_renderables = [] as Array[MeshInstance3D]
 	for child in render_children:
 		var meshInst := child as MeshInstance3D
 		if is_instance_valid(meshInst):
-			renderables.append(meshInst)
-	return renderables
+			_renderables.append(meshInst)
+	return _renderables
 
 
 func set_color_tint_on_mesh(meshInst : MeshInstance3D, color : Color):
 	var material := meshInst.mesh.surface_get_material(0) as ShaderMaterial
-	material.set_shader_parameter("albedo", color)
+	var curr_color := material.get_shader_parameter("albedo") as Color
+	if not curr_color.is_equal_approx(color):
+		material.set_shader_parameter("albedo", color)
+
+
+func get_ground_height(x : float) -> float:
+	return _terrain.get_height(x)
+
+
+func get_ground_slope(x : float, epsilon := 0.1) -> float:
+	return _terrain.get_slope(x, epsilon)
 
 ################################################################################
 ######   END HELPFUL METHODS FOR SUBCLASS  ##################################
@@ -274,7 +280,8 @@ func change_state(new_state : UnitState):
 	_state = new_state
 	state_changed.emit(self, new_state, old_state)
 
-
+func set_terrain_ref(terrain : TerrainGenerator):
+	_terrain = terrain
 
 
 
@@ -300,7 +307,6 @@ func damage_target():
 func take_damage(damage_amount : float, knockback_amount : float) -> void:
 	var prev_health := _health
 	
-	print("Taking damage: " + str(damage_amount))
 	_health -= damage_amount
 	damage_taken.emit(self, damage_amount, _health)
 	
@@ -344,6 +350,9 @@ func get_damage_flash_intensity() -> float:
 
 func _on_team_assigned(new_team : Team):
 	assign_collision_layers()
+	
+	# Update _renderables cache
+	_renderables = get_renderables(true)
 	
 	# Make team color's sprite variants visible
 	show_green_art(new_team == TeamDefs.Player)

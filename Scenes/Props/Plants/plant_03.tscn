@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://dm8ke16rdg7pc"]
+
+[ext_resource type="PackedScene" uid="uid://bt1s6f7i157nj" path="res://Assets/Models/Plant_03.glb" id="1_arn3a"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_ui084"]
+radius = 2.0
+
+[node name="Plant_03" instance=ExtResource("1_arn3a")]
+
+[node name="SpawnRadius" type="Area3D" parent="." index="1"]
+input_ray_pickable = false
+monitoring = false
+monitorable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SpawnRadius" index="0"]
+shape = SubResource("SphereShape3D_ui084")

@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://conpatbk6nlp6"]
+
+[ext_resource type="PackedScene" uid="uid://dvc4xitrt5gdi" path="res://Assets/Models/Plant_01.glb" id="1_pjlul"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_qihyr"]
+radius = 2.0
+
+[node name="Plant_01" instance=ExtResource("1_pjlul")]
+
+[node name="SpawnRadius" type="Area3D" parent="." index="1"]
+input_ray_pickable = false
+monitoring = false
+monitorable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SpawnRadius" index="0"]
+shape = SubResource("SphereShape3D_qihyr")

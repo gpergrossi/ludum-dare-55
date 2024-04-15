@@ -1,8 +1,9 @@
 class_name UnitManager extends Node3D
 
 static var _unit_manager_static : UnitManager
-@onready var playerController : PlayerController = %PlayerController;
-@onready var opponentController := %OpponentController
+@onready var playerController := %PlayerController as PlayerController
+@onready var opponentController := %OpponentController as OpponentController
+@onready var terrain_gen := %TerrainGen as TerrainGenerator
 
 @export var summon_default_position_left : Node3D
 @export var summon_default_position_right : Node3D
@@ -65,10 +66,11 @@ func summon(unitType : String, spell_def : Dictionary, unit_position : Vector2, 
 	var unit := packed_scene.instantiate() as UnitBase
 	unit.consume_spell_def(spell_def)
 	unit.position = Vector3(unit_position.x, -unit_position.y, 0.0)
-	unit._lane_offset = Vector3(randf() * 2.0 - 1.0, 0.0, randf() * 2.0 - 1.0)
+	unit._lane_offset = Vector3(randi_range(-10, 10) * 0.1, 0.0, randi_range(-10, 10) * 0.1)
+	unit.set_terrain_ref(terrain_gen)
 	add_child(unit)
 	unit.team_name = team
-	
+
 
 func _on_unit_kill_plane_left_body_entered(body : PhysicsBody3D):
 	_do_kill_plane(body, playerController)

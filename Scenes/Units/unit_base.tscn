@@ -8,9 +8,7 @@
 [sub_resource type="BoxShape3D" id="BoxShape3D_3ww6h"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hncq6"]
-render_priority = -1
 blend_mode = 3
-no_depth_test = true
 shading_mode = 0
 albedo_texture = ExtResource("2_druni")
 texture_filter = 0
@@ -46,19 +44,11 @@ collision_mask = 6
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.15, 1, 0)
 shape = SubResource("BoxShape3D_3ww6h")
 
-[node name="TerrainSlopeDetectLeft" type="SpringArm3D" parent="."]
-unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -0.5, 0.5, 0)
-
-[node name="TerrainSlopeDetectRight" type="SpringArm3D" parent="."]
-unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0.5, 0.5, 0)
-
 [node name="LaneOffset" type="Node3D" parent="."]
 
 [node name="Shadow" type="MeshInstance3D" parent="LaneOffset"]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0445204, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.159912, 0.127769)
 mesh = SubResource("PlaneMesh_qe580")
 skeleton = NodePath("../..")
 

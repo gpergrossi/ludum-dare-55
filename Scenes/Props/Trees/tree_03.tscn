@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://bif0owwo2cn6j"]
+
+[ext_resource type="PackedScene" uid="uid://ce5lslkyaxq0m" path="res://Assets/Models/Tree_03.glb" id="1_g012y"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_od1da"]
+radius = 2.0
+
+[node name="Tree_03" instance=ExtResource("1_g012y")]
+
+[node name="Tree_V3" parent="." index="0"]
+transform = Transform3D(0.01, 0, 0, 0, 0, -0.01, 0, 0.01, 0, 0, 0.95054, 0)
+
+[node name="SpawnRadius" type="Area3D" parent="." index="1"]
+input_ray_pickable = false
+monitoring = false
+monitorable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SpawnRadius" index="0"]
+shape = SubResource("SphereShape3D_od1da")
