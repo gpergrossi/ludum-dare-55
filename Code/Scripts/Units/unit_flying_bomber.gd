@@ -53,13 +53,13 @@ const patrolRange = 0.9; # Cover the central 90% of the field
 @onready var fieldRightEnd = UnitManager._unit_manager_static.summon_default_position_right.global_position.x * patrolRange;
 
 func _process(delta) -> void:
-	if (position.y < flapHeight && velocity.y < 0): flap();
+	if (_position.y < flapHeight && _velocity.y < 0): flap();
 	turnAroundIfReachedEndOfField();
 	var diff = targetRotation - rotation.y;
 	rotation.y += diff * delta * 5;
 
 func flap():
-	velocity.y = flapMagnitude;
+	_velocity.y = flapMagnitude;
 
 func turnAroundIfReachedEndOfField():
 	if (travelDirection > 0 && position.x > fieldRightEnd):
@@ -69,17 +69,13 @@ func turnAroundIfReachedEndOfField():
 
 func setTravelDirection(newDirection : int):
 	travelDirection = newDirection;
-	velocity.x = travelDirection * moveSpeed;
+	_velocity.x = travelDirection * moveSpeed;
 	if (travelDirection == 1): targetRotation = 0;
 	if (travelDirection == -1): targetRotation = PI;
 	
 
 func walk(target_speed : float, delta : float, allow_midair := false):
 	pass;
-
-# Need to expose this here so an animation sequence can call it.
-func damage_target():
-	super.damage_target()
 
 
 func _on_state_changed(_me : UnitBase, new_state : UnitState, old_state : UnitState):
@@ -119,7 +115,7 @@ func predictStrikeZone():
 static func getTerrainHeightAtX(x: float) -> float:
 	return 0.0;
 
-func _isValidTarget(candidate_unit : UnitBase) -> bool:
+func is_valid_target(candidate_unit : UnitBase) -> bool:
 	return super(candidate_unit) && !candidate_unit.is_flying_unit_type;
 
 

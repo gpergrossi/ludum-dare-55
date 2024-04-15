@@ -28,7 +28,7 @@ func _ready():
 	super();
 	sigil.rune_drawn.connect(_on_rune_drawn);
 	died.connect(_on_died)
-	teamName = TeamDefs.Player.team_name;
+	team = Team.PLAYER_TEST
 
 func setMana(newAmount : float):
 	super(newAmount);
