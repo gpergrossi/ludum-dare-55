@@ -1,0 +1,22 @@
+[gd_scene load_steps=5 format=3 uid="uid://cywct6eivig5g"]
+
+[ext_resource type="Shader" path="res://Code/Shaders/unit_sprite.gdshader" id="1_2cwf0"]
+[ext_resource type="Texture2D" uid="uid://c4y2i2isib48c" path="res://Assets/mob/cornprojectile_green.png" id="2_5bxib"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_73gmb"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("1_2cwf0")
+shader_parameter/albedo = Color(1, 1, 1, 1)
+shader_parameter/roughness = null
+shader_parameter/specular = null
+shader_parameter/metallic = null
+shader_parameter/texture_albedo = ExtResource("2_5bxib")
+
+[sub_resource type="QuadMesh" id="QuadMesh_snvjb"]
+resource_local_to_scene = true
+material = SubResource("ShaderMaterial_73gmb")
+size = Vector2(0.24, 0.23)
+
+[node name="GreenCornProjectileSprite" type="MeshInstance3D"]
+mesh = SubResource("QuadMesh_snvjb")

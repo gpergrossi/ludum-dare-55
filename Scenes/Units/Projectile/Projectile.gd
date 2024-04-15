@@ -62,7 +62,7 @@ func hit_ground():
 	
 	# Collect enemy targets in AoE range
 	var possible_targets := UnitManager.get_all_units(
-		TeamDefs.get_opposed_team(team)
+		team.get_opposed_team()
 	);
 	var in_range : Array[UnitBase] = [];
 	for unit in possible_targets:

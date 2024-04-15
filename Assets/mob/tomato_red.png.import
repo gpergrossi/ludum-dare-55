@@ -3,26 +3,25 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://ddem67ugftq4k"
-path.s3tc="res://.godot/imported/tomato_red.png-c3ad709f3baa021e398f800270ecec70.s3tc.ctex"
+path="res://.godot/imported/tomato_red.png-c3ad709f3baa021e398f800270ecec70.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
-"vram_texture": true
+"vram_texture": false
 }
 
 [deps]
 
 source_file="res://Assets/mob/tomato_red.png"
-dest_files=["res://.godot/imported/tomato_red.png-c3ad709f3baa021e398f800270ecec70.s3tc.ctex"]
+dest_files=["res://.godot/imported/tomato_red.png-c3ad709f3baa021e398f800270ecec70.ctex"]
 
 [params]
 
-compress/mode=2
+compress/mode=3
 compress/high_quality=false
 compress/lossy_quality=0.7
-compress/hdr_compression=1
-compress/normal_map=0
+compress/hdr_compression=0
+compress/normal_map=2
 compress/channel_pack=1
-mipmaps/generate=true
+mipmaps/generate=false
 mipmaps/limit=-1
 roughness/mode=0
 roughness/src_normal=""

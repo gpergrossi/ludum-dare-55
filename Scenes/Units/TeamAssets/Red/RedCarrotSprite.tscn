@@ -1,0 +1,23 @@
+[gd_scene load_steps=5 format=3 uid="uid://cov0dd256f85m"]
+
+[ext_resource type="Shader" path="res://Code/Shaders/unit_sprite.gdshader" id="1_341dc"]
+[ext_resource type="Texture2D" uid="uid://c7jrpdex38quj" path="res://Assets/mob/carrot_red.png" id="2_ggosc"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rbvim"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("1_341dc")
+shader_parameter/albedo = Color(1, 1, 1, 1)
+shader_parameter/roughness = null
+shader_parameter/specular = null
+shader_parameter/metallic = null
+shader_parameter/texture_albedo = ExtResource("2_ggosc")
+
+[sub_resource type="QuadMesh" id="QuadMesh_sa68f"]
+resource_local_to_scene = true
+material = SubResource("ShaderMaterial_rbvim")
+size = Vector2(4.13, 3.12)
+
+[node name="RedCarrotSprite" type="MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00413696, 0.000865579, 0)
+mesh = SubResource("QuadMesh_sa68f")

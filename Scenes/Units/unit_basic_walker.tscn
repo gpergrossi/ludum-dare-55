@@ -1,217 +1,147 @@
-[gd_scene load_steps=21 format=3 uid="uid://cgnuyso8cokl4"]
+[gd_scene load_steps=18 format=3 uid="uid://cgnuyso8cokl4"]
 
 [ext_resource type="PackedScene" uid="uid://kkt6g2ery6vj" path="res://Scenes/Units/unit_base.tscn" id="1_dy5r0"]
 [ext_resource type="Script" path="res://Code/Scripts/Units/unit_basic_walker.gd" id="2_c6sqf"]
-[ext_resource type="Texture2D" uid="uid://rdcuybv32pwq" path="res://Assets/mob/broccoli_green.png" id="2_ndrnn"]
 [ext_resource type="Shader" path="res://Code/Shaders/unit_sprite.gdshader" id="3_8rbeq"]
 [ext_resource type="Texture2D" uid="uid://bd884vobgkga6" path="res://Assets/mob/broccolispear_green.png" id="3_ukqnd"]
-[ext_resource type="PackedScene" uid="uid://civ0qmljlf0kk" path="res://Scenes/Important/googley_eyes_pair.tscn" id="6_8x0xh"]
+[ext_resource type="PackedScene" uid="uid://bhp551sabqfag" path="res://Scenes/Units/Modules/team_sprite.tscn" id="3_w6ww3"]
+[ext_resource type="PackedScene" uid="uid://hh3emiss28rj" path="res://Scenes/Units/TeamAssets/Green/GreenBrocolliSprite.tscn" id="4_u6lui"]
+[ext_resource type="Texture2D" uid="uid://rdcuybv32pwq" path="res://Assets/mob/broccoli_green.png" id="6_gee6q"]
+[ext_resource type="PackedScene" uid="uid://civ0qmljlf0kk" path="res://Scenes/Important/googley_eyes_pair.tscn" id="7_1ye23"]
+[ext_resource type="PackedScene" uid="uid://b6skacn5bx6uh" path="res://Scenes/Units/TeamAssets/Green/GreenBrocolliSpearSprite.tscn" id="7_q3a5c"]
 [ext_resource type="AudioStream" uid="uid://x7l2850b4seo" path="res://Assets/sound/broccolispear.wav" id="7_vtv84"]
 
-[sub_resource type="Animation" id="Animation_cog7k"]
-resource_name = "attack"
+[sub_resource type="Animation" id="Animation_6yb6h"]
+resource_name = "attacking"
 loop_mode = 1
-tracks/0/type = "value"
+tracks/0/type = "position_3d"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("BodyTransform:rotation")
+tracks/0/path = NodePath("LaneOffset/FacingRotation/Sprites/WeaponTransform")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.6, 0.8, 1),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 0,
-"values": [Vector3(0, 0, 0), Vector3(0, 0, 0.174533), Vector3(0, 0, -0.0872665), Vector3(0, 0, 0)]
-}
-tracks/1/type = "position_3d"
+tracks/0/keys = PackedFloat32Array(0, 1, 0.831, 1.074, 0.247, 0.6, 1, 0.112829, 1.074, 0.247, 0.8, 1, 1.30892, 1.074, 0.247, 1, 1, 0.831, 1.074, 0.247)
+tracks/1/type = "method"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("WeaponTransform")
+tracks/1/path = NodePath(".")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
-tracks/1/keys = PackedFloat32Array(0, 1, 0, 0, 0, 0.6, 1, -1.125, 0, 0, 0.8, 1, -0.16, 0.08, 0, 1, 1, 0, 0, 0)
-tracks/2/type = "rotation_3d"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("WeaponTransform")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1, 0.6, 1, 0, 0, -0.259, 0.966, 0.8, 1, 0, 0, -0.259, 0.966, 1, 1, 0, 0, 0, 1)
-tracks/3/type = "method"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("%Art2D/../..")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
+tracks/1/keys = {
 "times": PackedFloat32Array(0.8),
 "transitions": PackedFloat32Array(1),
 "values": [{
 "args": [],
-"method": &"damage_target"
+"method": &"damage_targets"
 }]
 }
 
-[sub_resource type="Animation" id="Animation_xiaj8"]
-resource_name = "walk"
-length = 0.8
+[sub_resource type="Animation" id="Animation_jau8h"]
+resource_name = "walking"
 loop_mode = 1
-tracks/0/type = "value"
+tracks/0/type = "rotation_3d"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("BodyTransform:rotation")
+tracks/0/path = NodePath("LaneOffset/FacingRotation/Sprites/BodyTransform")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.2, 0.6, 0.8),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 0,
-"values": [Vector3(0, 0, 0), Vector3(0, 0, -0.0872665), Vector3(0, 0, 0.0872665), Vector3(0, 0, 0)]
-}
+tracks/0/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1, 0.2, 1, 0, 0, -0.087, 0.996, 0.8, 1, 0, 0, 0.087, 0.996, 1, 1, 0, 0, 0, 1)
 tracks/1/type = "position_3d"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("WeaponTransform")
+tracks/1/path = NodePath("LaneOffset/FacingRotation/Sprites/WeaponTransform")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
-tracks/1/keys = PackedFloat32Array(0, 1, 0, 0, 0, 0.2, 1, 0.16, 0.08, 0, 0.4, 1, 0, 0, 0, 0.6, 1, -0.16, 0.08, 0, 0.8, 1, 0, 0, 0)
+tracks/1/keys = PackedFloat32Array(0, 1, 0.831, 1.074, 0.247, 1, 1, 0.831, 1.074, 0.247)
 tracks/2/type = "rotation_3d"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("WeaponTransform")
+tracks/2/path = NodePath("LaneOffset/FacingRotation/Sprites/WeaponTransform")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
-tracks/2/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1, 0.2, 1, 0, 0, 0.044, 0.999, 0.6, 1, 0, 0, -0.044, 0.999, 0.8, 1, 0, 0, 0, 1)
+tracks/2/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1)
 
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_yj3yy"]
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_6y2rt"]
 _data = {
-"attack": SubResource("Animation_cog7k"),
-"walk": SubResource("Animation_xiaj8")
+"attacking": SubResource("Animation_6yb6h"),
+"walking": SubResource("Animation_jau8h")
 }
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_r5ikc"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_q3qfx"]
 resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("3_8rbeq")
 shader_parameter/albedo = Color(1, 1, 1, 1)
-shader_parameter/roughness = 1.0
-shader_parameter/specular = 0.5
-shader_parameter/metallic = 0.0
-shader_parameter/texture_albedo = ExtResource("2_ndrnn")
+shader_parameter/roughness = null
+shader_parameter/specular = null
+shader_parameter/metallic = null
+shader_parameter/texture_albedo = ExtResource("6_gee6q")
 
-[sub_resource type="QuadMesh" id="QuadMesh_rmq5w"]
+[sub_resource type="QuadMesh" id="QuadMesh_l1f62"]
 resource_local_to_scene = true
-material = SubResource("ShaderMaterial_r5ikc")
+material = SubResource("ShaderMaterial_q3qfx")
 size = Vector2(2.85, 4.08)
 
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_0ace5"]
-load_path = "res://.godot/imported/broccoli_red.png-2aa42154cb2a1699b503303fac68c380.ctex"
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_claiw"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_cexcb"]
 resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("3_8rbeq")
 shader_parameter/albedo = Color(1, 1, 1, 1)
-shader_parameter/roughness = 1.0
-shader_parameter/specular = 0.5
-shader_parameter/metallic = 0.0
-shader_parameter/texture_albedo = SubResource("CompressedTexture2D_0ace5")
-
-[sub_resource type="QuadMesh" id="QuadMesh_1nno1"]
-resource_local_to_scene = true
-material = SubResource("ShaderMaterial_claiw")
-size = Vector2(2.85, 4.08)
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_gk3ms"]
-resource_local_to_scene = true
-render_priority = 0
-shader = ExtResource("3_8rbeq")
-shader_parameter/albedo = Color(1, 1, 1, 1)
-shader_parameter/roughness = 1.0
-shader_parameter/specular = 0.5
-shader_parameter/metallic = 0.0
+shader_parameter/roughness = null
+shader_parameter/specular = null
+shader_parameter/metallic = null
 shader_parameter/texture_albedo = ExtResource("3_ukqnd")
 
-[sub_resource type="QuadMesh" id="QuadMesh_senel"]
+[sub_resource type="QuadMesh" id="QuadMesh_oibe8"]
 resource_local_to_scene = true
-material = SubResource("ShaderMaterial_gk3ms")
-size = Vector2(2.35, 0.87)
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_b2nk3"]
-load_path = "res://.godot/imported/broccolispear_red.png-47da5b02c65161fb964b861f6e9ed57c.ctex"
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_fki5d"]
-resource_local_to_scene = true
-render_priority = 0
-shader = ExtResource("3_8rbeq")
-shader_parameter/albedo = Color(1, 1, 1, 1)
-shader_parameter/roughness = 1.0
-shader_parameter/specular = 0.5
-shader_parameter/metallic = 0.0
-shader_parameter/texture_albedo = SubResource("CompressedTexture2D_b2nk3")
-
-[sub_resource type="QuadMesh" id="QuadMesh_p4lxa"]
-resource_local_to_scene = true
-material = SubResource("ShaderMaterial_fki5d")
-size = Vector2(2.35, 0.87)
+material = SubResource("ShaderMaterial_cexcb")
+size = Vector2(2.65, 0.87)
 
 [node name="UnitBasicWalker" instance=ExtResource("1_dy5r0")]
 script = ExtResource("2_c6sqf")
 attack_interval = 1.0
 unit_name = "Basic Walker"
 
-[node name="UnitAnimations" type="AnimationPlayer" parent="." index="1"]
+[node name="UnitAnimations" type="AnimationPlayer" parent="." index="0"]
 unique_name_in_owner = true
-root_node = NodePath("../LaneOffset/Art2D")
 libraries = {
-"": SubResource("AnimationLibrary_yj3yy")
+"": SubResource("AnimationLibrary_6y2rt")
 }
 
-[node name="TargetingTimer" type="Timer" parent="." index="2"]
+[node name="TargetingTimer" type="Timer" parent="." index="1"]
 unique_name_in_owner = true
 wait_time = 0.25
 
-[node name="Art2D" type="Node3D" parent="LaneOffset" index="0"]
-unique_name_in_owner = true
+[node name="BodyTransform" type="Node3D" parent="LaneOffset/FacingRotation/Sprites" index="0"]
 
-[node name="BodyTransform" type="Node3D" parent="LaneOffset/Art2D" index="0"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.107, 0.289, 0)
+[node name="BrocolliSprite" parent="LaneOffset/FacingRotation/Sprites/BodyTransform" index="0" instance=ExtResource("3_w6ww3")]
+damage_flash_time = 0.5
+damage_flash_intensity = 0.5
+damage_flash_color = Color(0.815686, 0, 0, 1)
 
-[node name="BrocolliGreen" type="MeshInstance3D" parent="LaneOffset/Art2D/BodyTransform" index="0"]
-unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.83654, 0)
-visible = false
-mesh = SubResource("QuadMesh_rmq5w")
-skeleton = NodePath("../../../..")
+[node name="GreenBrocolliSprite" type="MeshInstance3D" parent="LaneOffset/FacingRotation/Sprites/BodyTransform/BrocolliSprite" index="0" instance=ExtResource("4_u6lui")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.129062, 2.04659, 0)
+mesh = SubResource("QuadMesh_l1f62")
 
-[node name="BrocolliRed" type="MeshInstance3D" parent="LaneOffset/Art2D/BodyTransform" index="1"]
-unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.83654, 0)
-mesh = SubResource("QuadMesh_1nno1")
-skeleton = NodePath("../../../..")
+[node name="GoogleyEyesPair" parent="LaneOffset/FacingRotation/Sprites/BodyTransform" index="1" instance=ExtResource("7_1ye23")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.71373, 0)
 
-[node name="GoogleyEyesPair" parent="LaneOffset/Art2D/BodyTransform" index="2" instance=ExtResource("6_8x0xh")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.108245, 1.54743, 0)
-dampening = 0.9
+[node name="WeaponTransform" type="Node3D" parent="LaneOffset/FacingRotation/Sprites" index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.30892, 1.074, 0.247)
 
-[node name="WeaponTransform" type="Node3D" parent="LaneOffset/Art2D" index="1"]
+[node name="BrocolliSpearSprite" parent="LaneOffset/FacingRotation/Sprites/WeaponTransform" index="0" instance=ExtResource("3_w6ww3")]
+asset_var_name = "brocolli_spear_sprite"
+damage_flash_time = 0.0
+damage_flash_intensity = 0.0
+damage_flash_color = Color(1, 1, 1, 1)
+sort_offset = 0.5
 
-[node name="BrocolliSpearGreen" type="MeshInstance3D" parent="LaneOffset/Art2D/WeaponTransform" index="0"]
-unique_name_in_owner = true
-transform = Transform3D(0.838081, -0.545546, 0, 0.545546, 0.838081, 0, 0, 0, 1, 0.805894, 1.26464, 0.337855)
-visible = false
+[node name="GreenBrocolliSprite" type="MeshInstance3D" parent="LaneOffset/FacingRotation/Sprites/WeaponTransform/BrocolliSpearSprite" index="0" instance=ExtResource("7_q3a5c")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.129062, -0.00628173, 0)
 sorting_offset = 0.5
-mesh = SubResource("QuadMesh_senel")
-skeleton = NodePath("../../../..")
+mesh = SubResource("QuadMesh_oibe8")
 
-[node name="BrocolliSpearRed" type="MeshInstance3D" parent="LaneOffset/Art2D/WeaponTransform" index="1"]
-unique_name_in_owner = true
-transform = Transform3D(0.838081, -0.545546, 0, 0.545546, 0.838081, 0, 0, 0, 1, 0.805894, 1.26464, 0.337855)
-sorting_offset = 0.5
-mesh = SubResource("QuadMesh_p4lxa")
-skeleton = NodePath("../../../..")
-
-[node name="Broccoli Spear Sound Player" type="AudioStreamPlayer" parent="." index="6"]
+[node name="Broccoli Spear Sound Player" type="AudioStreamPlayer" parent="." index="4"]
 unique_name_in_owner = true
 stream = ExtResource("7_vtv84")
 volume_db = -15.0

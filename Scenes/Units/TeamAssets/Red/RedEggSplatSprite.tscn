@@ -1,0 +1,23 @@
+[gd_scene load_steps=5 format=3 uid="uid://13wx5ymi74ig"]
+
+[ext_resource type="Shader" path="res://Code/Shaders/unit_sprite.gdshader" id="1_ckppw"]
+[ext_resource type="Texture2D" uid="uid://xdln7t1ygbom" path="res://Assets/mob/eggsplat_red.png" id="2_gu4k8"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ln2i3"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("1_ckppw")
+shader_parameter/albedo = Color(1, 1, 1, 1)
+shader_parameter/roughness = null
+shader_parameter/specular = null
+shader_parameter/metallic = null
+shader_parameter/texture_albedo = ExtResource("2_gu4k8")
+
+[sub_resource type="QuadMesh" id="QuadMesh_h0q2l"]
+resource_local_to_scene = true
+material = SubResource("ShaderMaterial_ln2i3")
+size = Vector2(1.66, 1.83)
+
+[node name="RedEggSplatSprite" type="MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.126426, -0.121934, 0)
+mesh = SubResource("QuadMesh_h0q2l")

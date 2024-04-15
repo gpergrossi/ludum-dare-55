@@ -1,0 +1,15 @@
+[gd_scene load_steps=4 format=3 uid="uid://dac1y8b8yqyh5"]
+
+[ext_resource type="PackedScene" uid="uid://bx0w5oc21dce" path="res://Assets/Models/barn_v_2.tscn" id="1_qll0m"]
+[ext_resource type="Material" uid="uid://de2wajeibpv8g" path="res://Assets/Materials/m_GreenBarn.tres" id="2_ikmo7"]
+[ext_resource type="Material" uid="uid://64fmwgmnt6b8" path="res://Assets/Materials/m_Green_Under.tres" id="3_20kju"]
+
+[node name="GreenCastleLeft" type="Node3D"]
+
+[node name="Barn_v2" parent="." instance=ExtResource("1_qll0m")]
+
+[node name="Barn_Pentagram_merged" parent="Barn_v2" index="0"]
+surface_material_override/3 = ExtResource("2_ikmo7")
+surface_material_override/5 = ExtResource("3_20kju")
+
+[editable path="Barn_v2"]

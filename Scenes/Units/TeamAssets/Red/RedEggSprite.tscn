@@ -1,0 +1,23 @@
+[gd_scene load_steps=5 format=3 uid="uid://oreprq2iy8uj"]
+
+[ext_resource type="Shader" path="res://Code/Shaders/unit_sprite.gdshader" id="1_juu7s"]
+[ext_resource type="Texture2D" uid="uid://cuy75bh7k41es" path="res://Assets/mob/egg_red.png" id="2_a1emm"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jsbya"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("1_juu7s")
+shader_parameter/albedo = Color(1, 1, 1, 1)
+shader_parameter/roughness = null
+shader_parameter/specular = null
+shader_parameter/metallic = null
+shader_parameter/texture_albedo = ExtResource("2_a1emm")
+
+[sub_resource type="QuadMesh" id="QuadMesh_haau8"]
+resource_local_to_scene = true
+material = SubResource("ShaderMaterial_jsbya")
+size = Vector2(1.46, 2.03)
+
+[node name="RedEggSprite" type="MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00476821, 0.00201911, 0)
+mesh = SubResource("QuadMesh_haau8")
