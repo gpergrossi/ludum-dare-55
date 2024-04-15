@@ -106,6 +106,10 @@ func play_rune(rune : Rune) -> void:
 			var endpoint_pos = vertices[rune.path[shown_path_idx]].position.lerp(vertices[rune.path[shown_path_idx + 1]].position, fmod(current_path_idx, 1.0))
 			_set_path_display_endpoint(endpoint_pos)
 		await get_tree().process_frame
+		if not is_inside_tree():
+			return
 	
 	await get_tree().create_timer(playback_release_after_s).timeout
+	if not is_inside_tree():
+		return
 	_release_rune()

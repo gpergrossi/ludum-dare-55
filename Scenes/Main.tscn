@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://ddjbrnypilhof"]
+[gd_scene load_steps=31 format=3 uid="uid://ddjbrnypilhof"]
 
 [ext_resource type="Script" path="res://Code/Classes/OpponentController.gd" id="1_dy58u"]
 [ext_resource type="Script" path="res://Code/Classes/PlayerController.gd" id="1_uq66x"]
@@ -12,6 +12,7 @@
 [ext_resource type="Script" path="res://Code/Scripts/Units/unit_manager.gd" id="8_ha0w3"]
 [ext_resource type="PackedScene" uid="uid://dub5xj3whpcmw" path="res://Scenes/PositionSelector/position_selector.tscn" id="9_ypx28"]
 [ext_resource type="Script" path="res://Code/Scripts/camera_follow.gd" id="13_jv6l7"]
+[ext_resource type="PackedScene" uid="uid://db6isycrw3qsa" path="res://Scenes/Props/bird_flock.tscn" id="16_ctnln"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_cv4jk"]
 
@@ -232,5 +233,9 @@ unique_name_in_owner = true
 script = ExtResource("1_dy58u")
 healthBar = NodePath("../Right Side Things (Enemy)/EnemyHealthBar")
 
+[node name="BirdFlock" parent="." instance=ExtResource("16_ctnln")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -600, 25, -150)
+
+[connection signal="body_entered" from="Ground/Y Kill Plane" to="Ground/Y Kill Plane" method="_on_body_entered"]
 [connection signal="body_entered" from="Left Side Things (Player)/Kill Enemy Units" to="UnitManager" method="_on_unit_kill_plane_left_body_entered"]
 [connection signal="body_entered" from="Right Side Things (Enemy)/Kill Player Units" to="UnitManager" method="_on_unit_kill_plane_right_body_entered"]

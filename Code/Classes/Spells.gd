@@ -15,8 +15,8 @@ static var definitions = [{
 	'level': 2,
 	'manaSecondsAtLevel': 30,
 	'preferredLocation': 'sky',
-	'rune': Rune.new([0, 3, 1, 2, 0]),
-	'castFunc': Spells.dummy, # TODO
+	'rune': Rune.new([4, 1 ,2]),
+	'castFunc': UnitManager.summonFlyingBomber,
 	'botCooldownSeconds': 5,
 }, {
 	'programmaticName': 'summonRanged',
