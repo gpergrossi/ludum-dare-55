@@ -77,7 +77,7 @@ func process_unit(delta : float) -> void:
 			var targets := _unit_targeting.get_targets()
 			if len(targets) > 0:
 				var target_x := targets[0].position.x
-				if absf(position.x - target_x) < 1.0:
+				if absf(position.x - target_x) < 2.0:
 					# Drop egg
 					var time := Time.get_ticks_msec()
 					if time > eggCooldown:
