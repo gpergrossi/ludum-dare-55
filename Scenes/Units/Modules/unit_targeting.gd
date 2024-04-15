@@ -275,6 +275,8 @@ func get_unit_type_mask(unit : UnitBase) -> UnitTypeMask:
 	if unit is UnitFlyingBomber: return UnitTypeMask.CROW
 	if unit is UnitStationaryGuard: return UnitTypeMask.LETTUCE
 	if unit is UnitEggProjectile: return UnitTypeMask.PROJECTILE
+	if unit is UnitTomatoPlant: return UnitTypeMask.TOMATO
+	if unit is UnitTomatoProjectile: return UnitTypeMask.PROJECTILE
 	assert(false)
 	return 0
 

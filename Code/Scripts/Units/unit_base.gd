@@ -43,10 +43,9 @@ const LAYER_RIGHTSIDE := 3
 @export_range(0.0, 1.0) var knockback_immunity := 0.0
 
 @export_category("Attack")
-@export var attack_range := 2.0
 @export var damage := 30.0
-@export var reach_caster_damage := 10.0
 @export var knockback := 10.0
+@export var reach_caster_damage := 10.0
 
 
 # Signals
@@ -282,14 +281,11 @@ func die() -> void:
 	if _on_floor:
 		queue_free()
 	else:
-		print("Dead unit " + name + " waiting for next ground touch...")
 		unit_on_ground.connect(delayed_queue_free)
 
 
 func delayed_queue_free(_me : UnitBase):
-	print("Dead unit " + name + " touched the ground!")
-	if _state == UnitState.DEAD:
-		queue_free()
+	queue_free()
 
 
 # Based on damage, the eyes get sadder

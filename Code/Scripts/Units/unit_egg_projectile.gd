@@ -30,5 +30,8 @@ func _on_grounded(me : UnitBase):
 	for target in _unit_targeting.get_targets():
 		target.take_damage(damage, knockback)
 	
-	await get_tree().create_timer(1).timeout
+	get_tree().create_timer(1).timeout.connect(delayed_die)
+
+
+func delayed_die():
 	die()
