@@ -88,6 +88,19 @@ func _on_state_changed(_me : UnitBase, new_state : UnitState, old_state : UnitSt
 func process_unit(delta : float) -> void:
 	walk(0, delta, true)
 
+func find_target() -> UnitBase:
+	var strikeZone = predictStrikeZone();
+	return null; # TODO
+	
 
-func _on_targeting_timer():
-	find_target()  # May trigger _on_target_acquired, if there is a target
+func predictStrikeZone():
+	return {
+		'location': Vector2 (position.x, getTerrainHeightAtX(position.x)),
+		'radius': 5.0,
+	};
+
+static func getTerrainHeightAtX(x: float) -> float:
+	return 0.0;
+	
+	
+	
