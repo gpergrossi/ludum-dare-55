@@ -1,9 +1,12 @@
 class_name UnitFlyingBomber extends UnitBase
 
+const scene_egg_bomb := preload("res://Scenes/Units/Projectile/egg_bomb.tscn") as PackedScene;
 @onready var _unit_anims := %UnitAnimations as AnimationPlayer
 @onready var _body := %BodyTransform as Node3D
 @onready var _targeting_timer := %TargetingTimer as Timer
 
+const eggCooldownDurationMillis := 1000;
+var eggCooldown := 0;
 const flapHeightRange = {
 	'min': 8,
 	'max': 30,
@@ -33,7 +36,6 @@ func _ready() -> void:
 	state_changed.connect(_on_state_changed)
 	super._ready()
 	setTravelDirection(initialTravelDirection[team.team_name]);
-	_targeting_timer.timeout.connect(_on_targeting_timer); # Would love to do this in the base class, but couldn't figure out how to make it work.
 
 func selectIdiosyncracies():
 	flapHeight = randomWeightMid(flapHeightRange['min'], flapHeightRange['max']);
@@ -72,32 +74,28 @@ func setTravelDirection(newDirection : int):
 	velocity.x = travelDirection * moveSpeed;
 	if (travelDirection == 1): targetRotation = 0;
 	if (travelDirection == -1): targetRotation = PI;
-	
-
-func walk(target_speed : float, delta : float, allow_midair := false):
-	pass;
-
-# Need to expose this here so an animation sequence can call it.
-func damage_target():
-	super.damage_target()
-
 
 func _on_state_changed(_me : UnitBase, new_state : UnitState, old_state : UnitState):
 	match(new_state):
 		UnitState.INITIALIZE: 
 			change_state(UnitState.DEFENDING)
 
-
 func process_unit(delta : float) -> void:
-	walk(0, delta, true)
-
-func _on_targeting_timer():
 	attemptAttack();
 
 func attemptAttack():
-	var target : UnitBase = find_target();
-	if not target: return;
-	# TODO drop egg
+	#var target : UnitBase = find_target();  # TODO fire only if target is in strike zone
+	#if not target: return;
+	var time := Time.get_ticks_msec();
+	if time > eggCooldown:
+		eggCooldown = time + eggCooldownDurationMillis;
+		layEgg();
+
+func layEgg():
+	var projectile : Projectile = scene_egg_bomb.instantiate();
+	projectile.set_team(team);
+	projectile.position = position;
+	ProjectileManager.singleton.add_child(projectile);
 
 const eggSplatRadius = 5;
 const targetRadiusSquared = eggSplatRadius * eggSplatRadius;
