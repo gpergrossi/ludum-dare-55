@@ -78,6 +78,10 @@ libraries = {
 "": SubResource("AnimationLibrary_yj3yy")
 }
 
+[node name="TargetingTimer" type="Timer" parent="." index="2"]
+unique_name_in_owner = true
+wait_time = 0.25
+
 [node name="Art2D" type="Node3D" parent="LaneOffset" index="0"]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.209154, 0)

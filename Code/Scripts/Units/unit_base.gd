@@ -19,6 +19,7 @@ const LAYER_RIGHTSIDE := 3
 var team : Team
 
 @export var unit_name : String
+@export var is_flying_unit_type : bool = false;
 
 @export_category("Movement")
 @export var top_speed := 10
@@ -84,7 +85,6 @@ var _damage_flash_time_remaining := 0.0
 
 
 
-
 func _ready():
 	_id = next_uid
 	next_uid += 1
@@ -97,7 +97,6 @@ func _ready():
 	_on_team_assigned(team)
 	
 	change_state(UnitState.INITIALIZE)
-
 
 func _physics_process(delta : float):
 	# Color animation because I had to use code to get this working
@@ -484,9 +483,9 @@ func _get_possible_targets():
 	
 	return candidates;
 
-func _isValidTarget(in_group):
-	var candidate_unit := in_group as UnitBase
+func _isValidTarget(candidate_unit : UnitBase):
 	assert(candidate_unit, "All units should be UnitBase")
+	
 	if team == candidate_unit.team: return false;
 	if candidate_unit._state == UnitState.DEAD: return false;
 	return true;

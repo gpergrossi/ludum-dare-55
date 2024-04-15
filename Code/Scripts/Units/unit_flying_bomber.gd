@@ -2,6 +2,7 @@ class_name UnitFlyingBomber extends UnitBase
 
 @onready var _unit_anims := %UnitAnimations as AnimationPlayer
 @onready var _body := %BodyTransform as Node3D
+@onready var _targeting_timer := %TargetingTimer as Timer
 
 const flapHeightRange = {
 	'min': 8,
@@ -27,10 +28,12 @@ var travelDirection : int;
 var targetRotation : float;
 
 func _ready() -> void:
+	is_flying_unit_type = true;
 	selectIdiosyncracies();
 	state_changed.connect(_on_state_changed)
 	super._ready()
 	setTravelDirection(initialTravelDirection[team.team_name]);
+	_targeting_timer.timeout.connect(_on_targeting_timer); # Would love to do this in the base class, but couldn't figure out how to make it work.
 
 func selectIdiosyncracies():
 	flapHeight = randomWeightMid(flapHeightRange['min'], flapHeightRange['max']);
@@ -88,19 +91,40 @@ func _on_state_changed(_me : UnitBase, new_state : UnitState, old_state : UnitSt
 func process_unit(delta : float) -> void:
 	walk(0, delta, true)
 
+func _on_targeting_timer():
+	attemptAttack();
+
+func attemptAttack():
+	var target : UnitBase = find_target();
+	if not target: return;
+	# TODO drop egg
+
+const eggSplatRadius = 5;
+const targetRadiusSquared = eggSplatRadius * eggSplatRadius;
 func find_target() -> UnitBase:
+	print('finding');
 	var strikeZone = predictStrikeZone();
-	return null; # TODO
-	
+	var candidates = _get_possible_targets();
+	for unit : UnitBase in candidates:
+		if strikeZone.distance_squared_to(unit.global_position) < targetRadiusSquared:
+			return unit;
+	return null;
 
 func predictStrikeZone():
-	return {
-		'location': Vector2 (position.x, getTerrainHeightAtX(position.x)),
-		'radius': 5.0,
-	};
+	return Vector2 (
+		position.x,
+		getTerrainHeightAtX(position.x)
+	);
 
 static func getTerrainHeightAtX(x: float) -> float:
 	return 0.0;
-	
-	
-	
+
+func _isValidTarget(candidate_unit : UnitBase) -> bool:
+	return super(candidate_unit) && !candidate_unit.is_flying_unit_type;
+
+
+
+
+
+
+
