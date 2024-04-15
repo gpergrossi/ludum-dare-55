@@ -10,6 +10,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="AspectRatioContainer" type="AspectRatioContainer" parent="."]
+layout_mode = 0
 offset_right = 1149.0
 offset_bottom = 643.0
 stretch_mode = 3
