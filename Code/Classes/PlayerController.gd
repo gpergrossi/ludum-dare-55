@@ -2,8 +2,9 @@ class_name PlayerController extends AbstractSpellCaster
 
 @onready var manabar : ProgressBar = %PlayerManaBarUi;
 @onready var sigil: SigilController = %Sigil;
+@onready var position_selector := %PositionSelector
 
-func _on_rune_drawn(rune: Rune, location = null):
+func _on_rune_drawn(rune: Rune):
 	print(rune.canonical_edge_list);
 	var spell = null
 	if rune.canonical_edge_list == Spells.recastRune.canonical_edge_list:
@@ -11,6 +12,17 @@ func _on_rune_drawn(rune: Rune, location = null):
 	else:
 		spell = Spells.getSpellFor(rune)
 	if spell == null: return false;
+	
+	if not canCast(spell, null): return false
+	
+	var location = null
+	if spell['preferredLocation'] != 'none':
+		sigil.is_interactable = false
+		sigil.hide()
+		location = await position_selector.select_position()
+		sigil.show()
+		sigil.is_interactable = true
+	
 	return cast(spell, location);
 
 func _ready():
@@ -28,7 +40,7 @@ func setMaxMana(newMax : int):
 	manabar.max_value = maxMana;
 
 func cast(spell, location = null):
-	if !canCast(spell):
+	if !canCast(spell, location):
 		# TODO show low mana warning to player
 		pass;
 	return super(spell, location);

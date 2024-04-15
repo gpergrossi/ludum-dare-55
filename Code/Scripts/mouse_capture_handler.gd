@@ -32,15 +32,6 @@ func _input(event : InputEvent):
 			release_mouse()
 		elif Time.get_ticks_msec() > _release_time + 3000:
 			capture_mouse()
-	
-	elif event is InputEventMouse:
-		var mouseEvent := event as InputEventMouse
-		if mouseEvent.is_pressed():
-			var ray_origin := camera.project_ray_origin(mouseEvent.position)
-			var ray_dir := camera.project_ray_normal(mouseEvent.position)
-			
-			var intersect_xy := Vector2(ray_origin.x, ray_origin.y) - (ray_origin.z / ray_dir.z) * Vector2(ray_dir.x, ray_dir.y)
-			print("Your ray hit the world XY plane at: " + str(intersect_xy))
 
 
 func capture_mouse():

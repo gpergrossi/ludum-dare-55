@@ -43,11 +43,11 @@ func initMana(lv):
 func regenMana(secondsElapsed : float):
 	setMana(mana + PlayerController.getManaRegenPerSecond(level) * secondsElapsed);
 
-func canCast(spell):
+func canCast(spell, _location):
 	return mana > spell['manaCost']
 
 func cast(spell, location = null):
-	if !canCast(spell): return false;
+	if !canCast(spell, location): return false;
 	if location == null: location = getDefaultLocation(spell);
 
 	setMana(mana - spell['manaCost']);
@@ -59,9 +59,11 @@ func getDefaultLocation(spell):
 	var loc = UnitManager._unit_manager_static.summon_default_position_left.global_position;
 	loc = Vector2(loc.x, loc.y);
 	match spell['preferredLocation']:
+		'none': return loc
 		'*': return Vector2.ZERO;
 		'ground': return loc;
 		'sky': return loc + Vector2(0, -10);
+	assert(false, "no default location for %s" % spell['preferredLocation'])
 
 func setHealth(new_health : float) -> void:
 	health = clamp(new_health, 0, maxHealth)
