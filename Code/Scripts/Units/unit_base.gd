@@ -12,8 +12,8 @@ enum UnitState {
 static var next_uid := 0
 
 const LAYER_WORLD := 1
-const LAYER_PLAYER := 2
-const LAYER_ENEMY := 3
+const LAYER_LEFTSIDE := 2
+const LAYER_RIGHTSIDE := 3
 
 @export_enum("Player", "Enemy") var team_name := "Player" : set = set_team_name
 var team : Team
@@ -33,6 +33,7 @@ var team : Team
 @export var attack_range := 2.0
 @export var damage := 30.0
 @export var reach_caster_damage := 10.0
+@export var knockback := 10.0
 
 @export_category("Rendering")
 @export var color_tint := Color.WHITE : set = set_color_tint
@@ -44,7 +45,7 @@ var team : Team
 
 
 
-signal damage_taken(me : UnitBase, amount : float, new_health : float, max_health : float)
+signal damage_taken(me : UnitBase, damage : float, new_health : float)
 signal state_changed(me : UnitBase, new_state : UnitState, old_state : UnitState)
 signal target_acquired(me : UnitBase, new_current_target : UnitBase)
 signal target_lost(me : UnitBase, prev_current_target : UnitBase)
@@ -260,25 +261,25 @@ func damage_target():
 		# Current swing is still allowed to hit up to 2x attack range
 		if dist < attack_range * 2:
 			# Apply damage
-			_current_target.take_damage(damage)
+			_current_target.take_damage(damage, knockback)
 		
 		# But the target will still be dropped afterward if out of attack range.
 		if dist > attack_range:
 			clear_target()
 
 
-func take_damage(amount : float) -> void:
+func take_damage(damage_amount : float, knockback_amount : float) -> void:
 	var prev_health := _health
 	
-	print("Taking damage: " + str(amount))
-	_health -= amount
-	damage_taken.emit(self, amount, _health, max_health)
+	print("Taking damage: " + str(damage_amount))
+	_health -= damage_amount
+	damage_taken.emit(self, damage_amount, _health)
 	
 	if not is_equal_approx(_health, prev_health):
 		update_brow_tilt()
 		_damage_flash_time_remaining = damage_flash_time
 		
-		var knockback := knockback_multiplier_self * Vector3(-team.get_team_move_x(), 1.0, 0).normalized() * 10.0
+		var knockback := knockback_multiplier_self * Vector3(-team.get_team_move_x(), 1.0, 0).normalized() * knockback_amount
 		velocity += knockback
 		
 		if _health <= 0:
@@ -316,14 +317,12 @@ func _on_team_assigned(new_team : Team):
 	# Get team layer number
 	var team_layer : int
 	var other_team_layer : int
-	match new_team:
-		TeamDefs.Player: 
-			team_layer = LAYER_PLAYER
-			other_team_layer = LAYER_ENEMY
-		TeamDefs.Enemy: 
-			team_layer = LAYER_ENEMY
-			other_team_layer = LAYER_PLAYER
-		_: assert(false, "Bad team!")
+	if team.team_side < 0: 
+		team_layer = LAYER_LEFTSIDE
+		other_team_layer = LAYER_RIGHTSIDE
+	else:
+		team_layer = LAYER_RIGHTSIDE
+		other_team_layer = LAYER_LEFTSIDE
 	
 	# Assign to own team layer + world objects layer
 	set_collision_layer_value(LAYER_WORLD, false)

@@ -67,6 +67,7 @@ unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.209154, 0)
 
 [node name="BodyTransform" type="Node3D" parent="LaneOffset/Art2D" index="0"]
+unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.120237, 0, 0)
 
 [node name="LettuceGreen" type="MeshInstance3D" parent="LaneOffset/Art2D/BodyTransform" index="0"]

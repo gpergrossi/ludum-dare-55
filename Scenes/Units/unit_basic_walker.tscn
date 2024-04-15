@@ -199,13 +199,13 @@ dampening = 0.9
 unique_name_in_owner = true
 transform = Transform3D(0.838081, -0.545546, 0, 0.545546, 0.838081, 0, 0, 0, 1, 0.805894, 1.26464, 0.337855)
 visible = false
-sorting_offset = 5.0
+sorting_offset = 0.5
 mesh = SubResource("QuadMesh_senel")
 skeleton = NodePath("../../../..")
 
 [node name="BrocolliSpearRed" type="MeshInstance3D" parent="LaneOffset/Art2D/WeaponTransform" index="1"]
 unique_name_in_owner = true
 transform = Transform3D(0.838081, -0.545546, 0, 0.545546, 0.838081, 0, 0, 0, 1, 0.805894, 1.26464, 0.337855)
-sorting_offset = 5.0
+sorting_offset = 0.5
 mesh = SubResource("QuadMesh_p4lxa")
 skeleton = NodePath("../../../..")
