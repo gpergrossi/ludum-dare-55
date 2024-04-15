@@ -63,4 +63,4 @@ func process_unit(delta : float) -> void:
 
 
 func _on_targeting_timer():
-	find_target()  # May trigger _on_target_acquired, if there is a target
+	internal_find_target()  # May trigger _on_target_acquired, if there is a target

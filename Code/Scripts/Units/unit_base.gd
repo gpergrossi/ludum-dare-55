@@ -147,6 +147,30 @@ func process_unit(delta : float) -> void:
 		UnitState.MOVING:
 			walk(top_speed, delta)
 
+func find_target() -> UnitBase:
+	return find_target_from_scanners()
+
+func assign_collision_layers() -> void:
+	# Get team layer number
+	var team_layer : int
+	var other_team_layer : int
+	if team.team_side < 0: 
+		team_layer = LAYER_LEFTSIDE
+		other_team_layer = LAYER_RIGHTSIDE
+	else:
+		team_layer = LAYER_RIGHTSIDE
+		other_team_layer = LAYER_LEFTSIDE
+		
+	# Assign to own team layer + world objects layer
+	set_collision_layer_value(LAYER_WORLD, false)
+	set_collision_layer_value(team_layer, true)
+	set_collision_layer_value(other_team_layer, false)
+	
+	# Collide with other team layer + world objects layer
+	set_collision_mask_value(LAYER_WORLD, true)
+	set_collision_mask_value(other_team_layer, true)
+	set_collision_mask_value(team_layer, false)
+
 ################################################################################
 ######   END VIRTUAL METHODS FOR SUBCLASS  ##################################
 ##########################################################################
@@ -159,21 +183,26 @@ func process_unit(delta : float) -> void:
 ######   HELPFUL METHODS FOR SUBCLASS   #####################################
 ################################################################################
 
+func internal_find_target() -> void:
+	var target := find_target()
+	if target:
+		_current_target = target
+		target_acquired.emit(self, _current_target)
+		_current_target.state_changed.connect(internal_check_target_dead)
+	else:
+		clear_target()
+
+
+func find_target_from_scanners() -> UnitBase:
+	return _find_nearest_target_with_scanners(attack_range)
+
+
+
 func walk(target_speed : float, delta : float, allow_midair := false):
 	if is_on_floor() or allow_midair:
 		if absf(velocity.x - team.get_team_move_x() * target_speed) > 0.0:
 			var target_move_x := team.get_team_move_x() * target_speed
 			velocity.x = move_toward(velocity.x, target_move_x, move_accel * delta)
-
-
-func find_target():
-	var enemy := _find_nearest_target(attack_range)
-	if enemy:
-		_current_target = enemy
-		target_acquired.emit(self, _current_target)
-		_current_target.state_changed.connect(internal_check_target_dead)
-	else:
-		clear_target()
 
 
 func clear_target():
@@ -279,8 +308,8 @@ func take_damage(damage_amount : float, knockback_amount : float) -> void:
 		update_brow_tilt()
 		_damage_flash_time_remaining = damage_flash_time
 		
-		var knockback := knockback_multiplier_self * Vector3(-team.get_team_move_x(), 1.0, 0).normalized() * knockback_amount
-		velocity += knockback
+		var knockback_force := knockback_multiplier_self * Vector3(-team.get_team_move_x(), 1.0, 0).normalized() * knockback_amount
+		velocity += knockback_force
 		
 		if _health <= 0:
 			die()
@@ -314,25 +343,7 @@ func get_damage_flash_intensity() -> float:
 ################################################################################
 
 func _on_team_assigned(new_team : Team):
-	# Get team layer number
-	var team_layer : int
-	var other_team_layer : int
-	if team.team_side < 0: 
-		team_layer = LAYER_LEFTSIDE
-		other_team_layer = LAYER_RIGHTSIDE
-	else:
-		team_layer = LAYER_RIGHTSIDE
-		other_team_layer = LAYER_LEFTSIDE
-	
-	# Assign to own team layer + world objects layer
-	set_collision_layer_value(LAYER_WORLD, false)
-	set_collision_layer_value(team_layer, true)
-	set_collision_layer_value(other_team_layer, false)
-	
-	# Collide with other team layer + world objects layer
-	set_collision_mask_value(LAYER_WORLD, true)
-	set_collision_mask_value(other_team_layer, true)
-	set_collision_mask_value(team_layer, false)
+	assign_collision_layers()
 	
 	# Make team color's sprite variants visible
 	show_green_art(new_team == TeamDefs.Player)
@@ -444,7 +455,7 @@ func internal_check_target_dead(unit : UnitBase, new_state : UnitState, _old_sta
 		clear_target()
 
 
-func _find_nearest_target(max_range : float) -> UnitBase:
+func _find_nearest_target_with_scanners(max_range : float) -> UnitBase:
 	var nearest_enemy : UnitBase = null
 	var nearest_distance_squared = max_range * max_range
 	

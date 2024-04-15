@@ -115,11 +115,11 @@ shape = SubResource("WorldBoundaryShape3D_11f8j")
 [node name="Left Side Things (Player)" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -55, 0, 0)
 
-[node name="Stop Player Units" type="StaticBody3D" parent="Left Side Things (Player)"]
-collision_layer = 4
-collision_mask = 2
+[node name="Stop Left Units and Flyers" type="StaticBody3D" parent="Left Side Things (Player)"]
+collision_layer = 12
+collision_mask = 10
 
-[node name="CollisionShape3D2" type="CollisionShape3D" parent="Left Side Things (Player)/Stop Player Units"]
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="Left Side Things (Player)/Stop Left Units and Flyers"]
 shape = SubResource("WorldBoundaryShape3D_x5fky")
 
 [node name="Kill Enemy Units" type="Area3D" parent="Left Side Things (Player)"]
@@ -142,11 +142,11 @@ fraction = 0.637
 [node name="Right Side Things (Enemy)" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 55, 0, 0)
 
-[node name="Stop Enemy Units" type="StaticBody3D" parent="Right Side Things (Enemy)"]
-collision_layer = 2
-collision_mask = 4
+[node name="Stop Right Units and Flyers" type="StaticBody3D" parent="Right Side Things (Enemy)"]
+collision_layer = 10
+collision_mask = 12
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Right Side Things (Enemy)/Stop Enemy Units"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Right Side Things (Enemy)/Stop Right Units and Flyers"]
 shape = SubResource("WorldBoundaryShape3D_w46i8")
 
 [node name="Kill Player Units" type="Area3D" parent="Right Side Things (Enemy)"]

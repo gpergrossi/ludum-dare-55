@@ -9,6 +9,7 @@ static var _unit_manager_static : UnitManager
 
 var scene_basic_walker := preload("res://Scenes/Units/unit_basic_walker.tscn") as PackedScene
 var scene_stationary_guard := preload("res://Scenes/Units/unit_stationary_guard.tscn") as PackedScene
+var scene_flying_bomber := preload("res://Scenes/Units/unit_flying_bomber.tscn") as PackedScene
 
 var summon_lock := false
 
@@ -28,6 +29,8 @@ func _input(event : InputEvent):
 					summon("basicWalker", {}, Vector2(summon_default_position_right.global_position.x, 0), "Enemy")
 				if key_event.physical_keycode == KEY_3:
 					summon("stationaryGuard", {}, Vector2(0, 0), "Player")
+				if key_event.physical_keycode == KEY_4:
+					summon("flyingBomber", {}, Vector2(0, -50.0), "Player")
 			summon_lock = true
 		else:
 			summon_lock = false
@@ -43,14 +46,21 @@ static func summonStationaryGuard(spell_def : Dictionary, unit_position : Vector
 		_unit_manager_static.summon("stationaryGuard", spell_def, unit_position, team)
 
 
+static func summonFlyingBomber(spell_def : Dictionary, unit_position : Vector2, team : String):
+	if is_instance_valid(_unit_manager_static):
+		_unit_manager_static.summon("flyingBomber", spell_def, unit_position, team)
+
+
 func summon(unitType : String, spell_def : Dictionary, unit_position : Vector2, team : String):
 	var packed_scene : PackedScene = null
 	match(unitType):
-		"basicWalker": packed_scene = scene_basic_walker
+		"basicWalker":     packed_scene = scene_basic_walker
 		"stationaryGuard": packed_scene = scene_stationary_guard
-		_:
-			printerr("No such unit type \"" + unitType + "\"!")
-			return
+		"flyingBomber":    packed_scene = scene_flying_bomber
+
+	if packed_scene == null:
+		printerr("No such unit type \"" + unitType + "\"!")
+		return
 	
 	var unit := packed_scene.instantiate() as UnitBase
 	unit.consume_spell_def(spell_def)

@@ -5,20 +5,17 @@
 
 [node name="GoogleyEyesPair" type="Node3D"]
 script = ExtResource("1_todsb")
-spring_const = 1.0
-mass = 1.0
+dampening = 0.25
 brow_visible = true
-brow_tilt = 0.0
+brow_tilt = -5.0
 brow_thickness = 0.1
 
 [node name="LeftEye" parent="." instance=ExtResource("1_gxdyr")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.27, 0, 0)
-dampening = 0.34
-brow_tilt = 0.0
+brow_tilt = 5.0
 brow_thickness = 0.1
 
 [node name="RightEye" parent="." instance=ExtResource("1_gxdyr")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.27, 0, 0)
-dampening = 0.34
-brow_tilt = 0.0
+brow_tilt = -5.0
 brow_thickness = 0.1

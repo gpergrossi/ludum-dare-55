@@ -68,6 +68,7 @@ escape={
 3d_physics/layer_1="World"
 3d_physics/layer_2="LeftUnits"
 3d_physics/layer_3="RightUnits"
+3d_physics/layer_4="Flyers"
 
 [rendering]
 

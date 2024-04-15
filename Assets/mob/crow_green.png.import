@@ -3,19 +3,20 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://b33bj8e2vxw7s"
-path="res://.godot/imported/crow_green.png-a467a341c40cb304bb11b291cc3e7d08.ctex"
+path.s3tc="res://.godot/imported/crow_green.png-a467a341c40cb304bb11b291cc3e7d08.s3tc.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
 }
 
 [deps]
 
 source_file="res://Assets/mob/crow_green.png"
-dest_files=["res://.godot/imported/crow_green.png-a467a341c40cb304bb11b291cc3e7d08.ctex"]
+dest_files=["res://.godot/imported/crow_green.png-a467a341c40cb304bb11b291cc3e7d08.s3tc.ctex"]
 
 [params]
 
-compress/mode=3
+compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/hdr_compression=1
@@ -31,4 +32,4 @@ process/normal_map_invert_y=false
 process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
-detect_3d/compress_to=1
+detect_3d/compress_to=0
