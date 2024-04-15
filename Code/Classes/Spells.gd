@@ -78,6 +78,7 @@ static var definitions = [{
 static var recastRune := Rune.new([3, 4])
 
 static var summonBasicWalker = Spells.definitions[0];
+static var summonWall = Spells.definitions[3]
 
 static func _static_init():
 	var id = 0;
