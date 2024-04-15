@@ -67,7 +67,7 @@ _data = {
 "walking": SubResource("Animation_jau8h")
 }
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_831h7"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_q3qfx"]
 resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("3_8rbeq")
@@ -77,12 +77,12 @@ shader_parameter/specular = null
 shader_parameter/metallic = null
 shader_parameter/texture_albedo = ExtResource("6_gee6q")
 
-[sub_resource type="QuadMesh" id="QuadMesh_174mv"]
+[sub_resource type="QuadMesh" id="QuadMesh_l1f62"]
 resource_local_to_scene = true
-material = SubResource("ShaderMaterial_831h7")
+material = SubResource("ShaderMaterial_q3qfx")
 size = Vector2(2.85, 4.08)
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_mxl30"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_cexcb"]
 resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("3_8rbeq")
@@ -92,9 +92,9 @@ shader_parameter/specular = null
 shader_parameter/metallic = null
 shader_parameter/texture_albedo = ExtResource("3_ukqnd")
 
-[sub_resource type="QuadMesh" id="QuadMesh_ba438"]
+[sub_resource type="QuadMesh" id="QuadMesh_oibe8"]
 resource_local_to_scene = true
-material = SubResource("ShaderMaterial_mxl30")
+material = SubResource("ShaderMaterial_cexcb")
 size = Vector2(2.65, 0.87)
 
 [node name="UnitBasicWalker" instance=ExtResource("1_dy5r0")]
@@ -121,7 +121,7 @@ damage_flash_color = Color(0.815686, 0, 0, 1)
 
 [node name="GreenBrocolliSprite" type="MeshInstance3D" parent="LaneOffset/FacingRotation/Sprites/BodyTransform/BrocolliSprite" index="0" instance=ExtResource("4_u6lui")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.129062, 2.04659, 0)
-mesh = SubResource("QuadMesh_174mv")
+mesh = SubResource("QuadMesh_l1f62")
 
 [node name="GoogleyEyesPair" parent="LaneOffset/FacingRotation/Sprites/BodyTransform" index="1" instance=ExtResource("7_1ye23")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.71373, 0)
@@ -139,7 +139,7 @@ sort_offset = 0.5
 [node name="GreenBrocolliSprite" type="MeshInstance3D" parent="LaneOffset/FacingRotation/Sprites/WeaponTransform/BrocolliSpearSprite" index="0" instance=ExtResource("7_q3a5c")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.129062, -0.00628173, 0)
 sorting_offset = 0.5
-mesh = SubResource("QuadMesh_ba438")
+mesh = SubResource("QuadMesh_oibe8")
 
 [node name="Broccoli Spear Sound Player" type="AudioStreamPlayer" parent="." index="4"]
 unique_name_in_owner = true

@@ -16,8 +16,6 @@ func select_position() -> Vector2:
 	
 	var intersect_xy := Vector2(ray_origin.x, ray_origin.y) - (ray_origin.z / ray_dir.z) * Vector2(ray_dir.x, ray_dir.y)
 	
-	intersect_xy.y = -intersect_xy.y
-	
 	_in_use = false
 	hide()
 	return intersect_xy

@@ -150,14 +150,13 @@ func _physics_process(delta : float):
 	# Collision
 	var ground_y := get_ground_height(_position.x)
 	
-	if _on_floor and absf(_position.y - ground_y) < 0.1:
-		# Snap to floor
-		if self is UnitFlyingBomber: print("Snapping to floor!")
+	# Snap to floor (non-FLYING only)
+	if unit_move_type != UnitMoveType.FLYING and _on_floor and absf(_position.y - ground_y) < 0.1:
 		_position.y = ground_y
 	
-	elif _position.y < ground_y:
+	# Keep units above the floor
+	if _position.y < ground_y:
 		# Otherwise stay on top of the floor.
-		if self is UnitFlyingBomber: print("Below the floor!")
 		_position.y = ground_y
 		_on_floor = true
 		
@@ -177,19 +176,19 @@ func _physics_process(delta : float):
 	
 	# Left boundary enforcement / kill plane
 	if _position.x < _manager.get_left_map_edge_x():
-		if team.get_move_direction_x() < 0:
-			_manager.do_kill_plane(self)
-			do_kill_plane()
-		else:
-			_position.x = minf(_position.x, _manager.get_right_map_edge_x())
-	
-	# Right boundary enforcement / kill plane
-	elif _position.x > _manager.get_right_map_edge_x():
-		if team.get_move_direction_x() > 0:
+		if team.get_move_direction_x() < -0.5:
 			_manager.do_kill_plane(self)
 			do_kill_plane()
 		else:
 			_position.x = maxf(_position.x, _manager.get_left_map_edge_x())
+	
+	# Right boundary enforcement / kill plane
+	elif _position.x > _manager.get_right_map_edge_x():
+		if team.get_move_direction_x() > 0.5:
+			_manager.do_kill_plane(self)
+			do_kill_plane()
+		else:
+			_position.x = minf(_position.x, _manager.get_right_map_edge_x())
 
 
 ##########################################################################

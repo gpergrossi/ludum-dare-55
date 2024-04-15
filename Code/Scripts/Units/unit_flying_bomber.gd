@@ -1,8 +1,5 @@
 class_name UnitFlyingBomber extends UnitBase
 
-const scene_egg_bomb := preload("res://Scenes/Units/Projectile/egg_bomb.tscn") as PackedScene
-
-const eggSplatRadius := 5.0
 const eggCooldownDurationMillis := 1000
 var eggCooldown := 0
 
@@ -81,20 +78,9 @@ func process_unit(delta : float) -> void:
 			var targets := _unit_targeting.get_targets()
 			if len(targets) > 0:
 				var target_x := targets[0].position.x
-				if position.x == target_x:
+				if absf(position.x - target_x) < 5.0:
 					# Drop egg
-					attemptAttack()
-
-
-func attemptAttack():
-	var time := Time.get_ticks_msec();
-	if time > eggCooldown:
-		eggCooldown = time + eggCooldownDurationMillis;
-		layEgg();
-
-
-func layEgg():
-	var projectile : Projectile = scene_egg_bomb.instantiate();
-	projectile.set_team(team);
-	projectile.position = position;
-	ProjectileManager.singleton.add_child(projectile);
+					var time := Time.get_ticks_msec()
+					if time > eggCooldown:
+						eggCooldown = time + eggCooldownDurationMillis
+						_manager.summonEggProjectile({}, _position, team)

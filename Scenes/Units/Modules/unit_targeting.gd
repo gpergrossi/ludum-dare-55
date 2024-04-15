@@ -13,6 +13,7 @@ enum UnitTypeMask {
 	ALL_FLYING = CROW,
 	ALL_GROUND = BROCOLLI + LETTUCE + PUMPKIN + CARROT + CORN + POTATO,
 	ALL = 255,
+	PROJECTILE = 256
 }
 
 enum Algorithm {
@@ -95,23 +96,7 @@ func _ready():
 
 
 func _on_timer():
-	clean_target_list()
-	
-	var max_target_count := max_targets - len(_current_targets)
-	var new_targets := [] as Array[UnitBase]
-	
-	if max_target_count > 0:
-		match(algorithm):
-			Algorithm.NEAREST:      new_targets = _find_targets_by_distance(max_targets)
-			Algorithm.FARTHEST:     new_targets = _find_targets_by_distance(max_targets, true)
-			Algorithm.LOW_HEALTH:   new_targets = _find_targets_by_health(max_targets)
-			Algorithm.HIGH_HEALTH:  new_targets = _find_targets_by_health(max_targets, true)
-			Algorithm.HIGH_DAMAGE:  new_targets = _find_targets_by_damage(max_targets, true)
-			Algorithm.CLUSTER:      new_targets = _find_targets_by_cluster_score(max_targets)
-	
-	for target in new_targets:
-		internal_add_target(target)
-	
+	search_now()
 	_try_resume_targeting_timer()
 
 
@@ -289,5 +274,25 @@ func get_unit_type_mask(unit : UnitBase) -> UnitTypeMask:
 	if unit is UnitBasicWalker: return UnitTypeMask.BROCOLLI
 	if unit is UnitFlyingBomber: return UnitTypeMask.CROW
 	if unit is UnitStationaryGuard: return UnitTypeMask.LETTUCE
+	if unit is UnitEggProjectile: return UnitTypeMask.PROJECTILE
 	assert(false)
 	return 0
+
+
+func search_now():
+	clean_target_list()
+	
+	var max_target_count := max_targets - len(_current_targets)
+	var new_targets := [] as Array[UnitBase]
+	
+	if max_target_count > 0:
+		match(algorithm):
+			Algorithm.NEAREST:      new_targets = _find_targets_by_distance(max_targets)
+			Algorithm.FARTHEST:     new_targets = _find_targets_by_distance(max_targets, true)
+			Algorithm.LOW_HEALTH:   new_targets = _find_targets_by_health(max_targets)
+			Algorithm.HIGH_HEALTH:  new_targets = _find_targets_by_health(max_targets, true)
+			Algorithm.HIGH_DAMAGE:  new_targets = _find_targets_by_damage(max_targets, true)
+			Algorithm.CLUSTER:      new_targets = _find_targets_by_cluster_score(max_targets)
+	
+	for target in new_targets:
+		internal_add_target(target)
