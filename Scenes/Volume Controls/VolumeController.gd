@@ -1,14 +1,15 @@
 class_name VolumeController extends AudioStreamPlayer
 
-static var volume: float = 0.15;
+static var volume: float;
 const minDb = -15;
 const maxDb = +20;
-static var db = interpolate (volume, minDb, maxDb);
+static var db : float;
 
 @onready var label = %"Volume Label";
 @onready var originalLabelText = label.text;
 
 func _ready():
+	setVolume(0.15);
 	%"Volume Slider".value_changed.connect(_on_value_changed);
 
 func _on_value_changed (value):
@@ -29,8 +30,4 @@ func _on_value_changed (value):
 
 static func setVolume (newVolume: float):
 	volume = newVolume;
-	db = interpolate (volume, minDb, maxDb);
-
-static func interpolate (fraction: float, min: float, max: float):
-	var delta = max - min;
-	return min + delta * fraction;
+	db = lerp(minDb, maxDb, volume);
