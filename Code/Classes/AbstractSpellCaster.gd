@@ -4,7 +4,7 @@ class_name AbstractSpellCaster extends Node
 
 var teamName : String;
 
-var level := 1;
+var level : int
 var maxMana : int;
 var mana : float;
 
@@ -14,9 +14,11 @@ var health : float
 
 var last_spell = null
 
+var _already_died := false
 signal died
 
 func _ready():
+	level = LevelLoader.current_level
 	initMana(level);
 	setHealth(maxHealth)
 
@@ -68,5 +70,6 @@ func getDefaultLocation(spell):
 func setHealth(new_health : float) -> void:
 	health = clamp(new_health, 0, maxHealth)
 	healthBar.fraction = health / maxHealth
-	if health == 0.0:
+	if health == 0.0 and not _already_died:
+		_already_died = true
 		died.emit()

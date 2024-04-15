@@ -1,10 +1,11 @@
-[gd_scene load_steps=29 format=3 uid="uid://ddjbrnypilhof"]
+[gd_scene load_steps=30 format=3 uid="uid://ddjbrnypilhof"]
 
 [ext_resource type="Script" path="res://Code/Classes/OpponentController.gd" id="1_dy58u"]
 [ext_resource type="PackedScene" uid="uid://b1xmmcg7sdyrb" path="res://Scenes/Terrain/terrain_gen.tscn" id="1_ho15n"]
 [ext_resource type="Script" path="res://Code/Classes/PlayerController.gd" id="1_uq66x"]
 [ext_resource type="Script" path="res://Code/Scripts/kill_plane.gd" id="2_ftuh1"]
 [ext_resource type="Material" uid="uid://byb1abxtxwmm" path="res://Scenes/Terrain/terrain_gen_ground.material" id="3_y30vu"]
+[ext_resource type="PackedScene" uid="uid://c4kivv7xi2kf1" path="res://Assets/Models/terrain_t_01.tscn" id="4_2xnqm"]
 [ext_resource type="PackedScene" uid="uid://dlnfpl2m6m6xk" path="res://Scenes/Props/scenery.tscn" id="4_a7gfu"]
 [ext_resource type="Script" path="res://Code/Scripts/camera_controls.gd" id="5_046qu"]
 [ext_resource type="Script" path="res://Code/Scripts/mouse_capture_handler.gd" id="5_mdxii"]
@@ -90,6 +91,8 @@ background_z_curve = SubResource("Curve_wpluj")
 lane_depth = 3
 foreground_depth = 30
 background_depth = 30
+
+[node name="Terrain_T01" parent="." instance=ExtResource("4_2xnqm")]
 
 [node name="Ground" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.037, 0)
