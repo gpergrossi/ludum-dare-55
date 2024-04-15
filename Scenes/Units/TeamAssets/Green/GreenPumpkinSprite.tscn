@@ -1,0 +1,23 @@
+[gd_scene load_steps=5 format=3 uid="uid://c6fyf3wev7pn8"]
+
+[ext_resource type="Shader" path="res://Code/Shaders/unit_sprite.gdshader" id="1_ppvtb"]
+[ext_resource type="Texture2D" uid="uid://brw83d7inidir" path="res://Assets/mob/pumpkin_green.png" id="2_n5ywj"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_q6r08"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("1_ppvtb")
+shader_parameter/albedo = Color(1, 1, 1, 1)
+shader_parameter/roughness = null
+shader_parameter/specular = null
+shader_parameter/metallic = null
+shader_parameter/texture_albedo = ExtResource("2_n5ywj")
+
+[sub_resource type="QuadMesh" id="QuadMesh_hvl1r"]
+resource_local_to_scene = true
+material = SubResource("ShaderMaterial_q6r08")
+size = Vector2(4.83, 4.56)
+
+[node name="GreenPumpkinSprite" type="MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 0)
+mesh = SubResource("QuadMesh_hvl1r")

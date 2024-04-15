@@ -12,11 +12,6 @@ func _ready() -> void:
 	super._ready()
 
 
-# Need to expose this here so an animation sequence can call it.
-func damage_target():
-	super.damage_target()
-
-
 func _on_damage_taken(_me : UnitBase, damage_amount : float, _new_health : float):
 	_damage_taken_rolling_dps += damage_amount
 	sound.play();
@@ -32,7 +27,3 @@ func process_unit(delta : float) -> void:
 	walk(0, delta)
 	_damage_taken_rolling_dps *= pow(0.01, delta * 2)
 	_body.rotation_degrees.z = (1.0 - 1.0 / (1.0 + _damage_taken_rolling_dps * 0.5)) * 30.0
-
-
-func _on_targeting_timer():
-	find_target()  # May trigger _on_target_acquired, if there is a target

@@ -1,0 +1,23 @@
+[gd_scene load_steps=5 format=3 uid="uid://cn7pbxrrtm00d"]
+
+[ext_resource type="Shader" path="res://Code/Shaders/unit_sprite.gdshader" id="1_x63wn"]
+[ext_resource type="Texture2D" uid="uid://dlast8lm348f0" path="res://Assets/mob/tomatoprojectile_green.png" id="2_bhljc"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_645al"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("1_x63wn")
+shader_parameter/albedo = Color(1, 1, 1, 1)
+shader_parameter/roughness = null
+shader_parameter/specular = null
+shader_parameter/metallic = null
+shader_parameter/texture_albedo = ExtResource("2_bhljc")
+
+[sub_resource type="QuadMesh" id="QuadMesh_l4m62"]
+resource_local_to_scene = true
+material = SubResource("ShaderMaterial_645al")
+size = Vector2(3.13, 2.91)
+
+[node name="GreenTomatoProjectileSprite" type="MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.175295, 0.134842, 0)
+mesh = SubResource("QuadMesh_l4m62")

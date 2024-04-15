@@ -1,0 +1,7 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://64fmwgmnt6b8"]
+
+[resource]
+resource_name = "m_Red_Under"
+cull_mode = 2
+albedo_color = Color(0.454902, 0.0941176, 0.176471, 1)
+metallic = 1.0

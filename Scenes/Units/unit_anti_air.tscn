@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://bdsq7sforwm33"]
+[gd_scene load_steps=13 format=3 uid="uid://bdsq7sforwm33"]
 
 [ext_resource type="PackedScene" uid="uid://kkt6g2ery6vj" path="res://Scenes/Units/unit_base.tscn" id="1_fn153"]
 [ext_resource type="Script" path="res://Code/Scripts/Units/unit_stationary_guard.gd" id="2_g7yc1"]
@@ -6,18 +6,6 @@
 [ext_resource type="Texture2D" uid="uid://5swkwfkufl1m" path="res://Assets/mob/lettuce_green.png" id="4_4ef7j"]
 [ext_resource type="Texture2D" uid="uid://cpf2une6g0xhq" path="res://Assets/mob/lettuce_red.png" id="5_hcse8"]
 [ext_resource type="PackedScene" uid="uid://civ0qmljlf0kk" path="res://Scenes/Important/googley_eyes_pair.tscn" id="6_bnkeg"]
-
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_j2c36"]
-radius = 0.637
-height = 4.632
-
-[sub_resource type="Animation" id="Animation_h2e2t"]
-resource_name = "defend"
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_yj3yy"]
-_data = {
-"defend": SubResource("Animation_h2e2t")
-}
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_sx0n2"]
 resource_local_to_scene = true
@@ -49,26 +37,22 @@ resource_local_to_scene = true
 material = SubResource("ShaderMaterial_qf6pn")
 size = Vector2(3.78, 4.9)
 
+[sub_resource type="Animation" id="Animation_h2e2t"]
+resource_name = "defend"
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_yj3yy"]
+_data = {
+"defend": SubResource("Animation_h2e2t")
+}
+
 [node name="UnitAntiAir" instance=ExtResource("1_fn153")]
 script = ExtResource("2_g7yc1")
 unit_name = "Anti Air"
 top_speed = 0
 move_accel = 10000.0
-knockback_multiplier_self = 0.0
 max_health = 600.0
 attack_range = 0.0
 damage = 0.0
-
-[node name="CollisionShape3D" parent="." index="0"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.26977, 0)
-shape = SubResource("CapsuleShape3D_j2c36")
-
-[node name="UnitAnimations" type="AnimationPlayer" parent="." index="1"]
-unique_name_in_owner = true
-root_node = NodePath("../LaneOffset/Art2D")
-libraries = {
-"": SubResource("AnimationLibrary_yj3yy")
-}
 
 [node name="Art2D" type="Node3D" parent="LaneOffset" index="0"]
 unique_name_in_owner = true
@@ -92,3 +76,13 @@ skeleton = NodePath("../../../..")
 [node name="GoogleyEyesPair" parent="LaneOffset/Art2D/BodyTransform" index="2" instance=ExtResource("6_bnkeg")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.28206, 0)
 dampening = 0.9
+
+[node name="UnitAnimations" type="AnimationPlayer" parent="." index="1"]
+unique_name_in_owner = true
+root_node = NodePath("../LaneOffset/Art2D")
+libraries = {
+"": SubResource("AnimationLibrary_yj3yy")
+}
+
+[node name="UnitTargeting" parent="." index="2"]
+targeting_mask = 253

@@ -1,0 +1,23 @@
+[gd_scene load_steps=5 format=3 uid="uid://d0alyojucrii2"]
+
+[ext_resource type="Shader" path="res://Code/Shaders/unit_sprite.gdshader" id="1_lgmrv"]
+[ext_resource type="Texture2D" uid="uid://dw2vwmd8u1n78" path="res://Assets/mob/fallingcarrot_green.png" id="2_oy557"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_x1lei"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("1_lgmrv")
+shader_parameter/albedo = Color(1, 1, 1, 1)
+shader_parameter/roughness = null
+shader_parameter/specular = null
+shader_parameter/metallic = null
+shader_parameter/texture_albedo = ExtResource("2_oy557")
+
+[sub_resource type="QuadMesh" id="QuadMesh_60nx1"]
+resource_local_to_scene = true
+material = SubResource("ShaderMaterial_x1lei")
+size = Vector2(1.66, 4.91)
+
+[node name="GreenCarrotFallingSprite" type="MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0632946, 0.917524, 0)
+mesh = SubResource("QuadMesh_60nx1")

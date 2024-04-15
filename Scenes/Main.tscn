@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://ddjbrnypilhof"]
+[gd_scene load_steps=26 format=3 uid="uid://ddjbrnypilhof"]
 
 [ext_resource type="Script" path="res://Code/Classes/OpponentController.gd" id="1_dy58u"]
 [ext_resource type="Script" path="res://Code/Classes/PlayerController.gd" id="1_uq66x"]
@@ -15,7 +15,7 @@
 [ext_resource type="AudioStream" uid="uid://b6pi35hy72g4r" path="res://Assets/sound/spellsuccess.wav" id="12_1q0wg"]
 [ext_resource type="AudioStream" uid="uid://b2pohh20c130" path="res://Assets/sound/spellfizzle.wav" id="13_h1i8k"]
 [ext_resource type="Script" path="res://Code/Scripts/camera_follow.gd" id="13_jv6l7"]
-[ext_resource type="PackedScene" uid="uid://db6isycrw3qsa" path="res://Scenes/Props/bird_flock.tscn" id="16_ctnln"]
+[ext_resource type="PackedScene" path="res://Scenes/Props/bird_flock.tscn" id="16_ctnln"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_cv4jk"]
 
@@ -55,12 +55,6 @@ resource_local_to_scene = true
 _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
 point_count = 2
 
-[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_x5fky"]
-plane = Plane(1, 0, 0, 0)
-
-[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_w46i8"]
-plane = Plane(-1, 0, 0, 0)
-
 [node name="Main" type="Node3D"]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
@@ -75,11 +69,9 @@ near = 5.0
 script = ExtResource("13_jv6l7")
 follow_target = NodePath("../CameraController/Camera Rotate/Camera Offset/Camera Follow Point")
 
-[node name="CameraController" type="Node3D" parent="." node_paths=PackedStringArray("left_edge", "right_edge")]
+[node name="CameraController" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0)
 script = ExtResource("5_046qu")
-left_edge = NodePath("../Left Side Things (Player)")
-right_edge = NodePath("../Right Side Things (Enemy)")
 
 [node name="Camera Rotate" type="Node3D" parent="CameraController"]
 transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 0, 0)
@@ -169,71 +161,40 @@ background_z_curve = SubResource("Curve_7xy4i")
 lane_depth = 3
 foreground_depth = 30
 background_depth = 30
+generate_collider = false
 metadata/_edit_lock_ = true
 
-[node name="Left Side Things (Player)" type="Node3D" parent="."]
+[node name="Left Side Things" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -55, 0, 0)
 metadata/_edit_group_ = true
 
-[node name="Stop Left Units and Flyers" type="StaticBody3D" parent="Left Side Things (Player)"]
-collision_layer = 12
-collision_mask = 10
-
-[node name="CollisionShape3D2" type="CollisionShape3D" parent="Left Side Things (Player)/Stop Left Units and Flyers"]
-shape = SubResource("WorldBoundaryShape3D_x5fky")
-
-[node name="Kill Enemy Units" type="Area3D" parent="Left Side Things (Player)"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 0)
-collision_layer = 0
-collision_mask = 4
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Left Side Things (Player)/Kill Enemy Units"]
-shape = SubResource("WorldBoundaryShape3D_x5fky")
-
-[node name="Default Spawn Position" type="Node3D" parent="Left Side Things (Player)"]
+[node name="Default Spawn Position" type="Node3D" parent="Left Side Things"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0)
 
-[node name="PlayerHealthBar" parent="Left Side Things (Player)" instance=ExtResource("6_jfgym")]
+[node name="PlayerHealthBar" parent="Left Side Things" instance=ExtResource("6_jfgym")]
 transform = Transform3D(15, 0, 0, 0, 15, 0, 0, 0, 15, 0, 20, 0)
 fraction = 0.637
 
-[node name="PlayerBarn" parent="Left Side Things (Player)" instance=ExtResource("6_nwu4v")]
+[node name="PlayerBarn" parent="Left Side Things" instance=ExtResource("6_nwu4v")]
 
-[node name="Right Side Things (Enemy)" type="Node3D" parent="."]
+[node name="Right Side Things" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 55, 0, 0)
 metadata/_edit_group_ = true
 
-[node name="Stop Right Units and Flyers" type="StaticBody3D" parent="Right Side Things (Enemy)"]
-collision_layer = 10
-collision_mask = 12
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Right Side Things (Enemy)/Stop Right Units and Flyers"]
-shape = SubResource("WorldBoundaryShape3D_w46i8")
-
-[node name="Kill Player Units" type="Area3D" parent="Right Side Things (Enemy)"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0)
-collision_layer = 0
-collision_mask = 2
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Right Side Things (Enemy)/Kill Player Units"]
-shape = SubResource("WorldBoundaryShape3D_w46i8")
-
-[node name="Default Spawn Position" type="Node3D" parent="Right Side Things (Enemy)"]
+[node name="Default Spawn Position" type="Node3D" parent="Right Side Things"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.86055, -9.53674e-07, 0.000247955)
 
-[node name="EnemyHealthBar" parent="Right Side Things (Enemy)" instance=ExtResource("6_jfgym")]
+[node name="EnemyHealthBar" parent="Right Side Things" instance=ExtResource("6_jfgym")]
 transform = Transform3D(15, 0, 0, 0, 15, 0, 0, 0, 15, 0, 20, 0)
 fraction = 0.637
 metadata/_edit_lock_ = true
 
-[node name="PlayerBarn2" parent="Right Side Things (Enemy)" instance=ExtResource("6_nwu4v")]
-
-[node name="TeamDefinitions" type="Node3D" parent="."]
+[node name="PlayerBarn2" parent="Right Side Things" instance=ExtResource("6_nwu4v")]
 
 [node name="UnitManager" type="Node3D" parent="." node_paths=PackedStringArray("summon_default_position_left", "summon_default_position_right")]
 script = ExtResource("8_ha0w3")
-summon_default_position_left = NodePath("../Left Side Things (Player)/Default Spawn Position")
-summon_default_position_right = NodePath("../Right Side Things (Enemy)/Default Spawn Position")
+summon_default_position_left = NodePath("../Left Side Things/Default Spawn Position")
+summon_default_position_right = NodePath("../Right Side Things/Default Spawn Position")
 
 [node name="ProjectileManager" type="Node3D" parent="."]
 unique_name_in_owner = true
@@ -242,7 +203,7 @@ script = ExtResource("11_movbk")
 [node name="PlayerController" type="Node" parent="." node_paths=PackedStringArray("healthBar")]
 unique_name_in_owner = true
 script = ExtResource("1_uq66x")
-healthBar = NodePath("../Left Side Things (Player)/PlayerHealthBar")
+healthBar = NodePath("../Left Side Things/PlayerHealthBar")
 
 [node name="Spell Success Sound Player" type="AudioStreamPlayer" parent="PlayerController"]
 unique_name_in_owner = true
@@ -258,7 +219,4 @@ max_polyphony = 2
 [node name="OpponentController" type="Node" parent="." node_paths=PackedStringArray("healthBar")]
 unique_name_in_owner = true
 script = ExtResource("1_dy58u")
-healthBar = NodePath("../Right Side Things (Enemy)/EnemyHealthBar")
-
-[connection signal="body_entered" from="Left Side Things (Player)/Kill Enemy Units" to="UnitManager" method="_on_unit_kill_plane_left_body_entered"]
-[connection signal="body_entered" from="Right Side Things (Enemy)/Kill Player Units" to="UnitManager" method="_on_unit_kill_plane_right_body_entered"]
+healthBar = NodePath("../Right Side Things/EnemyHealthBar")

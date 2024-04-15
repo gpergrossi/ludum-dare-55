@@ -1,0 +1,23 @@
+[gd_scene load_steps=5 format=3 uid="uid://cgb3wff4t8fs0"]
+
+[ext_resource type="Shader" path="res://Code/Shaders/unit_sprite.gdshader" id="1_d21d3"]
+[ext_resource type="Texture2D" uid="uid://b15w5p7b8vic1" path="res://Assets/mob/egg_green.png" id="2_luenk"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jo1sx"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("1_d21d3")
+shader_parameter/albedo = Color(1, 1, 1, 1)
+shader_parameter/roughness = null
+shader_parameter/specular = null
+shader_parameter/metallic = null
+shader_parameter/texture_albedo = ExtResource("2_luenk")
+
+[sub_resource type="QuadMesh" id="QuadMesh_wvd1u"]
+resource_local_to_scene = true
+material = SubResource("ShaderMaterial_jo1sx")
+size = Vector2(1.46, 2.03)
+
+[node name="GreenEggSprite" type="MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00476821, 0.00201911, 0)
+mesh = SubResource("QuadMesh_wvd1u")

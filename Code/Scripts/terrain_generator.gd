@@ -6,19 +6,21 @@ class_name TerrainGenerator extends Node3D
 @export var lane_z_curve : Curve        : set = _set_lane_z_curve
 @export var background_z_curve : Curve  : set = _set_background_z_curve
 
-@export var width := 50               : set = _set_width
-@export var height := 20              : set = _set_height
-@export var flat_margins := 5         : set = _set_flat_margins
-@export var lane_depth := 2           : set = _set_lane_depth
-@export var foreground_depth := 10    : set = _set_foreground_depth
-@export var background_depth := 10    : set = _set_background_depth
+@export var width := 50                 : set = _set_width
+@export var height := 20                : set = _set_height
+@export var flat_margins := 5           : set = _set_flat_margins
+@export var lane_depth := 2             : set = _set_lane_depth
+@export var foreground_depth := 10      : set = _set_foreground_depth
+@export var background_depth := 10      : set = _set_background_depth
 
-@export var resolution := 1    : set = _set_resolution
+@export var resolution := 1             : set = _set_resolution
+
+@export var generate_collider := true   : set = _set_generate_collider
 
 @onready var terrain_mesh_instance := %Terrain as MeshInstance3D
 @onready var collision_heightmap := %CollisionHeightmap as CollisionShape3D
-@onready var material_lane := preload("res://Scenes/Terrain/terrain_gen_lane.material") as StandardMaterial3D
-@onready var material_ground := preload("res://Scenes/Terrain/terrain_gen_ground.material") as StandardMaterial3D
+@onready var material_lane := load("res://Scenes/Terrain/terrain_gen_lane.material") as StandardMaterial3D
+@onready var material_ground := load("res://Scenes/Terrain/terrain_gen_ground.material") as StandardMaterial3D
 
 var _dirty = true
 
@@ -158,13 +160,20 @@ func generate_mesh_section(array_mesh : ArrayMesh, z_curve : Curve, divs : Vecto
 
 
 func generate_heightmap_collisions():
+	var heightmap := collision_heightmap.shape as HeightMapShape3D
+	if not generate_collider:
+		heightmap.map_width = 1
+		heightmap.map_depth = 1
+		heightmap.map_data.resize(1)
+		heightmap.map_data[0] = 0.0
+		return
+	
 	var margin_divs := flat_margins * resolution
 	var x_divs := width * resolution + 2 * margin_divs
 	var z_divs_lane := lane_depth * resolution
 	var z_divs_foreground := foreground_depth * resolution
 	var z_divs_background := background_depth * resolution
 	
-	var heightmap := collision_heightmap.shape as HeightMapShape3D
 	var z_divs_total := z_divs_lane + z_divs_foreground + z_divs_background + 2 * margin_divs
 	heightmap.map_width = x_divs + 1
 	heightmap.map_depth = z_divs_total + 1
@@ -314,4 +323,8 @@ func _set_background_depth(val : int):
 
 func _set_resolution(val : int):
 	resolution = val
+	_dirty = true
+
+func _set_generate_collider(b : bool):
+	generate_collider = b
 	_dirty = true

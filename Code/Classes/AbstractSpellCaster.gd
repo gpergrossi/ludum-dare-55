@@ -2,7 +2,7 @@
 # Concerned with things like mana costs, casting spells, etc.
 class_name AbstractSpellCaster extends Node
 
-var teamName : String;
+var team : Team;
 
 var level : int
 var maxMana : int;
@@ -53,7 +53,7 @@ func cast(spell, location = null):
 	if location == null: location = getDefaultLocation(spell);
 
 	setMana(mana - spell['manaCost']);
-	spell['castFunc'].call(spell, location, teamName);
+	spell['castFunc'].call(spell, location, team);
 	last_spell = spell
 	return true;
 

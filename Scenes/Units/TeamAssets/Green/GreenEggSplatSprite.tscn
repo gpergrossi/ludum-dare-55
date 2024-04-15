@@ -1,0 +1,23 @@
+[gd_scene load_steps=5 format=3 uid="uid://bh2kirn06rgqu"]
+
+[ext_resource type="Shader" path="res://Code/Shaders/unit_sprite.gdshader" id="1_5g15o"]
+[ext_resource type="Texture2D" uid="uid://c03f5x8t2ua2j" path="res://Assets/mob/eggsplat_green.png" id="2_o4fx6"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_711ba"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("1_5g15o")
+shader_parameter/albedo = Color(1, 1, 1, 1)
+shader_parameter/roughness = null
+shader_parameter/specular = null
+shader_parameter/metallic = null
+shader_parameter/texture_albedo = ExtResource("2_o4fx6")
+
+[sub_resource type="QuadMesh" id="QuadMesh_pkr20"]
+resource_local_to_scene = true
+material = SubResource("ShaderMaterial_711ba")
+size = Vector2(1.66, 1.83)
+
+[node name="GreenEggSplatSprite" type="MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.126426, -0.121934, 0)
+mesh = SubResource("QuadMesh_pkr20")

@@ -11,7 +11,7 @@ func _ready():
 	super();
 	cooldowns.resize(Spells.definitions.size());
 	cooldowns.fill(0);
-	teamName = TeamDefs.Enemy.team_name;
+	team = Team.ENEMY_TEST
 	died.connect(_on_died)
 
 func canCast(spell, location):

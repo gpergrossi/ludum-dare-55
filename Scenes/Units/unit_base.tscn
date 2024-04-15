@@ -1,11 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://kkt6g2ery6vj"]
+[gd_scene load_steps=6 format=3 uid="uid://kkt6g2ery6vj"]
 
 [ext_resource type="Script" path="res://Code/Scripts/Units/unit_base.gd" id="1_j11gk"]
 [ext_resource type="Texture2D" uid="uid://1yaupgrvy6mm" path="res://Assets/Images/shadow.png" id="2_druni"]
-
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_wwrqq"]
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_3ww6h"]
+[ext_resource type="PackedScene" uid="uid://bnwnixg1uue6h" path="res://Scenes/Units/Modules/unit_targeting.tscn" id="3_203n4"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hncq6"]
 blend_mode = 3
@@ -18,31 +15,9 @@ texture_repeat = false
 material = SubResource("StandardMaterial3D_hncq6")
 size = Vector2(1.5, 1.5)
 
-[node name="UnitBase" type="CharacterBody3D" groups=["units"]]
-axis_lock_linear_z = true
-floor_snap_length = 1.0
+[node name="UnitBase" type="Node3D" groups=["units"]]
 script = ExtResource("1_j11gk")
 unit_name = "unitBase"
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-shape = SubResource("CapsuleShape3D_wwrqq")
-
-[node name="ScanRight" type="Area3D" parent="."]
-unique_name_in_owner = true
-collision_mask = 6
-
-[node name="Box" type="CollisionShape3D" parent="ScanRight"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.15, 1, 0)
-shape = SubResource("BoxShape3D_3ww6h")
-
-[node name="ScanLeft" type="Area3D" parent="."]
-unique_name_in_owner = true
-collision_mask = 6
-
-[node name="Box" type="CollisionShape3D" parent="ScanLeft"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.15, 1, 0)
-shape = SubResource("BoxShape3D_3ww6h")
 
 [node name="LaneOffset" type="Node3D" parent="."]
 
@@ -52,7 +27,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.172081, 0.127769)
 mesh = SubResource("PlaneMesh_qe580")
 skeleton = NodePath("../..")
 
-[connection signal="body_entered" from="ScanRight" to="." method="_on_scan_right_body_entered"]
-[connection signal="body_exited" from="ScanRight" to="." method="_on_scan_right_body_exited"]
-[connection signal="body_entered" from="ScanLeft" to="." method="_on_scan_left_body_entered"]
-[connection signal="body_exited" from="ScanLeft" to="." method="_on_scan_left_body_exited"]
+[node name="FacingRotation" type="Node3D" parent="LaneOffset"]
+unique_name_in_owner = true
+
+[node name="Sprites" type="Node3D" parent="LaneOffset/FacingRotation"]
+
+[node name="UnitTargeting" parent="." instance=ExtResource("3_203n4")]
+unique_name_in_owner = true
