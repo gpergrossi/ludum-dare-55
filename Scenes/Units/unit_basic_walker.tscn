@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://cgnuyso8cokl4"]
+[gd_scene load_steps=21 format=3 uid="uid://cgnuyso8cokl4"]
 
 [ext_resource type="PackedScene" uid="uid://kkt6g2ery6vj" path="res://Scenes/Units/unit_base.tscn" id="1_dy5r0"]
 [ext_resource type="Script" path="res://Code/Scripts/Units/unit_basic_walker.gd" id="2_c6sqf"]
@@ -6,6 +6,7 @@
 [ext_resource type="Shader" path="res://Code/Shaders/unit_sprite.gdshader" id="3_8rbeq"]
 [ext_resource type="Texture2D" uid="uid://bd884vobgkga6" path="res://Assets/mob/broccolispear_green.png" id="3_ukqnd"]
 [ext_resource type="PackedScene" uid="uid://civ0qmljlf0kk" path="res://Scenes/Important/googley_eyes_pair.tscn" id="6_8x0xh"]
+[ext_resource type="AudioStream" uid="uid://x7l2850b4seo" path="res://Assets/sound/broccolispear.wav" id="7_vtv84"]
 
 [sub_resource type="Animation" id="Animation_cog7k"]
 resource_name = "attack"
@@ -209,3 +210,8 @@ transform = Transform3D(0.838081, -0.545546, 0, 0.545546, 0.838081, 0, 0, 0, 1, 
 sorting_offset = 0.5
 mesh = SubResource("QuadMesh_p4lxa")
 skeleton = NodePath("../../../..")
+
+[node name="Broccoli Spear Sound Player" type="AudioStreamPlayer" parent="." index="6"]
+unique_name_in_owner = true
+stream = ExtResource("7_vtv84")
+volume_db = -15.0

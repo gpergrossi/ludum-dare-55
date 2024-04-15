@@ -2,6 +2,7 @@ class_name UnitBasicWalker extends UnitBase
 
 @export var attack_interval := 1.0
 
+@onready var sound := %"Broccoli Spear Sound Player" as AudioStreamPlayer;
 @onready var _unit_anims := %UnitAnimations as AnimationPlayer
 @onready var _targeting_timer := %TargetingTimer as Timer
 
@@ -17,7 +18,8 @@ func _ready() -> void:
 
 # Need to expose this here so an animation sequence can call it.
 func damage_target():
-	super.damage_target()
+	super.damage_target();
+	sound.play();
 
 
 func _on_target_acquired(_me : UnitBase, _target : UnitBase):
