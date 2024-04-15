@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://bapfi0v8fn38h"]
+[gd_scene load_steps=18 format=3 uid="uid://bapfi0v8fn38h"]
 
 [ext_resource type="PackedScene" uid="uid://kkt6g2ery6vj" path="res://Scenes/Units/unit_base.tscn" id="1_uogj1"]
 [ext_resource type="Script" path="res://Code/Scripts/Units/unit_egg_projectile.gd" id="2_iqmq1"]
@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://bh2kirn06rgqu" path="res://Scenes/Units/TeamAssets/Green/GreenEggSplatSprite.tscn" id="8_qnw3h"]
 [ext_resource type="PackedScene" uid="uid://civ0qmljlf0kk" path="res://Scenes/Important/googley_eyes_pair.tscn" id="8_tjg3f"]
 [ext_resource type="Texture2D" uid="uid://c03f5x8t2ua2j" path="res://Assets/mob/eggsplat_green.png" id="9_2i6xt"]
+[ext_resource type="AudioStream" uid="uid://dyfd43uyehokt" path="res://Assets/sound/eggsplat.wav" id="11_ryxwk"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hncq6"]
 render_priority = -1
@@ -24,7 +25,7 @@ texture_repeat = false
 material = SubResource("StandardMaterial3D_hncq6")
 size = Vector2(3, 1.5)
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_uw20v"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2v08h"]
 resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("6_xgpnx")
@@ -34,12 +35,12 @@ shader_parameter/specular = null
 shader_parameter/metallic = null
 shader_parameter/texture_albedo = ExtResource("7_ogi7k")
 
-[sub_resource type="QuadMesh" id="QuadMesh_t5w6x"]
+[sub_resource type="QuadMesh" id="QuadMesh_q4y63"]
 resource_local_to_scene = true
-material = SubResource("ShaderMaterial_uw20v")
+material = SubResource("ShaderMaterial_2v08h")
 size = Vector2(1.46, 2.03)
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_kk6x6"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_18xke"]
 resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("6_xgpnx")
@@ -49,9 +50,9 @@ shader_parameter/specular = null
 shader_parameter/metallic = null
 shader_parameter/texture_albedo = ExtResource("9_2i6xt")
 
-[sub_resource type="QuadMesh" id="QuadMesh_aieno"]
+[sub_resource type="QuadMesh" id="QuadMesh_kvxxr"]
 resource_local_to_scene = true
-material = SubResource("ShaderMaterial_kk6x6")
+material = SubResource("ShaderMaterial_18xke")
 size = Vector2(1.66, 1.83)
 
 [node name="UnitEggProjectile" instance=ExtResource("1_uogj1")]
@@ -73,7 +74,7 @@ asset_var_name = "egg_sprite"
 
 [node name="GreenEggSprite" type="MeshInstance3D" parent="LaneOffset/FacingRotation/Sprites/BodyTransform/EggSprite" index="0" instance=ExtResource("5_3vmcu")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00476821, 0.00201911, 0)
-mesh = SubResource("QuadMesh_t5w6x")
+mesh = SubResource("QuadMesh_q4y63")
 
 [node name="SplatSprite" parent="LaneOffset/FacingRotation/Sprites/BodyTransform" index="1" instance=ExtResource("4_ul7pi")]
 unique_name_in_owner = true
@@ -83,7 +84,7 @@ asset_var_name = "egg_splat_sprite"
 
 [node name="GreenEggSplatSprite" type="MeshInstance3D" parent="LaneOffset/FacingRotation/Sprites/BodyTransform/SplatSprite" index="0" instance=ExtResource("8_qnw3h")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.126426, -0.121934, 0)
-mesh = SubResource("QuadMesh_aieno")
+mesh = SubResource("QuadMesh_kvxxr")
 
 [node name="GoogleyEyesPair" parent="LaneOffset/FacingRotation/Sprites/BodyTransform" index="2" instance=ExtResource("8_tjg3f")]
 unique_name_in_owner = true
@@ -102,3 +103,8 @@ splash_radius = 5.0
 max_targets = 10
 algorithm = 5
 targeting_mask = 253
+
+[node name="Egg Splat Sound Player" type="AudioStreamPlayer" parent="." index="3"]
+unique_name_in_owner = true
+stream = ExtResource("11_ryxwk")
+volume_db = -25.0
