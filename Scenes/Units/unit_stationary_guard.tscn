@@ -29,8 +29,10 @@ script = ExtResource("2_42hmg")
 unit_name = "Lettuce Wall"
 top_speed = 0
 move_accel = 10000.0
-max_health = 600.0
+max_health = 300.0
 knockback_immunity = 1.0
+damage_reduction = 15
+attack_range = 0.0
 damage = 0.0
 
 [node name="BodyTransform" type="Node3D" parent="LaneOffset/FacingRotation/Sprites" index="0"]

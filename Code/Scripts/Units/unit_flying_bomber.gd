@@ -5,19 +5,18 @@ var eggCooldown := 0
 
 @export_category("Just Bird Things")
 @export var flapHeightMin := 8.0
-@export var flapHeightMax := 30.0
+@export var flapHeightMax := 35.0
 
 @export var flapMagnitudeMin := 6.0
-@export var flapMagnitudeMax := 17.0
+@export var flapMagnitudeMax := 25.0
 
 @export var moveSpeedMin := 6.0
-@export var moveSpeedMax := 17.0
+@export var moveSpeedMax := 25.0
 
 @export var patrolRange = 0.9; # Cover the central 90% of the field
 
 var flapHeight : float
 var flapMagnitude : float
-var moveSpeed : float
 
 func _ready() -> void:
 	selectIdiosyncracies();
@@ -42,7 +41,7 @@ func _ready() -> void:
 func selectIdiosyncracies():
 	flapHeight = randomWeightMid(flapHeightMin, flapHeightMax);
 	flapMagnitude = randomWeightMid(flapMagnitudeMin, flapMagnitudeMax);
-	moveSpeed = randomWeightMid(moveSpeedMin, moveSpeedMax);
+	top_speed = randomWeightMid(moveSpeedMin, moveSpeedMax);
 
 
 func randomWeightMid(min : float, max : float, weighting := 2):

@@ -101,6 +101,7 @@ size = Vector2(2.65, 0.87)
 script = ExtResource("2_c6sqf")
 attack_interval = 1.0
 unit_name = "Brocolli Bro"
+damage_reduction = 5
 
 [node name="UnitAnimations" type="AnimationPlayer" parent="." index="0"]
 unique_name_in_owner = true

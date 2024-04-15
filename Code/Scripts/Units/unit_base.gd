@@ -41,6 +41,8 @@ const LAYER_RIGHTSIDE := 3
 @export_category("Defenses")
 @export var max_health := 100.0
 @export_range(0.0, 1.0) var knockback_immunity := 0.0
+## Reduce all damage taken by a flat amount, to a minimum of 1.
+@export var damage_reduction : int = 0;
 
 @export_category("Attack")
 @export var damage := 30.0
@@ -259,6 +261,9 @@ func damage_targets():
 
 func take_damage(damage_amount : float, knockback_amount : float) -> void:
 	var prev_health := _health
+	
+	if (damage_amount > 1):
+		damage_amount = max(1, damage_amount - damage_reduction);
 	
 	_health -= damage_amount
 	damage_taken.emit(self, damage_amount, _health)
