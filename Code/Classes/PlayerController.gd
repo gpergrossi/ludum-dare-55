@@ -5,7 +5,6 @@ class_name PlayerController extends AbstractSpellCaster
 @onready var position_selector := %PositionSelector
 
 func _on_rune_drawn(rune: Rune):
-	print(rune.canonical_edge_list);
 	var spell = null
 	if rune.canonical_edge_list == Spells.recastRune.canonical_edge_list:
 		spell = last_spell
