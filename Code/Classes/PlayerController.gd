@@ -2,7 +2,9 @@ class_name PlayerController extends AbstractSpellCaster
 
 @onready var manabar : ProgressBar = %PlayerManaBarUi;
 @onready var sigil: SigilController = %Sigil;
-@onready var position_selector := %PositionSelector
+@onready var position_selector := %PositionSelector;
+@onready var sound_cast := %"Spell Success Sound Player";
+@onready var sound_fizzle := %"Spell Fizzle Sound Player";
 
 func _on_rune_drawn(rune: Rune):
 	var spell = null
@@ -10,7 +12,9 @@ func _on_rune_drawn(rune: Rune):
 		spell = last_spell
 	else:
 		spell = Spells.getSpellFor(rune)
-	if spell == null: return false;
+	if spell == null:
+		sound_fizzle.play();
+		return false;
 	
 	if not canCast(spell, null): return false
 	
@@ -39,9 +43,8 @@ func setMaxMana(newMax : int):
 	manabar.max_value = maxMana;
 
 func cast(spell, location = null):
-	if !canCast(spell, location):
-		# TODO show low mana warning to player
-		pass;
+	if canCast(spell, location):
+		sound_cast.play();
 	return super(spell, location);
 
 func _on_died() -> void:
