@@ -25,7 +25,7 @@ static var definitions = [{
 	'manaSecondsAtLevel': 20,
 	'preferredLocation': 'ground',
 	'rune': Rune.new([0, 3, 2, 1]),
-	'castFunc': Spells.dummy, # TODO
+	'castFunc': UnitManager.summonTomatoPlant,
 	'botCooldownSeconds': 5,
 }, {
 	'programmaticName': 'summonWall',
@@ -79,6 +79,8 @@ static var recastRune := Rune.new([3, 4])
 
 static var summonBasicWalker = Spells.definitions[0];
 static var summonWall = Spells.definitions[3]
+static var summonRanged = Spells.definitions[2]
+static var summonFlyingBomber = Spells.definitions[1]
 
 static func _static_init():
 	var id = 0;
