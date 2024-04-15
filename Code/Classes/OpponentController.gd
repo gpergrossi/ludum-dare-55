@@ -14,11 +14,11 @@ func _ready():
 	teamName = TeamDefs.Enemy.team_name;
 	died.connect(_on_died)
 
-func canCast(spell):
+func canCast(spell, location):
 	if spell.has('botDoesNotCast'): return false;
 	if level < spell['level']: return false;
 	if cooldowns[spell['id']] > 0: return false;
-	return super(spell);
+	return super(spell, location);
 
 func cast(spell, location = null):
 	# This will break a little (be ugly) if multiple casts overlap.
@@ -35,9 +35,11 @@ func getDefaultLocation(spell): # TODO D.R.Y.
 	var loc = UnitManager._unit_manager_static.summon_default_position_right.global_position;
 	loc = Vector2(loc.x, loc.y);
 	match spell['preferredLocation']:
+		'none': return loc
 		'*': return Vector2.ZERO;
 		'ground': return loc;
 		'sky': return loc + Vector2(0, -10);
+	assert(false, "no default location for %s" % spell['preferredLocation'])
 
 func _process(delta):
 	super(delta);

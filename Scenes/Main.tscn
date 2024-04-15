@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://ddjbrnypilhof"]
+[gd_scene load_steps=29 format=3 uid="uid://ddjbrnypilhof"]
 
 [ext_resource type="Script" path="res://Code/Classes/OpponentController.gd" id="1_dy58u"]
 [ext_resource type="PackedScene" uid="uid://b1xmmcg7sdyrb" path="res://Scenes/Terrain/terrain_gen.tscn" id="1_ho15n"]
@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://boebmi3wby3r" path="res://Scenes/Props/PlayerBarn.tscn" id="6_nwu4v"]
 [ext_resource type="PackedScene" uid="uid://cnfygjo801chm" path="res://Scenes/Sigil/sigil.tscn" id="7_56svx"]
 [ext_resource type="Script" path="res://Code/Scripts/Units/unit_manager.gd" id="8_ha0w3"]
+[ext_resource type="PackedScene" uid="uid://dub5xj3whpcmw" path="res://Scenes/PositionSelector/position_selector.tscn" id="9_ypx28"]
 [ext_resource type="Script" path="res://Code/Scripts/camera_follow.gd" id="13_jv6l7"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_cv4jk"]
@@ -217,6 +218,9 @@ layout_mode = 2
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
+
+[node name="PositionSelector" parent="CanvasLayer" instance=ExtResource("9_ypx28")]
+unique_name_in_owner = true
 
 [node name="CameraController" type="Node3D" parent="." node_paths=PackedStringArray("left_edge", "right_edge")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0)

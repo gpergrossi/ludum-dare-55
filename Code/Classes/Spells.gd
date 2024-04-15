@@ -5,7 +5,7 @@ static var definitions = [{
 	'name': 'Summon Broccoli',
 	'level': 1,
 	'manaSecondsAtLevel': 5,
-	'preferredLocation': 'ground',
+	'preferredLocation': 'none',
 	'rune': Rune.new([0, 3, 2]), # For visual runes, see the Miro board at https://miro.com/app/board/uXjVKUq1fIo=/
 	'castFunc': UnitManager.summonBasicWalker,
 	'botCooldownSeconds': 1,
@@ -34,7 +34,7 @@ static var definitions = [{
 	'manaSecondsAtLevel': 15,
 	'preferredLocation': 'ground',
 	'rune': Rune.new([2, 0, 4, 1, 3]),
-	'castFunc': Spells.dummy, # TODO
+	'castFunc': UnitManager.summonStationaryGuard,
 	'botCooldownSeconds': 5,
 }, {
 	'programmaticName': 'summonBoulder',
