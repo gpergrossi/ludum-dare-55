@@ -46,4 +46,7 @@ func cast(spell, location = null):
 	return super(spell, location);
 
 func _on_died() -> void:
-	%AnnounceLabel.text = "You lose :'("
+	%AnnounceLabel.text = "You lose :'( - retrying level %d" % LevelLoader.current_level
+	await get_tree().create_timer(5.0).timeout
+	# TODO race condition between winning, losing, and moving to the next level.
+	LevelLoader.load_level(LevelLoader.current_level)
