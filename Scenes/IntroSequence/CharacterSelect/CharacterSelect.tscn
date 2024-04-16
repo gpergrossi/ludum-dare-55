@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://bx11o0j00qmvr"]
+[gd_scene load_steps=7 format=3 uid="uid://bx11o0j00qmvr"]
 
 [ext_resource type="Script" path="res://Scenes/IntroSequence/IntroSequencePageController.gd" id="1_8haiq"]
 [ext_resource type="Script" path="res://Scenes/IntroSequence/TitleScreen/AutoRatio.gd" id="2_6d7nb"]
-[ext_resource type="Script" path="res://Scenes/IntroSequence/NextPageButton.gd" id="2_lbdp0"]
 [ext_resource type="Texture2D" uid="uid://dp5sfgev4lew8" path="res://Assets/Images/page4.png" id="3_e5joe"]
+[ext_resource type="Script" path="res://Scenes/IntroSequence/CharacterSelect/PickLeftSiblingButton.gd" id="4_s51f7"]
+[ext_resource type="Script" path="res://Scenes/IntroSequence/CharacterSelect/PickRightSiblingButton.gd" id="5_lv8dr"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_a1322"]
 bg_color = Color(0, 0, 0, 0.137255)
@@ -61,7 +62,7 @@ mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 40
 theme_override_styles/normal = SubResource("StyleBoxFlat_a1322")
 text = "Play as Azra"
-script = ExtResource("2_lbdp0")
+script = ExtResource("4_s51f7")
 
 [node name="Right" type="CenterContainer" parent="."]
 custom_minimum_size = Vector2(0, 100)
@@ -82,4 +83,4 @@ mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 40
 theme_override_styles/normal = SubResource("StyleBoxFlat_a1322")
 text = "Play as Rory"
-script = ExtResource("2_lbdp0")
+script = ExtResource("5_lv8dr")

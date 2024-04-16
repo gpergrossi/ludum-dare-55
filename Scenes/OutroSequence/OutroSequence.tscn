@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://dduxobin5h6y1"]
 
 [ext_resource type="Script" path="res://Scenes/OutroSequence/OutroSequenceController.gd" id="1_5pkfm"]
-[ext_resource type="Texture2D" uid="uid://dr44vdsi3evxk" path="res://Assets/Images/azra_outro_unfinished.png" id="2_bdih6"]
+[ext_resource type="Texture2D" uid="uid://c7knduh73tdtn" path="res://Assets/Images/azrawinscredits.png" id="2_cugav"]
 
 [node name="OutroSequence" type="CanvasLayer"]
 script = ExtResource("1_5pkfm")
@@ -13,5 +13,5 @@ anchor_bottom = 1.0
 offset_bottom = 3672.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("2_bdih6")
+texture = ExtResource("2_cugav")
 expand_mode = 1

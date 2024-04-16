@@ -59,7 +59,10 @@ func _process(delta):
 			cast(Spells.summonBasicWalker);
 
 func _on_died() -> void:
-	%AnnounceLabel.text = "You win! :D - moving to level %d" % (LevelLoader.current_level + 1)
+	if (LevelLoader.current_level + 1 >= len(Constants.manaByLevel)):
+		%AnnounceLabel.text = "You win! :D - Showing credits...."
+	else:
+		%AnnounceLabel.text = "You win! :D - moving to level %d" % (LevelLoader.current_level + 1)
 	await get_tree().create_timer(4.0).timeout
 	await %Fader.fade_in()
 	# TODO race condition between winning, losing, and moving to the next level.

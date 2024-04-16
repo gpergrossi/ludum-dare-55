@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dr44vdsi3evxk"
-path="res://.godot/imported/azra_outro_unfinished.png-db93342da0b3e2da807c7b6f097da80c.ctex"
+uid="uid://c7knduh73tdtn"
+path="res://.godot/imported/azrawinscredits.png-a5edbb1286529cf0928b07be15a28597.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Images/azra_outro_unfinished.png"
-dest_files=["res://.godot/imported/azra_outro_unfinished.png-db93342da0b3e2da807c7b6f097da80c.ctex"]
+source_file="res://Assets/Images/azrawinscredits.png"
+dest_files=["res://.godot/imported/azrawinscredits.png-a5edbb1286529cf0928b07be15a28597.ctex"]
 
 [params]
 

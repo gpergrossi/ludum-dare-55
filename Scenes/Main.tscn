@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://ddjbrnypilhof"]
+[gd_scene load_steps=26 format=3 uid="uid://ddjbrnypilhof"]
 
 [ext_resource type="Script" path="res://Code/Classes/OpponentController.gd" id="1_dy58u"]
 [ext_resource type="Script" path="res://Code/Classes/PlayerController.gd" id="1_uq66x"]
@@ -12,7 +12,6 @@
 [ext_resource type="PackedScene" uid="uid://cnfygjo801chm" path="res://Scenes/Sigil/sigil.tscn" id="7_56svx"]
 [ext_resource type="Script" path="res://Code/Scripts/Units/unit_manager.gd" id="8_ha0w3"]
 [ext_resource type="PackedScene" uid="uid://dub5xj3whpcmw" path="res://Scenes/PositionSelector/position_selector.tscn" id="9_ypx28"]
-[ext_resource type="Script" path="res://Scenes/ProjectileManager.gd" id="11_movbk"]
 [ext_resource type="AudioStream" uid="uid://b6pi35hy72g4r" path="res://Assets/sound/spellsuccess.wav" id="12_1q0wg"]
 [ext_resource type="AudioStream" uid="uid://b2pohh20c130" path="res://Assets/sound/spellfizzle.wav" id="13_h1i8k"]
 [ext_resource type="Script" path="res://Code/Scripts/camera_follow.gd" id="13_jv6l7"]
@@ -201,10 +200,6 @@ metadata/_edit_lock_ = true
 script = ExtResource("8_ha0w3")
 summon_default_position_left = NodePath("../Left Side Things/Default Spawn Position")
 summon_default_position_right = NodePath("../Right Side Things/Default Spawn Position")
-
-[node name="ProjectileManager" type="Node3D" parent="."]
-unique_name_in_owner = true
-script = ExtResource("11_movbk")
 
 [node name="PlayerController" type="Node" parent="." node_paths=PackedStringArray("healthBar")]
 unique_name_in_owner = true
