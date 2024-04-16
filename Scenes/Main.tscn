@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://ddjbrnypilhof"]
+[gd_scene load_steps=28 format=3 uid="uid://ddjbrnypilhof"]
 
 [ext_resource type="Script" path="res://Code/Classes/OpponentController.gd" id="1_dy58u"]
 [ext_resource type="Script" path="res://Code/Classes/PlayerController.gd" id="1_uq66x"]
@@ -12,8 +12,10 @@
 [ext_resource type="PackedScene" uid="uid://cnfygjo801chm" path="res://Scenes/Sigil/sigil.tscn" id="7_56svx"]
 [ext_resource type="Script" path="res://Code/Scripts/Units/unit_manager.gd" id="8_ha0w3"]
 [ext_resource type="PackedScene" uid="uid://dub5xj3whpcmw" path="res://Scenes/PositionSelector/position_selector.tscn" id="9_ypx28"]
+[ext_resource type="PackedScene" uid="uid://cwdsex7rj3xwg" path="res://Scenes/Props/caster_billboard.tscn" id="12_0id56"]
 [ext_resource type="AudioStream" uid="uid://b6pi35hy72g4r" path="res://Assets/sound/spellsuccess.wav" id="12_1q0wg"]
 [ext_resource type="AudioStream" uid="uid://b2pohh20c130" path="res://Assets/sound/spellfizzle.wav" id="13_h1i8k"]
+[ext_resource type="Texture2D" uid="uid://1naeyclyhk6i" path="res://Assets/Images/Rory.png" id="13_i6h6p"]
 [ext_resource type="Script" path="res://Code/Scripts/camera_follow.gd" id="13_jv6l7"]
 [ext_resource type="PackedScene" uid="uid://db6isycrw3qsa" path="res://Scenes/Props/bird_flock.tscn" id="16_ctnln"]
 
@@ -187,6 +189,11 @@ fraction = 0.637
 
 [node name="PlayerBarn" parent="Left Side Things" instance=ExtResource("6_nwu4v")]
 
+[node name="CasterBillboard" parent="Left Side Things" instance=ExtResource("12_0id56")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.200001, 15.5, 0)
+texture = ExtResource("13_i6h6p")
+is_left_side = true
+
 [node name="Right Side Things" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 55, 0, 0)
 metadata/_edit_group_ = true
@@ -200,6 +207,10 @@ fraction = 0.637
 metadata/_edit_lock_ = true
 
 [node name="PlayerBarn2" parent="Right Side Things" instance=ExtResource("6_nwu4v")]
+
+[node name="CasterBillboard" parent="Right Side Things" instance=ExtResource("12_0id56")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, 1, -0.200001, 15.5, 0)
+texture = ExtResource("13_i6h6p")
 
 [node name="UnitManager" type="Node3D" parent="." node_paths=PackedStringArray("summon_default_position_left", "summon_default_position_right")]
 script = ExtResource("8_ha0w3")
