@@ -27,13 +27,13 @@ func _physics_process(delta : float):
 		if mouse_capture_handler.is_mouse_in_left_margin() or Input.is_action_pressed("move_left"):
 			position.x -= scroll_speed * delta * shift_multiplier
 			if is_instance_valid(left_edge):
-				position.x = maxf(position.x, left_edge.position.x)
+				position.x = maxf(position.x, left_edge.global_position.x)
 				position.y = maxf(position.y, terrain.get_height(position.x))
 		
 		if mouse_capture_handler.is_mouse_in_right_margin() or Input.is_action_pressed("move_right"):
 			position.x += scroll_speed * delta * shift_multiplier
 			if is_instance_valid(right_edge):
-				position.x = minf(position.x, right_edge.position.x)
+				position.x = minf(position.x, right_edge.global_position.x)
 				position.y = maxf(position.y, terrain.get_height(position.x))
 				
 		if Input.is_action_pressed("move_up"):

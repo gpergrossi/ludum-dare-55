@@ -47,6 +47,7 @@ moveSpeedMin = 6.0
 moveSpeedMax = 25.0
 patrolRange = 0.9
 unit_name = "Support Crow"
+unit_type = 2
 unit_move_type = 1
 max_health = 50.0
 
@@ -61,8 +62,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.120237, 0.209154, 0)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.19801, -0.199326, 0)
 asset_var_name = "crow_sprite"
 
-[node name="GreenCrowSprite" type="MeshInstance3D" parent="LaneOffset/FacingRotation/Sprites/BodyTransform/TeamSprite" index="0" instance=ExtResource("5_evmmp")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.22343, 0.905456, 0)
+[node name="GreenCrowSprite" parent="LaneOffset/FacingRotation/Sprites/BodyTransform/TeamSprite" index="0" instance=ExtResource("5_evmmp")]
 mesh = SubResource("QuadMesh_icrsw")
 
 [node name="GoogleyEyesPair" parent="LaneOffset/FacingRotation/Sprites/BodyTransform" index="1" instance=ExtResource("6_2g7rt")]

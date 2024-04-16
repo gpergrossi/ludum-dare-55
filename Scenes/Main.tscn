@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://ddjbrnypilhof"]
+[gd_scene load_steps=29 format=3 uid="uid://ddjbrnypilhof"]
 
 [ext_resource type="Script" path="res://Code/Classes/OpponentController.gd" id="1_dy58u"]
 [ext_resource type="Script" path="res://Code/Classes/PlayerController.gd" id="1_uq66x"]
@@ -8,25 +8,30 @@
 [ext_resource type="Script" path="res://Code/Scripts/mouse_capture_handler.gd" id="5_mdxii"]
 [ext_resource type="PackedScene" uid="uid://p614kctv6eve" path="res://Scenes/UI/progress_bar_3d.tscn" id="6_jfgym"]
 [ext_resource type="PackedScene" uid="uid://3w320yfp33fl" path="res://Scenes/UI/fader.tscn" id="6_mile2"]
-[ext_resource type="PackedScene" uid="uid://boebmi3wby3r" path="res://Scenes/Props/PlayerBarn.tscn" id="6_nwu4v"]
 [ext_resource type="PackedScene" uid="uid://cnfygjo801chm" path="res://Scenes/Sigil/sigil.tscn" id="7_56svx"]
 [ext_resource type="Script" path="res://Code/Scripts/Units/unit_manager.gd" id="8_ha0w3"]
 [ext_resource type="PackedScene" uid="uid://dub5xj3whpcmw" path="res://Scenes/PositionSelector/position_selector.tscn" id="9_ypx28"]
-[ext_resource type="PackedScene" uid="uid://cwdsex7rj3xwg" path="res://Scenes/Props/caster_billboard.tscn" id="12_0id56"]
+[ext_resource type="PackedScene" path="res://Scenes/Props/caster_billboard.tscn" id="12_0id56"]
 [ext_resource type="AudioStream" uid="uid://b6pi35hy72g4r" path="res://Assets/sound/spellsuccess.wav" id="12_1q0wg"]
 [ext_resource type="AudioStream" uid="uid://b2pohh20c130" path="res://Assets/sound/spellfizzle.wav" id="13_h1i8k"]
 [ext_resource type="Texture2D" uid="uid://1naeyclyhk6i" path="res://Assets/Images/Rory.png" id="13_i6h6p"]
 [ext_resource type="Script" path="res://Code/Scripts/camera_follow.gd" id="13_jv6l7"]
-[ext_resource type="PackedScene" uid="uid://db6isycrw3qsa" path="res://Scenes/Props/bird_flock.tscn" id="16_ctnln"]
+[ext_resource type="PackedScene" uid="uid://dac1y8b8yqyh5" path="res://Scenes/Units/TeamAssets/Green/GreenCastleLeft.tscn" id="13_qsm7u"]
+[ext_resource type="PackedScene" uid="uid://ciywccbt7ffxk" path="res://Scenes/Units/TeamAssets/Red/RedCastleRight.tscn" id="14_dk7md"]
+[ext_resource type="PackedScene" path="res://Scenes/Props/bird_flock.tscn" id="16_ctnln"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_cv4jk"]
+sky_top_color = Color(0, 0.388235, 0.729412, 1)
+sky_horizon_color = Color(0, 0.843137, 0.968627, 1)
+ground_bottom_color = Color(0.286275, 0.678431, 0.392157, 1)
+ground_horizon_color = Color(0.329412, 0.890196, 0.619608, 1)
 
 [sub_resource type="Sky" id="Sky_em07v"]
 sky_material = SubResource("ProceduralSkyMaterial_cv4jk")
 
 [sub_resource type="Environment" id="Environment_e4w5b"]
 background_mode = 1
-background_color = Color(0, 0.368627, 0.870588, 1)
+background_color = Color(0.231373, 0.52549, 1, 1)
 sky = SubResource("Sky_em07v")
 fog_light_color = Color(0.466667, 0.552941, 0, 1)
 fog_light_energy = 0.79
@@ -58,7 +63,7 @@ _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
 point_count = 2
 
 [node name="Main" type="Node3D"]
-visible = false
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00622559, 0.24205, -0.0444489)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_e4w5b")
@@ -72,9 +77,11 @@ near = 5.0
 script = ExtResource("13_jv6l7")
 follow_target = NodePath("../CameraController/Camera Rotate/Camera Offset/Camera Follow Point")
 
-[node name="CameraController" type="Node3D" parent="."]
+[node name="CameraController" type="Node3D" parent="." node_paths=PackedStringArray("left_edge", "right_edge")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0)
 script = ExtResource("5_046qu")
+left_edge = NodePath("../Left Side Things/Default Spawn Position")
+right_edge = NodePath("../Right Side Things/Default Spawn Position")
 
 [node name="Camera Rotate" type="Node3D" parent="CameraController"]
 transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 0, 0)
@@ -183,34 +190,33 @@ metadata/_edit_group_ = true
 [node name="Default Spawn Position" type="Node3D" parent="Left Side Things"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0)
 
-[node name="PlayerHealthBar" parent="Left Side Things" instance=ExtResource("6_jfgym")]
+[node name="HealthBarLeft" parent="Left Side Things" instance=ExtResource("6_jfgym")]
 transform = Transform3D(15, 0, 0, 0, 15, 0, 0, 0, 15, 0, 20, 0)
 fraction = 0.637
 
-[node name="PlayerBarn" parent="Left Side Things" instance=ExtResource("6_nwu4v")]
-
-[node name="CasterBillboard" parent="Left Side Things" instance=ExtResource("12_0id56")]
+[node name="CasterBillboardLeft" parent="Left Side Things" instance=ExtResource("12_0id56")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.200001, 15.5, 0)
 texture = ExtResource("13_i6h6p")
 is_left_side = true
+
+[node name="GreenCastleLeft" parent="Left Side Things" instance=ExtResource("13_qsm7u")]
 
 [node name="Right Side Things" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 55, 0, 0)
 metadata/_edit_group_ = true
 
 [node name="Default Spawn Position" type="Node3D" parent="Right Side Things"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.86055, -9.53674e-07, 0.000247955)
 
-[node name="EnemyHealthBar" parent="Right Side Things" instance=ExtResource("6_jfgym")]
+[node name="HealthBarRight" parent="Right Side Things" instance=ExtResource("6_jfgym")]
 transform = Transform3D(15, 0, 0, 0, 15, 0, 0, 0, 15, 0, 20, 0)
 fraction = 0.637
 metadata/_edit_lock_ = true
 
-[node name="PlayerBarn2" parent="Right Side Things" instance=ExtResource("6_nwu4v")]
-
-[node name="CasterBillboard" parent="Right Side Things" instance=ExtResource("12_0id56")]
+[node name="CasterBillboardRight" parent="Right Side Things" instance=ExtResource("12_0id56")]
 transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, 1, -0.200001, 15.5, 0)
 texture = ExtResource("13_i6h6p")
+
+[node name="RedCastleRight" parent="Right Side Things" instance=ExtResource("14_dk7md")]
 
 [node name="UnitManager" type="Node3D" parent="." node_paths=PackedStringArray("summon_default_position_left", "summon_default_position_right")]
 script = ExtResource("8_ha0w3")
@@ -220,7 +226,7 @@ summon_default_position_right = NodePath("../Right Side Things/Default Spawn Pos
 [node name="PlayerController" type="Node" parent="." node_paths=PackedStringArray("healthBar")]
 unique_name_in_owner = true
 script = ExtResource("1_uq66x")
-healthBar = NodePath("../Left Side Things/PlayerHealthBar")
+healthBar = NodePath("../Left Side Things/HealthBarLeft")
 
 [node name="Spell Success Sound Player" type="AudioStreamPlayer" parent="PlayerController"]
 unique_name_in_owner = true
@@ -236,4 +242,5 @@ max_polyphony = 2
 [node name="OpponentController" type="Node" parent="." node_paths=PackedStringArray("healthBar")]
 unique_name_in_owner = true
 script = ExtResource("1_dy58u")
-healthBar = NodePath("../Right Side Things/EnemyHealthBar")
+maxHealth = null
+healthBar = NodePath("../Right Side Things/HealthBarRight")

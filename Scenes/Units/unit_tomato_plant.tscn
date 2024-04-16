@@ -22,7 +22,7 @@ texture_repeat = false
 material = SubResource("StandardMaterial3D_hncq6")
 size = Vector2(3, 1.5)
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_dsk75"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_attio"]
 resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("6_8qfs8")
@@ -32,15 +32,16 @@ shader_parameter/specular = null
 shader_parameter/metallic = null
 shader_parameter/texture_albedo = ExtResource("7_mnjx7")
 
-[sub_resource type="QuadMesh" id="QuadMesh_oixqh"]
+[sub_resource type="QuadMesh" id="QuadMesh_irwwl"]
 resource_local_to_scene = true
-material = SubResource("ShaderMaterial_dsk75")
+material = SubResource("ShaderMaterial_attio")
 size = Vector2(3.13, 2.91)
 
 [node name="UnitTomatoPlant" instance=ExtResource("1_1fci6")]
 script = ExtResource("2_wxxe4")
 attack_interval = 0.5
 unit_name = "Tomato Plant"
+unit_type = 4
 max_health = 1000.0
 knockback_immunity = 1.0
 
@@ -53,9 +54,8 @@ unique_name_in_owner = true
 [node name="TomatoSprite" parent="LaneOffset/FacingRotation/Sprites/BodyTransform" index="0" instance=ExtResource("4_wk5tf")]
 asset_var_name = "tomato_sprite"
 
-[node name="GreenTomatoSprite" type="MeshInstance3D" parent="LaneOffset/FacingRotation/Sprites/BodyTransform/TomatoSprite" index="0" instance=ExtResource("5_1liam")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.296653, 1.44281, 0)
-mesh = SubResource("QuadMesh_oixqh")
+[node name="GreenTomatoSprite" parent="LaneOffset/FacingRotation/Sprites/BodyTransform/TomatoSprite" index="0" instance=ExtResource("5_1liam")]
+mesh = SubResource("QuadMesh_irwwl")
 
 [node name="GoogleyEyesPair" parent="LaneOffset/FacingRotation/Sprites/BodyTransform" index="1" instance=ExtResource("10_x8s6i")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00543052, 1.49132, 0)

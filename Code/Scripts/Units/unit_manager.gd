@@ -14,6 +14,7 @@ var scene_flying_bomber := load("res://Scenes/Units/unit_flying_bomber.tscn") as
 var scene_egg_projectile := load("res://Scenes/Units/unit_egg_projectile.tscn") as PackedScene
 var scene_tomato_plant := load("res://Scenes/Units/unit_tomato_plant.tscn") as PackedScene
 var scene_tomato_projectile := load("res://Scenes/Units/unit_tomato_projectile.tscn") as PackedScene
+var scene_pumpkin := load("res://Scenes/Units/unit_pumpkin.tscn") as PackedScene
 
 var summon_lock := false
 
@@ -36,16 +37,17 @@ func _input(event : InputEvent):
 		var key_event := event as InputEventKey
 		if event.is_pressed():
 			if not summon_lock:
-				if key_event.physical_keycode == KEY_1:
-					summon("basicWalker", {}, Vector2(summon_default_position_left.global_position.x, 0), Team.PLAYER_TEST)
-				if key_event.physical_keycode == KEY_2:
-					summon("basicWalker", {}, Vector2(summon_default_position_right.global_position.x, 0), Team.ENEMY_TEST)
-				if key_event.physical_keycode == KEY_3:
-					summon("stationaryGuard", {}, Vector2(0, 0), Team.PLAYER_TEST)
-				if key_event.physical_keycode == KEY_4:
-					summon("flyingBomber", {}, Vector2(0, 50.0), Team.PLAYER_TEST)
-				if key_event.physical_keycode == KEY_5:
-					summon("tomatoPlant", {}, Vector2(0.0, 0.0), Team.ENEMY_TEST)
+				#if key_event.physical_keycode == KEY_1:
+				#	summon("basicWalker", {}, Vector2(summon_default_position_left.global_position.x, 0), Team.PLAYER_TEST)
+				#if key_event.physical_keycode == KEY_2:
+				#	summon("basicWalker", {}, Vector2(summon_default_position_right.global_position.x, 0), Team.ENEMY_TEST)
+				#if key_event.physical_keycode == KEY_3:
+				#	summon("stationaryGuard", {}, Vector2(0, 0), Team.PLAYER_TEST)
+				#if key_event.physical_keycode == KEY_4:
+				#	summon("flyingBomber", {}, Vector2(0, 50.0), Team.PLAYER_TEST)
+				#if key_event.physical_keycode == KEY_5:
+				#	summon("tomatoPlant", {}, Vector2(0.0, 0.0), Team.ENEMY_TEST)
+				pass
 			summon_lock = true
 		else:
 			summon_lock = false
@@ -81,6 +83,11 @@ static func summonTomatoProjectile(spell_def : Dictionary, unit_position : Vecto
 		_unit_manager_static.summon("tomatoProjectile", spell_def, unit_position, team)
 
 
+static func summonPumpkin(spell_def : Dictionary, unit_position : Vector2, team : Team):
+	if is_instance_valid(_unit_manager_static):
+		_unit_manager_static.summon("pumpkin", spell_def, unit_position, team)
+
+
 func summon(unitType : String, spell_def : Dictionary, unit_position : Vector2, team : Team):
 	var packed_scene : PackedScene = null
 	match(unitType):
@@ -90,6 +97,7 @@ func summon(unitType : String, spell_def : Dictionary, unit_position : Vector2, 
 		"eggProjectile":     packed_scene = scene_egg_projectile
 		"tomatoPlant":       packed_scene = scene_tomato_plant
 		"tomatoProjectile":  packed_scene = scene_tomato_projectile
+		"pumpkin":           packed_scene = scene_pumpkin
 
 	if packed_scene == null:
 		printerr("No such unit type \"" + unitType + "\"!")

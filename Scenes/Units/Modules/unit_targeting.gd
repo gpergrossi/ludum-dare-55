@@ -1,21 +1,5 @@
 class_name UnitTargeting extends Node3D
 
-enum UnitTypeMask {
-	NONE = 0,
-	BROCOLLI = 1,
-	CROW = 2,
-	TOMATO = 4,
-	LETTUCE = 8,
-	PUMPKIN = 16,
-	CARROT = 32,
-	CORN = 64,
-	POTATO = 128,
-	ALL_FLYING = CROW,
-	ALL_GROUND = BROCOLLI + LETTUCE + PUMPKIN + CARROT + CORN + POTATO,
-	ALL = 255,
-	PROJECTILE = 256
-}
-
 enum Algorithm {
 	NEAREST,      # Prefers targets that are the nearest.
 	FARTHEST,     # Prefers targets that are the farthest away.
@@ -58,7 +42,7 @@ enum Algorithm {
 	"Carrot:32",
 	"Corn:64",
 	"Potato:128",
-) var targeting_mask : int = UnitTypeMask.ALL
+) var targeting_mask : int = UnitBase.UnitTypeMask.ALL
 
 @export var predicate : Callable = predicate_always
 
@@ -254,7 +238,7 @@ func is_valid_target(candidate : UnitBase) -> bool:
 		return false 
 	
 	# Unit type mask
-	if (targeting_mask & get_unit_type_mask(candidate)) == 0:
+	if (targeting_mask & candidate.unit_type) == 0:
 		return false
 	
 	# Team
@@ -268,17 +252,6 @@ func is_valid_target(candidate : UnitBase) -> bool:
 		return false
 	
 	return true
-
-
-func get_unit_type_mask(unit : UnitBase) -> UnitTypeMask:
-	if unit is UnitBasicWalker: return UnitTypeMask.BROCOLLI
-	if unit is UnitFlyingBomber: return UnitTypeMask.CROW
-	if unit is UnitStationaryGuard: return UnitTypeMask.LETTUCE
-	if unit is UnitEggProjectile: return UnitTypeMask.PROJECTILE
-	if unit is UnitTomatoPlant: return UnitTypeMask.TOMATO
-	if unit is UnitTomatoProjectile: return UnitTypeMask.PROJECTILE
-	assert(false)
-	return 0
 
 
 func search_now():

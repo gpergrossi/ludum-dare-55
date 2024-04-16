@@ -69,6 +69,11 @@ func _process(delta):
 		cast(Spells.summonWall, wall_position)
 		return
 	
+	var boulder_position = getDefaultLocation(Spells.summonBoulder) + Vector2(-10 - randf() * 20, -10)
+	if randf() > 0.8 and canCast(Spells.summonBoulder, boulder_position):
+		cast(Spells.summonBoulder, boulder_position)
+		return
+	
 	cast(Spells.summonBasicWalker);
 
 func _on_died() -> void:

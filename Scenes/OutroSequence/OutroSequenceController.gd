@@ -5,9 +5,9 @@ const azra_victory_image : Texture2D = preload("res://Assets/Images/azrawinscred
 const rory_victory_image : Texture2D = preload("res://Assets/Images/rorywinscredits.png");
 
 # Configuration constants
-const start_scroll_delay := 3000;
-const scroll_acceleration_duration := 10000;
-const scroll_speed := 50; # pixels / sec
+const start_scroll_delay := 2000;
+const scroll_acceleration_duration := 8000;
+const scroll_speed := 70; # pixels / sec
 
 # Derived constants
 const scroll_acceleration_start := start_scroll_delay;

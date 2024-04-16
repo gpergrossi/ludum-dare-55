@@ -37,7 +37,8 @@ func _input(event : InputEvent):
 func capture_mouse():
 	_is_captured = true
 	if Input.mouse_mode != Input.MOUSE_MODE_CONFINED:
-		Input.mouse_mode = Input.MOUSE_MODE_CONFINED
+		if not Engine.has_singleton("HTML5"):
+			Input.mouse_mode = Input.MOUSE_MODE_CONFINED
 
 
 func release_mouse():

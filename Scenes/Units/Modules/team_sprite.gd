@@ -83,26 +83,49 @@ func set_asset_var_name(name):
 
 
 func regenerate():
-	_cleanup_instance()
 	_generate_instance()
-
-
-func _cleanup_instance():
-	for child in get_children():
-		var meshInst := child as MeshInstance3D
-		if is_instance_valid(meshInst):
-			meshInst.name = "GARBAGE" + str(randi())
-			meshInst.queue_free()
 
 
 func _generate_instance():
 	var sprite_scene := team_assets.get(asset_var_name) as PackedScene
 	if is_instance_valid(sprite_scene):
 		var inst := sprite_scene.instantiate() as MeshInstance3D
-		add_child(inst)
-		inst.owner = self.owner
-		sprite_instance = inst
-		sprite_instance.sorting_offset = sort_offset
+		
+		var prev_mesh = find_children("*", "MeshInstance3D")
+		if len(prev_mesh) > 0:
+			# Found existing mesh instance, replace parameters
+			print("TeamSprite found existing mesh instance.")
+			assert(len(prev_mesh) == 1)
+			for mesh in prev_mesh:
+				var miA := mesh as MeshInstance3D
+				var miB := inst
+				
+				# Copy new quad size
+				var quadA := miA.mesh as QuadMesh
+				var quadB := miB.mesh as QuadMesh
+				quadA.size = quadB.size
+				
+				# Copy shader params
+				var matA := quadA.material as ShaderMaterial
+				var matB := quadB.material as ShaderMaterial
+				matA.set_shader_parameter("albedo", matB.get_shader_parameter("albedo"))
+				matA.set_shader_parameter("roughness", matB.get_shader_parameter("roughness"))
+				matA.set_shader_parameter("specular", matB.get_shader_parameter("specular"))
+				matA.set_shader_parameter("metallic", matB.get_shader_parameter("metallic"))
+				matA.set_shader_parameter("texture_albedo", matB.get_shader_parameter("texture_albedo"))
+				
+				# Make sure we have a reference to the existing mesh instance
+				sprite_instance = miA
+				sprite_instance.sorting_offset = sort_offset
+				
+				inst.queue_free()
+		else:
+			# Brand new instance
+			print("TeamSprite creating new mesh instance.")
+			add_child(inst)
+			inst.owner = self.owner
+			sprite_instance = inst
+			sprite_instance.sorting_offset = sort_offset
 
 
 func set_color_tint(color : Color):

@@ -1,5 +1,23 @@
 class_name UnitBase extends Node3D
 
+enum UnitTypeMask {
+	NONE = 0,
+	BROCOLLI = 1,
+	CROW = 2,
+	TOMATO = 4,
+	LETTUCE = 8,
+	PUMPKIN = 16,
+	CARROT = 32,
+	CORN = 64,
+	POTATO = 128,
+	ALL_FLYING = CROW,
+	ALL_GROUND = BROCOLLI + LETTUCE + PUMPKIN + CARROT + CORN + POTATO,
+	ALL = 255,
+	
+	# Not included in ALL. Not meant to be targeted.
+	PROJECTILE = 256
+}
+
 # Common list of states, not all states used in a given unit class.
 enum UnitState {
 	UNINITIALIZED,
@@ -13,7 +31,8 @@ enum UnitState {
 # Used for turning collision with enemies on and off.
 enum UnitMoveType {
 	GROUND,
-	FLYING
+	FLYING,
+	ROLLING
 }
 
 # Which way to flip the art
@@ -29,6 +48,7 @@ const LAYER_LEFTSIDE := 2
 const LAYER_RIGHTSIDE := 3
 
 @export var unit_name : String
+@export var unit_type : UnitTypeMask = UnitTypeMask.NONE
 
 @export_category("Movement")
 @export var unit_move_type := UnitMoveType.GROUND
@@ -128,7 +148,7 @@ func _physics_process(delta : float):
 	# Movement
 	_position += _velocity * delta
 	
-	# Note: FLYING units don't collide at all
+	# Note: FLYING and ROLLING units don't collide at all
 	if self.unit_move_type == UnitMoveType.GROUND:
 		# Collide with opponents' units
 		for other in get_tree().get_nodes_in_group("units"):
@@ -162,7 +182,7 @@ func _physics_process(delta : float):
 		_on_floor = true
 		
 		# Remove velocity into the ground.
-		var ground_normal := Vector2(-sin(_current_ground_angle), cos(_current_ground_angle))
+		var ground_normal := Vector2(sin(_current_ground_angle), -cos(_current_ground_angle))
 		_velocity -= maxf(0.0, _velocity.dot(ground_normal)) * ground_normal
 	
 	else:
