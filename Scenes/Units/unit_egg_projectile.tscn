@@ -25,7 +25,7 @@ texture_repeat = false
 material = SubResource("StandardMaterial3D_hncq6")
 size = Vector2(3, 1.5)
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_5n0ja"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4k75b"]
 resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("6_xgpnx")
@@ -35,12 +35,12 @@ shader_parameter/specular = null
 shader_parameter/metallic = null
 shader_parameter/texture_albedo = ExtResource("7_ogi7k")
 
-[sub_resource type="QuadMesh" id="QuadMesh_l1lsh"]
+[sub_resource type="QuadMesh" id="QuadMesh_8gpi7"]
 resource_local_to_scene = true
-material = SubResource("ShaderMaterial_5n0ja")
+material = SubResource("ShaderMaterial_4k75b")
 size = Vector2(1.46, 2.03)
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_7uhma"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_w72ek"]
 resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("6_xgpnx")
@@ -50,9 +50,9 @@ shader_parameter/specular = null
 shader_parameter/metallic = null
 shader_parameter/texture_albedo = ExtResource("9_2i6xt")
 
-[sub_resource type="QuadMesh" id="QuadMesh_01pod"]
+[sub_resource type="QuadMesh" id="QuadMesh_uxyci"]
 resource_local_to_scene = true
-material = SubResource("ShaderMaterial_7uhma")
+material = SubResource("ShaderMaterial_w72ek")
 size = Vector2(1.66, 1.83)
 
 [node name="UnitEggProjectile" instance=ExtResource("1_uogj1")]
@@ -75,7 +75,7 @@ asset_var_name = "egg_sprite"
 
 [node name="GreenEggSprite" type="MeshInstance3D" parent="LaneOffset/FacingRotation/Sprites/BodyTransform/EggSprite" index="0" instance=ExtResource("5_3vmcu")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00476821, 0.00201911, 0)
-mesh = SubResource("QuadMesh_l1lsh")
+mesh = SubResource("QuadMesh_8gpi7")
 
 [node name="SplatSprite" parent="LaneOffset/FacingRotation/Sprites/BodyTransform" index="1" instance=ExtResource("4_ul7pi")]
 unique_name_in_owner = true
@@ -85,7 +85,7 @@ asset_var_name = "egg_splat_sprite"
 
 [node name="GreenEggSplatSprite" type="MeshInstance3D" parent="LaneOffset/FacingRotation/Sprites/BodyTransform/SplatSprite" index="0" instance=ExtResource("8_qnw3h")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.126426, -0.121934, 0)
-mesh = SubResource("QuadMesh_01pod")
+mesh = SubResource("QuadMesh_uxyci")
 
 [node name="GoogleyEyesPair" parent="LaneOffset/FacingRotation/Sprites/BodyTransform" index="2" instance=ExtResource("8_tjg3f")]
 unique_name_in_owner = true
@@ -97,10 +97,10 @@ unique_name_in_owner = true
 wait_time = 0.25
 
 [node name="UnitTargeting" parent="." index="2"]
-max_forward_range = 5.0
-max_backward_range = 5.0
-max_vertical_range = 5.0
-splash_radius = 5.0
+max_forward_range = 10.0
+max_backward_range = 10.0
+max_vertical_range = 10.0
+splash_radius = 10.0
 max_targets = 10
 algorithm = 5
 targeting_mask = 253

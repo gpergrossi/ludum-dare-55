@@ -18,15 +18,15 @@ static var definitions = [{
 	'rune': Rune.new([4, 1 ,2]),
 	'castFunc': UnitManager.summonFlyingBomber,
 	'botCooldownSeconds': 5,
-# }, {
-# 	'programmaticName': 'summonRanged',
-# 	'name': 'Summon Tomato',
-# 	'level': 2,
-# 	'manaSecondsAtLevel': 20,
-# 	'preferredLocation': 'ground',
-# 	'rune': Rune.new([0, 3, 2, 1]),
-# 	'castFunc': Spells.dummy, # TODO
-# 	'botCooldownSeconds': 5,
+}, {
+	'programmaticName': 'summonRanged',
+	'name': 'Summon Tomato',
+	'level': 2,
+	'manaSecondsAtLevel': 20,
+	'preferredLocation': 'ground',
+	'rune': Rune.new([0, 3, 2, 1]),
+	'castFunc': UnitManager.summonTomatoPlant,
+	'botCooldownSeconds': 5,
 }, {
 	'programmaticName': 'summonWall',
 	'name': 'Summon Lettuce',
@@ -78,7 +78,9 @@ static var definitions = [{
 static var recastRune := Rune.new([3, 4])
 
 static var summonBasicWalker = Spells.definitions[0];
-static var summonWall = Spells.definitions[2];
+static var summonWall = Spells.definitions[3]
+static var summonRanged = Spells.definitions[2]
+static var summonFlyingBomber = Spells.definitions[1]
 
 static func _static_init():
 	var id = 0;

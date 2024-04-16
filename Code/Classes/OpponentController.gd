@@ -51,12 +51,25 @@ func _process(delta):
 	var manaPercent = mana / maxMana * 100.0;
 	
 	# If mana above 80% summon something
-	if manaPercent >= 80:
-		var wall_position = getDefaultLocation(Spells.summonWall) + Vector2(-10 - randf() * 100, -10)
-		if randf() > 0.8 and canCast(Spells.summonWall, wall_position):
-			cast(Spells.summonWall, wall_position)
-		else:
-			cast(Spells.summonBasicWalker);
+	if manaPercent < 80:
+		return
+
+	var bomber_position = getDefaultLocation(Spells.summonFlyingBomber) + Vector2(-10 - randf() * 50, -10)
+	if randf() > 0.8 and canCast(Spells.summonFlyingBomber, bomber_position):
+		cast(Spells.summonFlyingBomber, bomber_position)
+		return
+		
+	var ranged_position = getDefaultLocation(Spells.summonRanged) + Vector2(-10 - randf() * 20, -10)
+	if randf() > 0.8 and canCast(Spells.summonRanged, ranged_position):
+		cast(Spells.summonRanged, ranged_position)
+		return
+	
+	var wall_position = getDefaultLocation(Spells.summonWall) + Vector2(-10 - randf() * 50, -10)
+	if randf() > 0.8 and canCast(Spells.summonWall, wall_position):
+		cast(Spells.summonWall, wall_position)
+		return
+	
+	cast(Spells.summonBasicWalker);
 
 func _on_died() -> void:
 	if (LevelLoader.current_level + 1 >= len(Constants.manaByLevel)):
