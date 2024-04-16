@@ -1,9 +1,9 @@
 [gd_scene load_steps=11 format=3 uid="uid://bqawklefsoqfx"]
 
-[ext_resource type="PackedScene" uid="uid://kkt6g2ery6vj" path="res://Scenes/Units/unit_base.tscn" id="1_767v5"]
-[ext_resource type="Script" path="res://Code/Scripts/Units/unit_stationary_guard.gd" id="2_42hmg"]
+[ext_resource type="PackedScene" uid="uid://kkt6g2ery6vj" path="res://Scenes/Units/UnitBase/unit_base.tscn" id="1_767v5"]
+[ext_resource type="Script" path="res://Scenes/Units/UnitLettuceWall/unit_stationary_guard.gd" id="2_42hmg"]
 [ext_resource type="Shader" path="res://Code/Shaders/unit_sprite.gdshader" id="3_8l4jg"]
-[ext_resource type="PackedScene" uid="uid://bhp551sabqfag" path="res://Scenes/Units/Modules/team_sprite.tscn" id="3_xwd1g"]
+[ext_resource type="PackedScene" uid="uid://bhp551sabqfag" path="res://Scenes/Units/TeamSprite/team_sprite.tscn" id="3_xwd1g"]
 [ext_resource type="Texture2D" uid="uid://5swkwfkufl1m" path="res://Assets/mob/lettuce_green.png" id="4_0r405"]
 [ext_resource type="PackedScene" uid="uid://oy74hac1q45g" path="res://Scenes/Units/TeamAssets/Green/GreenLettuceSprite.tscn" id="4_nrqie"]
 [ext_resource type="PackedScene" uid="uid://civ0qmljlf0kk" path="res://Scenes/Important/googley_eyes_pair.tscn" id="5_iqxfc"]
@@ -26,10 +26,7 @@ size = Vector2(3.78, 4.9)
 
 [node name="UnitStationaryGuard" instance=ExtResource("1_767v5")]
 script = ExtResource("2_42hmg")
-unit_name = "Lettuce Wall"
-unit_type = 8
-top_speed = 0
-move_accel = 10000.0
+unit_type = 5
 max_health = 300.0
 knockback_immunity = 1.0
 damage_reduction = 15
@@ -49,6 +46,11 @@ mesh = SubResource("QuadMesh_5wcrt")
 [node name="GoogleyEyesPair" parent="LaneOffset/FacingRotation/Sprites/BodyTransform" index="1" instance=ExtResource("5_iqxfc")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.28206, 0)
 dampening = 0.9
+
+[node name="UnitTargeting" parent="." index="1"]
+target_scan_interval = 10.0
+target_allies_instead = true
+algorithm = 0
 
 [node name="Lettuce Crunch Sound Player" type="AudioStreamPlayer" parent="." index="2"]
 unique_name_in_owner = true

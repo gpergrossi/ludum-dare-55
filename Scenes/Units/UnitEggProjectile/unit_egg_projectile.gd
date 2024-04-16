@@ -35,14 +35,14 @@ func _process(delta):
 		
 	
 
-func _on_state_changed(_me : UnitBase, new_state : UnitState, old_state : UnitState):
+func _on_state_changed(_me : UnitBase, new_state : UnitTypeDefs.UnitState, old_state : UnitTypeDefs.UnitState):
 	match(new_state):
-		UnitState.INITIALIZE:
-			change_state(UnitState.MOVING)
+		UnitTypeDefs.UnitState.INITIALIZE:
+			change_state(UnitTypeDefs.UnitState.MOVING)
 
 
 func process_unit(delta : float) -> void:
-	pass
+	walk(0.0, delta)
 
 
 func _on_grounded(me : UnitBase):

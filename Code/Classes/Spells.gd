@@ -7,7 +7,7 @@ static var definitions = [{
 	'manaSecondsAtLevel': 3,
 	'preferredLocation': 'none',
 	'rune': Rune.new([0, 3, 2]), # For visual runes, see the Miro board at https://miro.com/app/board/uXjVKUq1fIo=/
-	'castFunc': UnitManager.summonBasicWalker,
+	'castFunc': Spells.funcSummonBasicWalker,
 	'botCooldownSeconds': 1,
 }, {
 	'programmaticName': 'summonFlyingBomber',
@@ -16,7 +16,7 @@ static var definitions = [{
 	'manaSecondsAtLevel': 15,
 	'preferredLocation': 'sky',
 	'rune': Rune.new([4, 1 ,2]),
-	'castFunc': UnitManager.summonFlyingBomber,
+	'castFunc': Spells.funcSummonFlyingBomber,
 	'botCooldownSeconds': 5,
 }, {
 	'programmaticName': 'summonRanged',
@@ -25,7 +25,7 @@ static var definitions = [{
 	'manaSecondsAtLevel': 20,
 	'preferredLocation': 'ground',
 	'rune': Rune.new([0, 3, 2, 1]),
-	'castFunc': UnitManager.summonTomatoPlant,
+	'castFunc': Spells.funcSummonTomatoPlant,
 	'botCooldownSeconds': 5,
 }, {
 	'programmaticName': 'summonWall',
@@ -34,7 +34,7 @@ static var definitions = [{
 	'manaSecondsAtLevel': 6,
 	'preferredLocation': 'ground',
 	'rune': Rune.new([2, 0, 4, 1, 3]),
-	'castFunc': UnitManager.summonStationaryGuard,
+	'castFunc': Spells.funcSummonStationaryGuard,
 	'botCooldownSeconds': 5,
 }, {
 	'programmaticName': 'summonBoulder',
@@ -43,7 +43,7 @@ static var definitions = [{
 	'manaSecondsAtLevel': 25,
 	'preferredLocation': 'ground',
 	'rune': Rune.new([0, 1, 3, 4, 2, 0]),
-	'castFunc': UnitManager.summonPumpkin,
+	'castFunc': Spells.funcSummonPumpkin,
 	'botCooldownSeconds': 10,
 #}, {
 #	'programmaticName': 'summonFallingSpear',
@@ -99,3 +99,25 @@ static func getSpellFor(rune: Rune):
 
 static func dummy(spell, _location: Vector2, _team):
 	print('Spell cast function not yet implemented ', spell['name']);
+
+
+static func funcSummonBasicWalker(spell_def : Dictionary, unit_position : Vector2, team : Team):
+	UnitManager.static_summon(UnitTypeDefs.UnitType.BROCOLLI, spell_def, unit_position, team)
+
+static func funcSummonStationaryGuard(spell_def : Dictionary, unit_position : Vector2, team : Team):
+	UnitManager.static_summon(UnitTypeDefs.UnitType.LETTUCE, spell_def, unit_position, team)
+
+static func funcSummonFlyingBomber(spell_def : Dictionary, unit_position : Vector2, team : Team):
+	UnitManager.static_summon(UnitTypeDefs.UnitType.CROW, spell_def, unit_position, team)
+
+static func funcSummonEggProjectile(spell_def : Dictionary, unit_position : Vector2, team : Team):
+	UnitManager.static_summon(UnitTypeDefs.UnitType.CROW_EGG, spell_def, unit_position, team)
+
+static func funcSummonTomatoPlant(spell_def : Dictionary, unit_position : Vector2, team : Team):
+	UnitManager.static_summon(UnitTypeDefs.UnitType.TOMATO_PLANT, spell_def, unit_position, team)
+
+static func funcSummonTomatoProjectile(spell_def : Dictionary, unit_position : Vector2, team : Team):
+	UnitManager.static_summon(UnitTypeDefs.UnitType.TOMATO_PROJECTILE, spell_def, unit_position, team)
+
+static func funcSummonPumpkin(spell_def : Dictionary, unit_position : Vector2, team : Team):
+	UnitManager.static_summon(UnitTypeDefs.UnitType.PUMPKIN, spell_def, unit_position, team)

@@ -1,62 +1,21 @@
 class_name UnitBase extends Node3D
 
-enum UnitTypeMask {
-	NONE = 0,
-	BROCOLLI = 1,
-	CROW = 2,
-	TOMATO = 4,
-	LETTUCE = 8,
-	PUMPKIN = 16,
-	CARROT = 32,
-	CORN = 64,
-	POTATO = 128,
-	ALL_FLYING = CROW,
-	ALL_GROUND = BROCOLLI + LETTUCE + PUMPKIN + CARROT + CORN + POTATO,
-	ALL = 255,
-	
-	# Not included in ALL. Not meant to be targeted.
-	PROJECTILE = 256
-}
-
-# Common list of states, not all states used in a given unit class.
-enum UnitState {
-	UNINITIALIZED,
-	INITIALIZE,
-	MOVING,
-	ATTACKING,
-	DEFENDING,
-	DEAD
-}
-
-# Used for turning collision with enemies on and off.
-enum UnitMoveType {
-	GROUND,
-	FLYING,
-	ROLLING
-}
-
-# Which way to flip the art
-enum UnitFacing {
-	LEFT,
-	RIGHT
-}
-
 static var next_uid := 0
 
 const LAYER_WORLD := 1
 const LAYER_LEFTSIDE := 2
 const LAYER_RIGHTSIDE := 3
 
-@export var unit_name : String
-@export var unit_type : UnitTypeMask = UnitTypeMask.NONE
+@export var unit_type : UnitTypeDefs.UnitType = UnitTypeDefs.UnitType.BROCOLLI
 
 @export_category("Movement")
-@export var unit_move_type := UnitMoveType.GROUND
-@export var facing := UnitFacing.RIGHT
-@export var top_speed := 10
+@export var unit_move_type := UnitTypeDefs.UnitMoveType.GROUND
+@export var facing := UnitTypeDefs.UnitFacing.RIGHT
+@export var base_move_speed := 10
 @export var move_accel := 100.0
 @export var gravity := 40.0
 @export var turning_time := 0.333  # Only affects visuals 
+@export var unit_collision_width := 1.5
 
 @export_category("Defenses")
 @export var max_health := 100.0
@@ -69,10 +28,13 @@ const LAYER_RIGHTSIDE := 3
 @export var knockback := 10.0
 @export var reach_caster_damage := 10.0
 
+@export_category("Rendering")
+@export var max_shadow_dist := 0.5
+@export var max_shadow_shrink_begin_dist := 0.25
 
 # Signals
 signal damage_taken(me : UnitBase, damage : float, new_health : float)
-signal state_changed(me : UnitBase, new_state : UnitState, old_state : UnitState)
+signal state_changed(me : UnitBase, new_state : UnitTypeDefs.UnitState, old_state : UnitTypeDefs.UnitState)
 signal unit_on_ground(me : UnitBase)
 signal unit_off_ground(me : UnitBase)
 signal unit_at_opponents_building(me : UnitBase)
@@ -86,7 +48,7 @@ signal unit_at_opponents_building(me : UnitBase)
 
 # System
 var _id := 0
-var _state := UnitState.UNINITIALIZED
+var _state := UnitTypeDefs.UnitState.UNINITIALIZED
 
 # Assigned by manager
 var _manager : UnitManager
@@ -115,101 +77,135 @@ func _ready():
 	next_uid += 1
 	
 	_health = max_health
-	change_state(UnitState.INITIALIZE)
+	change_state(UnitTypeDefs.UnitState.INITIALIZE)
 	
-	name = unit_name + " #" + str(_id) + " (" + team.get_controlled_by_name() + ")"
+	name = UnitTypeDefs.get_unit_name(unit_type) + " #" + str(_id) + " (" + team.get_controlled_by_name() + ")"
 
 
-func _physics_process(delta : float):	
-	if is_on_floor():
-		# Update slope/shadow
-		_current_ground_angle = atan2(get_ground_slope(global_position.x), 1)
-		_shadow.rotation.z = _current_ground_angle
-		_shadow.visible = true
-		
-		if not _was_on_floor:
-			unit_on_ground.emit(self)
-			_was_on_floor = true
-		
-	else:
+func _physics_process(delta : float):
+	if not is_on_floor():
 		# Apply gravity
 		_velocity += Vector2(0, -1) * gravity * delta
-		
-		# Update slope/shadow
-		_current_ground_angle = 0.0
-		_shadow.visible = false
-		
-		if _was_on_floor:
-			unit_off_ground.emit(self)
-			_was_on_floor = false
 	
+	# Other sources of velocity from child class
 	process_unit(delta)
 	
 	# Movement
 	_position += _velocity * delta
 	
-	# Note: FLYING and ROLLING units don't collide at all
-	if self.unit_move_type == UnitMoveType.GROUND:
-		# Collide with opponents' units
-		for other in get_tree().get_nodes_in_group("units"):
-			var other_unit := other as UnitBase
-			if not is_instance_valid(other_unit): continue
-			if other_unit.unit_move_type != UnitMoveType.GROUND: continue
-			if other_unit.team == self.team: continue
-			
-			var x_dist := other_unit._position.x - self._position.x
-			var forward_sep := x_dist * get_facing_x()
-			
-			if forward_sep < 0.0: continue  # Unit is behind me, no collision
-			
-			if forward_sep < 1.5:
-				# Walked into opponent
-				_position.x = other_unit._position.x - 1.5 * get_facing_x()
-				_velocity.x = 0.0
+	do_unit_collisions()
+	do_boundary_collisions()
+	do_floor_collision()
 	
-	
-	# Collision
-	var ground_y := get_ground_height(_position.x)
-	
-	# Snap to floor (non-FLYING only)
-	if unit_move_type != UnitMoveType.FLYING and _on_floor and absf(_position.y - ground_y) < 0.1:
-		_position.y = ground_y
-	
-	# Keep units above the floor
-	if _position.y < ground_y:
-		# Otherwise stay on top of the floor.
-		_position.y = ground_y
-		_on_floor = true
+	update_current_ground_angle()
+	update_facing_spin(delta)
+
+
+func do_unit_collisions():
+	if self.unit_move_type == UnitTypeDefs.UnitMoveType.FLYING: return
+	if self.unit_move_type == UnitTypeDefs.UnitMoveType.ROLLING: return
 		
-		# Remove velocity into the ground.
-		var ground_normal := Vector2(sin(_current_ground_angle), -cos(_current_ground_angle))
-		_velocity -= maxf(0.0, _velocity.dot(ground_normal)) * ground_normal
-	
-	else:
-		# Left the floor due to upward velocity.
-		_on_floor = false
-	
-	# Slowly turn around when facing is flipped
-	var target_facing_angle_y := PI if facing == UnitFacing.LEFT else 0.0
-	var max_turn := delta * PI / turning_time
-	_facing_angle_y = move_toward(_facing_angle_y, target_facing_angle_y, max_turn)
-	_facing_rotation.rotation.y = _facing_angle_y
-	
+	# Collide with opponents' units
+	for other_unit in get_all_collidable_units():
+		var x_dist := other_unit._position.x - self._position.x
+		var forward_sep := x_dist * get_facing_x()
+		
+		var combined_width := 0.5 * (self.unit_collision_width + other_unit.unit_collision_width)
+		
+		if forward_sep < -combined_width: 
+			# Unit is behind me, no collision
+			continue
+		
+		if forward_sep < combined_width:
+			# Walked into opponent, fix position
+			_position.x = other_unit._position.x - combined_width * get_facing_x()
+			_velocity.x = maxf(0.0, _velocity.x)
+
+
+func get_all_collidable_units() -> Array[UnitBase]:
+	var results := [] as Array[UnitBase]
+	for other in get_tree().get_nodes_in_group("units"):
+		var other_unit := other as UnitBase
+		if not is_instance_valid(other_unit): continue
+		if other_unit.unit_move_type == UnitTypeDefs.UnitMoveType.FLYING: continue
+		if other_unit.team == self.team: continue
+		results.append(other_unit)
+	return results
+
+
+func do_boundary_collisions():
 	# Left boundary enforcement / kill plane
 	if _position.x < _manager.get_left_map_edge_x():
-		if team.get_move_direction_x() < -0.5:
-			_manager.do_kill_plane(self)
-			do_kill_plane()
+		# For right team, this is a kill plane
+		if team.side == Team.TeamSide.RIGHT:
+			unit_at_opponents_building.emit(self)
+			queue_free()
+		
+		# Otherwise it's a wall
 		else:
 			_position.x = maxf(_position.x, _manager.get_left_map_edge_x())
 	
 	# Right boundary enforcement / kill plane
 	elif _position.x > _manager.get_right_map_edge_x():
-		if team.get_move_direction_x() > 0.5:
-			_manager.do_kill_plane(self)
-			do_kill_plane()
+		# For left team, this is a kill plane
+		if team.side == Team.TeamSide.LEFT:
+			_manager.do_unit_hurt_opponent_caster(self)
+			queue_free()
+		
+		# Otherwise it's a wall
 		else:
 			_position.x = minf(_position.x, _manager.get_right_map_edge_x())
+
+
+func do_floor_collision():
+	var floor_y := get_ground_height(_position.x)
+	
+	# Snap to floor (non-FLYING only)
+	if unit_move_type != UnitTypeDefs.UnitMoveType.FLYING and _on_floor and absf(_position.y - floor_y) < 0.1:
+		_position.y = floor_y
+	
+	# Detect floor and keep units above the floor
+	elif _position.y < floor_y:
+		_position.y = floor_y
+		
+		# We are now on the floor
+		_on_floor = true
+		if not _was_on_floor:
+			unit_on_ground.emit(self)
+			_was_on_floor = true
+		
+		# Remove velocity into the ground.
+		var ground_normal := Vector2(sin(_current_ground_angle), -cos(_current_ground_angle))
+		_velocity -= maxf(0.0, _velocity.dot(ground_normal)) * ground_normal
+	
+	# Detect when a unit has left the ground due to upward velocity.
+	else:
+		# We are now off the floor
+		_on_floor = false
+		if _was_on_floor:
+			unit_off_ground.emit(self)
+			_was_on_floor = false
+
+
+func update_current_ground_angle():
+	# Update slope/shadow
+	var floor_y := get_ground_height(_position.x)
+	_current_ground_angle = atan2(get_ground_slope(global_position.x), 1)
+	
+	_shadow.rotation.z = _current_ground_angle
+	_shadow.visible = absf(_position.y - floor_y) < max_shadow_dist
+	
+	var shadow_scale := 1.0 - clampf((absf(_position.y - floor_y) - max_shadow_shrink_begin_dist) / (max_shadow_dist - max_shadow_shrink_begin_dist), 0.0, 1.0)
+	_shadow.scale = Vector3(shadow_scale, shadow_scale, shadow_scale)
+
+
+func update_facing_spin(delta : float):
+	# Slowly turn around when facing is flipped
+	var target_facing_angle_y := PI if facing == UnitTypeDefs.UnitFacing.LEFT else 0.0
+	var max_turn := delta * PI / turning_time
+	_facing_angle_y = move_toward(_facing_angle_y, target_facing_angle_y, max_turn)
+	_facing_rotation.rotation.y = _facing_angle_y
+
 
 
 ##########################################################################
@@ -218,12 +214,15 @@ func _physics_process(delta : float):
 
 func process_unit(delta : float) -> void:
 	match(_state):
-		UnitState.MOVING:
-			walk(top_speed, delta)
+		UnitTypeDefs.UnitState.MOVING:
+			walk(base_move_speed, delta)
 
 # Override if you want to pull stats from the spell definition dictionary
 func consume_spell_def(_spell_def : Dictionary):
 	pass
+
+func correct_spawn_position():
+	_position.x = clampf(_position.x, _manager.get_left_map_edge_x(), _manager.get_right_map_edge_x())
 
 ################################################################################
 ######   END VIRTUAL METHODS FOR SUBCLASS  ##################################
@@ -243,8 +242,18 @@ func walk(target_speed : float, delta : float, allow_midair := false):
 		if absf(_velocity.x - target_move_x) > 0.0:
 			_velocity.x = move_toward(_velocity.x, target_move_x, move_accel * delta)
 
+# Call this from animation sequence to actually deal damage at the right time.
+func damage_targets():
+	var targets := _unit_targeting.get_targets()
+	var cleave_count := float(len(targets))
+	for target in targets:
+		if is_instance_valid(target):
+			target.take_damage(self.damage / cleave_count, self.knockback / cleave_count)
+
 func get_ground_height(x : float) -> float:
-	return _terrain.get_height(x)
+	var ground_y := _terrain.get_height(x)
+	#print("Getting ground height at " + str(x) + " got " + str(ground_y))
+	return ground_y
 
 func get_ground_slope(x : float, epsilon := 0.1) -> float:
 	return _terrain.get_slope(x, epsilon)
@@ -252,13 +261,13 @@ func get_ground_slope(x : float, epsilon := 0.1) -> float:
 func is_on_floor():
 	return _on_floor
 
-func change_state(new_state : UnitState):
+func change_state(new_state : UnitTypeDefs.UnitState):
 	var old_state := _state
 	_state = new_state
 	state_changed.emit(self, new_state, old_state)
 
 func get_facing_x() -> float:
-	return -1.0 if (facing == UnitFacing.LEFT) else 1.0
+	return UnitTypeDefs.get_facing_x(facing)
 
 ################################################################################
 ######   END HELPFUL METHODS FOR SUBCLASS  ##################################
@@ -269,15 +278,6 @@ func get_facing_x() -> float:
 ##########################################################################
 ######   TAKING DAMAGE   ####################################################
 ################################################################################
-
-# Call this from animation sequence to actually deal damage at the right time.
-func damage_targets():
-	var targets := _unit_targeting.get_targets()
-	var cleave_count := float(len(targets))
-	for target in targets:
-		if is_instance_valid(target):
-			target.take_damage(self.damage / cleave_count, self.knockback / cleave_count)
-
 
 func take_damage(damage_amount : float, knockback_amount : float) -> void:
 	var prev_health := _health
@@ -301,12 +301,12 @@ func take_damage(damage_amount : float, knockback_amount : float) -> void:
 
 
 func die() -> void:
-	change_state(UnitState.DEAD)
-	
-	if _on_floor:
-		queue_free()
-	else:
-		unit_on_ground.connect(delayed_queue_free)
+	if _state != UnitTypeDefs.UnitState.DEAD:
+		change_state(UnitTypeDefs.UnitState.DEAD)
+		if _on_floor:
+			queue_free()
+		else:
+			unit_on_ground.connect(delayed_queue_free)
 
 
 func delayed_queue_free(_me : UnitBase):
@@ -317,10 +317,6 @@ func delayed_queue_free(_me : UnitBase):
 func update_brow_tilt():
 	_eyes.brow_tilt = lerp(_brow_tilt_no_damage, _brow_tilt_full_damage, (max_health - _health) / max_health)
 
-
-func do_kill_plane() -> void:
-	change_state(UnitState.DEAD)
-	queue_free()
 
 ################################################################################
 ######   END TAKING DAMAGE  #################################################
@@ -343,10 +339,10 @@ func set_team(assigned_team : Team):
 	
 	# Initial facing
 	if team.get_move_direction_x() < 0:
-		facing = UnitFacing.LEFT
+		facing = UnitTypeDefs.UnitFacing.LEFT
 		_facing_angle_y = PI
 	else:
-		facing = UnitFacing.RIGHT
+		facing = UnitTypeDefs.UnitFacing.RIGHT
 		_facing_angle_y = 0.0
 
 

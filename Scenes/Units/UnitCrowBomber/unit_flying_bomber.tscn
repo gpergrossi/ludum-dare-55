@@ -1,9 +1,9 @@
 [gd_scene load_steps=13 format=3 uid="uid://di7kuj8ok6oyi"]
 
-[ext_resource type="PackedScene" uid="uid://kkt6g2ery6vj" path="res://Scenes/Units/unit_base.tscn" id="1_eb3im"]
-[ext_resource type="Script" path="res://Code/Scripts/Units/unit_flying_bomber.gd" id="2_uemwd"]
+[ext_resource type="PackedScene" uid="uid://kkt6g2ery6vj" path="res://Scenes/Units/UnitBase/unit_base.tscn" id="1_eb3im"]
+[ext_resource type="Script" path="res://Scenes/Units/UnitCrowBomber/unit_flying_bomber.gd" id="2_uemwd"]
 [ext_resource type="Shader" path="res://Code/Shaders/unit_sprite.gdshader" id="3_7w2fu"]
-[ext_resource type="PackedScene" uid="uid://bhp551sabqfag" path="res://Scenes/Units/Modules/team_sprite.tscn" id="4_rnocc"]
+[ext_resource type="PackedScene" uid="uid://bhp551sabqfag" path="res://Scenes/Units/TeamSprite/team_sprite.tscn" id="4_rnocc"]
 [ext_resource type="Texture2D" uid="uid://b33bj8e2vxw7s" path="res://Assets/mob/crow_green.png" id="4_v085u"]
 [ext_resource type="PackedScene" uid="uid://byrhn5prsqo6c" path="res://Scenes/Units/TeamAssets/Green/GreenCrowSprite.tscn" id="5_evmmp"]
 [ext_resource type="PackedScene" uid="uid://civ0qmljlf0kk" path="res://Scenes/Important/googley_eyes_pair.tscn" id="6_2g7rt"]
@@ -45,9 +45,8 @@ flapMagnitudeMin = 6.0
 flapMagnitudeMax = 25.0
 moveSpeedMin = 6.0
 moveSpeedMax = 25.0
-patrolRange = 0.9
-unit_name = "Support Crow"
-unit_type = 2
+patrol_margin = 10
+unit_type = 1
 unit_move_type = 1
 max_health = 50.0
 
@@ -78,6 +77,7 @@ max_forward_range = 30.0
 max_backward_range = 10.0
 max_vertical_range = 1000.0
 splash_radius = 5.0
-max_targets = 10
+target_scan_interval = 0.05
+max_targets = 20
 algorithm = 5
 targeting_mask = 253

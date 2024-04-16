@@ -9,16 +9,16 @@
 [ext_resource type="PackedScene" uid="uid://p614kctv6eve" path="res://Scenes/UI/progress_bar_3d.tscn" id="6_jfgym"]
 [ext_resource type="PackedScene" uid="uid://3w320yfp33fl" path="res://Scenes/UI/fader.tscn" id="6_mile2"]
 [ext_resource type="PackedScene" uid="uid://cnfygjo801chm" path="res://Scenes/Sigil/sigil.tscn" id="7_56svx"]
-[ext_resource type="Script" path="res://Code/Scripts/Units/unit_manager.gd" id="8_ha0w3"]
+[ext_resource type="Script" path="res://Scenes/Units/Manager/unit_manager.gd" id="8_ha0w3"]
 [ext_resource type="PackedScene" uid="uid://dub5xj3whpcmw" path="res://Scenes/PositionSelector/position_selector.tscn" id="9_ypx28"]
-[ext_resource type="PackedScene" path="res://Scenes/Props/caster_billboard.tscn" id="12_0id56"]
+[ext_resource type="PackedScene" uid="uid://cwdsex7rj3xwg" path="res://Scenes/Props/caster_billboard.tscn" id="12_0id56"]
 [ext_resource type="AudioStream" uid="uid://b6pi35hy72g4r" path="res://Assets/sound/spellsuccess.wav" id="12_1q0wg"]
 [ext_resource type="AudioStream" uid="uid://b2pohh20c130" path="res://Assets/sound/spellfizzle.wav" id="13_h1i8k"]
 [ext_resource type="Texture2D" uid="uid://1naeyclyhk6i" path="res://Assets/Images/Rory.png" id="13_i6h6p"]
 [ext_resource type="Script" path="res://Code/Scripts/camera_follow.gd" id="13_jv6l7"]
 [ext_resource type="PackedScene" uid="uid://dac1y8b8yqyh5" path="res://Scenes/Units/TeamAssets/Green/GreenCastleLeft.tscn" id="13_qsm7u"]
 [ext_resource type="PackedScene" uid="uid://ciywccbt7ffxk" path="res://Scenes/Units/TeamAssets/Red/RedCastleRight.tscn" id="14_dk7md"]
-[ext_resource type="PackedScene" path="res://Scenes/Props/bird_flock.tscn" id="16_ctnln"]
+[ext_resource type="PackedScene" uid="uid://db6isycrw3qsa" path="res://Scenes/Props/bird_flock.tscn" id="16_ctnln"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_cv4jk"]
 sky_top_color = Color(0, 0.388235, 0.729412, 1)
@@ -64,6 +64,7 @@ point_count = 2
 
 [node name="Main" type="Node3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00622559, 0.24205, -0.0444489)
+visible = false
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_e4w5b")

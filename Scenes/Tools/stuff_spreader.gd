@@ -35,7 +35,6 @@ const MAX_RAYS_PER_CYCLE := 50
 @export var do_spawn := false : set = set_do_spawn
 
 @onready var _spawn_parent := %SpawnParent as Node3D
-@onready var _spawn_shape := %SpawnShape as CollisionShape3D
 
 var _random : RandomNumberGenerator
 var _avoid_spheres : Array[CollisionShape3D]
@@ -51,6 +50,8 @@ func _ready():
 
 
 func _physics_process(_delta : float):
+	if not Engine.is_editor_hint(): return
+	
 	if _spawned_object_count < _target_count and _fail_count < MAX_FAILS:
 		_spawning_done = false
 		var rays_this_cycle := 0

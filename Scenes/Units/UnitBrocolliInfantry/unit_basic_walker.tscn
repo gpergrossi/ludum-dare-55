@@ -1,0 +1,104 @@
+[gd_scene load_steps=9 format=3 uid="uid://cgnuyso8cokl4"]
+
+[ext_resource type="PackedScene" uid="uid://kkt6g2ery6vj" path="res://Scenes/Units/UnitBase/unit_base.tscn" id="1_p5ghv"]
+[ext_resource type="Script" path="res://Scenes/Units/UnitBrocolliInfantry/unit_basic_walker.gd" id="2_bsf7u"]
+[ext_resource type="PackedScene" uid="uid://bhp551sabqfag" path="res://Scenes/Units/TeamSprite/team_sprite.tscn" id="3_wmp0n"]
+[ext_resource type="PackedScene" uid="uid://civ0qmljlf0kk" path="res://Scenes/Important/googley_eyes_pair.tscn" id="7_v5u4a"]
+[ext_resource type="AudioStream" uid="uid://x7l2850b4seo" path="res://Assets/sound/broccolispear.wav" id="10_s7hwc"]
+
+[sub_resource type="Animation" id="Animation_6yb6h"]
+resource_name = "attacking"
+loop_mode = 1
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("LaneOffset/FacingRotation/Sprites/WeaponTransform")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0.532725, -0.959278, 0.247, 0.6, 1, 0.0593799, -0.959278, 0.247, 0.8, 1, 1.09126, -0.959278, 0.247, 1, 1, 0.532725, -0.959278, 0.247)
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.8),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"damage_targets"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_jau8h"]
+resource_name = "walking"
+loop_mode = 1
+tracks/0/type = "rotation_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("LaneOffset/FacingRotation/Sprites/BodyTransform")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1, 0.2, 1, 0, 0, -0.087, 0.996, 0.8, 1, 0, 0, 0.087, 0.996, 1, 1, 0, 0, 0, 1)
+tracks/1/type = "position_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("LaneOffset/FacingRotation/Sprites/WeaponTransform")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0, 1, 0.532725, -0.959278, 0.247, 1, 1, 0.532725, -0.959278, 0.247)
+tracks/2/type = "rotation_3d"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("LaneOffset/FacingRotation/Sprites/WeaponTransform")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_6y2rt"]
+_data = {
+"attacking": SubResource("Animation_6yb6h"),
+"walking": SubResource("Animation_jau8h")
+}
+
+[node name="UnitBasicWalker" instance=ExtResource("1_p5ghv")]
+script = ExtResource("2_bsf7u")
+attack_interval = 1.0
+damage_reduction = 5
+
+[node name="UnitAnimations" type="AnimationPlayer" parent="." index="0"]
+unique_name_in_owner = true
+libraries = {
+"": SubResource("AnimationLibrary_6y2rt")
+}
+
+[node name="TargetingTimer" type="Timer" parent="." index="1"]
+unique_name_in_owner = true
+wait_time = 0.25
+
+[node name="BodyTransform" type="Node3D" parent="LaneOffset/FacingRotation/Sprites" index="0"]
+transform = Transform3D(1, -7.45136e-09, 0, 7.45136e-09, 1, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="BrocolliSprite" parent="LaneOffset/FacingRotation/Sprites/BodyTransform" index="0" instance=ExtResource("3_wmp0n")]
+damage_flash_time = 0.5
+damage_flash_intensity = 0.5
+damage_flash_color = Color(0.815686, 0, 0, 1)
+
+[node name="GoogleyEyesPair" parent="LaneOffset/FacingRotation/Sprites/BodyTransform" index="1" instance=ExtResource("7_v5u4a")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.71373, 0)
+
+[node name="WeaponTransform" type="Node3D" parent="LaneOffset/FacingRotation/Sprites" index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.532725, -0.959278, 0.247)
+
+[node name="BrocolliSpearSprite" parent="LaneOffset/FacingRotation/Sprites/WeaponTransform" index="0" instance=ExtResource("3_wmp0n")]
+asset_var_name = "brocolli_spear_sprite"
+sort_offset = 0.5
+
+[node name="UnitTargeting" parent="." index="3"]
+target_scan_interval = 0.1
+
+[node name="Broccoli Spear Sound Player" type="AudioStreamPlayer" parent="." index="4"]
+unique_name_in_owner = true
+stream = ExtResource("10_s7hwc")
+volume_db = -15.0

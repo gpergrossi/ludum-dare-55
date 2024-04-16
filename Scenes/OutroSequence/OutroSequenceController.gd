@@ -19,12 +19,12 @@ var scroll_end_y : float;
 var done := false;
 
 func _ready():
-	var char = CharacterSelected.name;
+	var char_ = CharacterSelected.name;
 	var outcome = CharacterSelected.outcome;
 	
-	print('Character: ', char, ", Outcome: ", outcome);
+	print('Character: ', char_, ", Outcome: ", outcome);
 	
-	if (char == "Azra" && outcome == "Win") || (char == "Rory" && outcome == "Lose"):
+	if (char_ == "Azra" && outcome == "Win") || (char_ == "Rory" && outcome == "Lose"):
 		print('Showing Azra-wins credits.');
 		setImage(azra_victory_image);
 	else:

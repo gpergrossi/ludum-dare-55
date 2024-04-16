@@ -18,10 +18,10 @@ func _ready() -> void:
 
 
 
-func _on_state_changed(_me : UnitBase, new_state : UnitState, _old_state : UnitState):
+func _on_state_changed(_me : UnitBase, new_state : UnitTypeDefs.UnitState, _old_state : UnitTypeDefs.UnitState):
 	match(new_state):
-		UnitState.INITIALIZE: 
-			change_state(UnitState.MOVING)
+		UnitTypeDefs.UnitState.INITIALIZE: 
+			change_state(UnitTypeDefs.UnitState.MOVING)
 
 # Override if you want to pull stats from the spell definition dictionary
 func consume_spell_def(_spell_def : Dictionary):
@@ -56,7 +56,7 @@ func process_unit(delta : float) -> void:
 	_body.rotate(Vector3.BACK, delta * _spin)
 	
 	if is_instance_valid(_target):
-		if _target._state != UnitState.DEAD:
+		if _target._state != UnitTypeDefs.UnitState.DEAD:
 			var dir := (_target.global_position - global_position)
 			dir.z = 0.0
 			dir = dir.normalized()

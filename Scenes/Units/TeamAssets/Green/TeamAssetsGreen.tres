@@ -15,7 +15,7 @@
 [ext_resource type="PackedScene" uid="uid://bo0kpnjhu3jw0" path="res://Scenes/Units/TeamAssets/Green/GreenPopcornGrenadeSprite.tscn" id="13_sdj5a"]
 [ext_resource type="PackedScene" uid="uid://cdp6s266u5183" path="res://Scenes/Units/TeamAssets/Green/GreenPopcornSprite.tscn" id="14_lgt8h"]
 [ext_resource type="PackedScene" uid="uid://c6fyf3wev7pn8" path="res://Scenes/Units/TeamAssets/Green/GreenPumpkinSprite.tscn" id="15_02td2"]
-[ext_resource type="Script" path="res://Code/Scripts/Units/team_assets.gd" id="16_4aptj"]
+[ext_resource type="Script" path="res://Scenes/Units/TeamAssets/team_assets.gd" id="16_4aptj"]
 [ext_resource type="PackedScene" uid="uid://cn7pbxrrtm00d" path="res://Scenes/Units/TeamAssets/Green/GreenTomatoProjectileSprite.tscn" id="17_fdfuh"]
 [ext_resource type="PackedScene" uid="uid://b6c26x06uo1l" path="res://Scenes/Units/TeamAssets/Green/GreenTomatoSplatSprite.tscn" id="18_bb5lt"]
 [ext_resource type="PackedScene" uid="uid://bvvomxulfd8y0" path="res://Scenes/Units/TeamAssets/Green/GreenTomatoSprite.tscn" id="19_qwivb"]

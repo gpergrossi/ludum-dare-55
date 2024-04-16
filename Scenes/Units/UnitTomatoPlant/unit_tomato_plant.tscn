@@ -1,9 +1,9 @@
 [gd_scene load_steps=13 format=3 uid="uid://cc4fyhc8esjfl"]
 
-[ext_resource type="PackedScene" uid="uid://kkt6g2ery6vj" path="res://Scenes/Units/unit_base.tscn" id="1_1fci6"]
-[ext_resource type="Script" path="res://Code/Scripts/Units/unit_tomato_plant.gd" id="2_wxxe4"]
+[ext_resource type="PackedScene" uid="uid://kkt6g2ery6vj" path="res://Scenes/Units/UnitBase/unit_base.tscn" id="1_1fci6"]
+[ext_resource type="Script" path="res://Scenes/Units/UnitTomatoPlant/unit_tomato_plant.gd" id="2_wxxe4"]
 [ext_resource type="Texture2D" uid="uid://1yaupgrvy6mm" path="res://Assets/Images/shadow.png" id="3_mn76s"]
-[ext_resource type="PackedScene" uid="uid://bhp551sabqfag" path="res://Scenes/Units/Modules/team_sprite.tscn" id="4_wk5tf"]
+[ext_resource type="PackedScene" uid="uid://bhp551sabqfag" path="res://Scenes/Units/TeamSprite/team_sprite.tscn" id="4_wk5tf"]
 [ext_resource type="PackedScene" uid="uid://bvvomxulfd8y0" path="res://Scenes/Units/TeamAssets/Green/GreenTomatoSprite.tscn" id="5_1liam"]
 [ext_resource type="Shader" path="res://Code/Shaders/unit_sprite.gdshader" id="6_8qfs8"]
 [ext_resource type="Texture2D" uid="uid://d17mhvyladdpc" path="res://Assets/mob/tomato_green.png" id="7_mnjx7"]
@@ -40,8 +40,7 @@ size = Vector2(3.13, 2.91)
 [node name="UnitTomatoPlant" instance=ExtResource("1_1fci6")]
 script = ExtResource("2_wxxe4")
 attack_interval = 0.5
-unit_name = "Tomato Plant"
-unit_type = 4
+unit_type = 3
 max_health = 1000.0
 knockback_immunity = 1.0
 
@@ -69,5 +68,7 @@ wait_time = 0.25
 max_forward_range = 500.0
 max_backward_range = 500.0
 max_vertical_range = 500.0
+target_scan_interval = 0.2
+max_targets = 1
 algorithm = 5
 targeting_mask = 2

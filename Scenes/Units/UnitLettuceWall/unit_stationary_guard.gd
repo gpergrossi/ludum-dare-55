@@ -16,10 +16,10 @@ func _on_damage_taken(_me : UnitBase, damage_amount : float, _new_health : float
 	sound.play();
 
 
-func _on_state_changed(_me : UnitBase, new_state : UnitState, _old_state : UnitState):
+func _on_state_changed(_me : UnitBase, new_state : UnitTypeDefs.UnitState, _old_state : UnitTypeDefs.UnitState):
 	match(new_state):
-		UnitState.INITIALIZE: 
-			change_state(UnitState.DEFENDING)
+		UnitTypeDefs.UnitState.INITIALIZE: 
+			change_state(UnitTypeDefs.UnitState.DEFENDING)
 
 
 func process_unit(delta : float) -> void:

@@ -13,7 +13,7 @@ var eggCooldown := 0
 @export var moveSpeedMin := 6.0
 @export var moveSpeedMax := 25.0
 
-@export var patrolRange = 0.9; # Cover the central 90% of the field
+@export var patrol_margin = 10;  # If <= 0, the user can summon crows directly onto enemy building and they vanish.
 
 var flapHeight : float
 var flapMagnitude : float
@@ -38,10 +38,15 @@ func _ready() -> void:
 	super._ready()
 
 
+# Override
+func correct_spawn_position():
+	_position.x = clampf(_position.x, _manager.get_left_map_edge_x() + patrol_margin, _manager.get_right_map_edge_x() - patrol_margin)
+
+
 func selectIdiosyncracies():
 	flapHeight = randomWeightMid(flapHeightMin, flapHeightMax);
 	flapMagnitude = randomWeightMid(flapMagnitudeMin, flapMagnitudeMax);
-	top_speed = randomWeightMid(moveSpeedMin, moveSpeedMax);
+	base_move_speed = randomWeightMid(moveSpeedMin, moveSpeedMax);
 
 
 func randomWeightMid(min : float, max : float, weighting := 2):
@@ -57,22 +62,22 @@ func flap():
 	_velocity.y = flapMagnitude;
 
 
-func _on_state_changed(_me : UnitBase, new_state : UnitState, _old_state : UnitState):
+func _on_state_changed(_me : UnitBase, new_state : UnitTypeDefs.UnitState, _old_state : UnitTypeDefs.UnitState):
 	match(new_state):
-		UnitState.INITIALIZE: 
-			change_state(UnitState.MOVING)
+		UnitTypeDefs.UnitState.INITIALIZE: 
+			change_state(UnitTypeDefs.UnitState.MOVING)
 
 
 func process_unit(delta : float) -> void:
 	match(_state):
-		UnitState.MOVING:
-			walk(top_speed, delta, true)
+		UnitTypeDefs.UnitState.MOVING:
+			walk(base_move_speed, delta, true)
 			if (_position.y < flapHeight && _velocity.y < 0): 
 				flap();
-			if (get_facing_x() > 0 && position.x > _manager.get_right_map_edge_x() * patrolRange):
-				facing = UnitFacing.LEFT
-			if (get_facing_x() < 0 && position.x < _manager.get_left_map_edge_x() * patrolRange):
-				facing = UnitFacing.RIGHT
+			if (get_facing_x() > 0 && position.x > _manager.get_right_map_edge_x() - patrol_margin):
+				facing = UnitTypeDefs.UnitFacing.LEFT
+			if (get_facing_x() < 0 && position.x < _manager.get_left_map_edge_x() + patrol_margin):
+				facing = UnitTypeDefs.UnitFacing.RIGHT
 			
 			var targets := _unit_targeting.get_targets()
 			if len(targets) > 0:
@@ -82,4 +87,4 @@ func process_unit(delta : float) -> void:
 					var time := Time.get_ticks_msec()
 					if time > eggCooldown:
 						eggCooldown = time + eggCooldownDurationMillis
-						_manager.summonEggProjectile({}, _position, team)
+						_manager.summon(UnitTypeDefs.UnitType.CROW_EGG, {}, _position, team)

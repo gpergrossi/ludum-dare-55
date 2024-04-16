@@ -9,6 +9,47 @@ enum Algorithm {
 	CLUSTER       # Uses splash_radius to find max selection of multiple enemies.
 }
 
+enum UnitTargetGroup {
+	# UPDATES HERE SHOULD BE MANUALLY COPPIED TO THE export_flags BELOW
+	# UPDATES HERE SHOULD BE MANUALLY COPPIED TO THE export_flags BELOW
+	# UPDATES HERE SHOULD BE MANUALLY COPPIED TO THE export_flags BELOW
+	NONE = 0,
+	PROJECTILE = 0,
+	
+	# UPDATES HERE SHOULD BE MANUALLY COPPIED TO THE export_flags BELOW
+	# UPDATES HERE SHOULD BE MANUALLY COPPIED TO THE export_flags BELOW
+	# UPDATES HERE SHOULD BE MANUALLY COPPIED TO THE export_flags BELOW
+	BROCOLLI = 1,
+	CROW = 2,
+	TOMATO = 4,
+	LETTUCE = 8,
+	PUMPKIN = 16,
+	CARROT = 32,
+	CORN = 64,
+	POTATO = 128,
+	
+	# UPDATES HERE SHOULD BE MANUALLY COPPIED TO THE export_flags BELOW
+	# UPDATES HERE SHOULD BE MANUALLY COPPIED TO THE export_flags BELOW
+	# UPDATES HERE SHOULD BE MANUALLY COPPIED TO THE export_flags BELOW
+	ALL = 255,
+	ALL_FLYING = CROW,
+	ALL_GROUND = ALL - ALL_FLYING,
+}
+
+static func get_group_from_type(type : UnitTypeDefs.UnitType) -> UnitTargetGroup:
+	match(type):
+		UnitTypeDefs.UnitType.BROCOLLI:     return UnitTargetGroup.BROCOLLI
+		UnitTypeDefs.UnitType.CROW:         return UnitTargetGroup.CROW
+		UnitTypeDefs.UnitType.TOMATO_PLANT: return UnitTargetGroup.TOMATO
+		UnitTypeDefs.UnitType.PUMPKIN:      return UnitTargetGroup.PUMPKIN
+		UnitTypeDefs.UnitType.CARROT:       return UnitTargetGroup.CARROT
+		UnitTypeDefs.UnitType.CORN_PLANT:   return UnitTargetGroup.CORN
+		UnitTypeDefs.UnitType.POTATO:       return UnitTargetGroup.POTATO
+		
+		UnitTypeDefs.UnitType.CROW_EGG:           return UnitTargetGroup.PROJECTILE
+		UnitTypeDefs.UnitType.TOMATO_PROJECTILE:  return UnitTargetGroup.PROJECTILE
+		
+		_: assert(false, "Could not identify unit type " + str(type)); return UnitTargetGroup.NONE
 
 
 @export_category("Range")
@@ -42,7 +83,7 @@ enum Algorithm {
 	"Carrot:32",
 	"Corn:64",
 	"Potato:128",
-) var targeting_mask : int = UnitBase.UnitTypeMask.ALL
+) var targeting_mask : int = UnitTargetGroup.ALL
 
 @export var predicate : Callable = predicate_always
 
@@ -93,14 +134,14 @@ func internal_add_target(new_target : UnitBase):
 
 func internal_after_remove_target(removed_target : UnitBase):
 	removed_target.state_changed.disconnect(check_target_dead)
-	if is_instance_valid(removed_target) and (removed_target._state == UnitBase.UnitState.DEAD):
+	if is_instance_valid(removed_target) and (removed_target._state == UnitTypeDefs.UnitState.DEAD):
 		target_killed.emit(removed_target, len(_current_targets))
 	else:
 		target_lost.emit(removed_target, len(_current_targets))
 
 
-func check_target_dead(me : UnitBase, new_state : UnitBase.UnitState, _old_state : UnitBase.UnitState):
-	if new_state == UnitBase.UnitState.DEAD:
+func check_target_dead(me : UnitBase, new_state : UnitTypeDefs.UnitState, _old_state : UnitTypeDefs.UnitState):
+	if new_state == UnitTypeDefs.UnitState.DEAD:
 		var target := me
 		var index := _current_targets.find(me)
 		if index != -1:
@@ -182,7 +223,8 @@ func _find_targets_by_sorted_key(candidates : Array[UnitBase], candidate_keys : 
 
 func _get_possible_targets() -> Array[UnitBase]:
 	var candidates = [] as Array[UnitBase]
-	for unit in get_tree().get_nodes_in_group("units"):  # Could speed up with 1d tree even.
+	var group_list := get_tree().get_nodes_in_group("units")
+	for unit in group_list:  # Could speed up with 1d tree even.
 		if not _current_targets.has(unit) and is_valid_target(unit):
 			candidates.append(unit)
 	return candidates
@@ -191,11 +233,12 @@ func _get_possible_targets() -> Array[UnitBase]:
 func clean_target_list():
 	var i := 0
 	while i < len(_current_targets):
-		var unit := _current_targets[i] as UnitBase
-		if not is_valid_target(unit):
+		var unit := _current_targets[i]
+		if unit == null:
+			_current_targets.remove_at(i)
+		elif not is_valid_target(unit):
 			var target_removed := _current_targets[i]
 			_current_targets.remove_at(i)
-			
 			internal_after_remove_target(target_removed)
 		else:
 			i += 1
@@ -210,10 +253,10 @@ func _try_resume_targeting_timer():
 
 
 func is_valid_target(candidate : UnitBase) -> bool:
-	if not is_instance_valid(candidate): 
+	if not is_instance_valid(candidate):
 		return false
 	
-	if candidate._state == UnitBase.UnitState.DEAD:
+	if candidate._state == UnitTypeDefs.UnitState.DEAD:
 		return false
 	
 	var facing_x := _parent_unit.get_facing_x()
@@ -238,7 +281,7 @@ func is_valid_target(candidate : UnitBase) -> bool:
 		return false 
 	
 	# Unit type mask
-	if (targeting_mask & candidate.unit_type) == 0:
+	if (targeting_mask & UnitTargeting.get_group_from_type(candidate.unit_type)) == 0:
 		return false
 	
 	# Team

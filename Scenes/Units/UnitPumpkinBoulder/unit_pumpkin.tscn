@@ -1,8 +1,8 @@
 [gd_scene load_steps=13 format=3 uid="uid://bsdkwjs1f72r2"]
 
-[ext_resource type="PackedScene" uid="uid://kkt6g2ery6vj" path="res://Scenes/Units/unit_base.tscn" id="1_uj2tm"]
-[ext_resource type="Script" path="res://Code/Scripts/Units/unit_pumpkin.gd" id="2_6ldwq"]
-[ext_resource type="PackedScene" uid="uid://bhp551sabqfag" path="res://Scenes/Units/Modules/team_sprite.tscn" id="3_bchgn"]
+[ext_resource type="PackedScene" uid="uid://kkt6g2ery6vj" path="res://Scenes/Units/UnitBase/unit_base.tscn" id="1_uj2tm"]
+[ext_resource type="Script" path="res://Scenes/Units/UnitPumpkinBoulder/unit_pumpkin.gd" id="2_6ldwq"]
+[ext_resource type="PackedScene" uid="uid://bhp551sabqfag" path="res://Scenes/Units/TeamSprite/team_sprite.tscn" id="3_bchgn"]
 [ext_resource type="PackedScene" uid="uid://c6fyf3wev7pn8" path="res://Scenes/Units/TeamAssets/Green/GreenPumpkinSprite.tscn" id="4_pm4p0"]
 [ext_resource type="Shader" path="res://Code/Shaders/unit_sprite.gdshader" id="5_ysx3d"]
 [ext_resource type="Texture2D" uid="uid://brw83d7inidir" path="res://Assets/mob/pumpkin_green.png" id="6_lxq5y"]
@@ -54,15 +54,11 @@ size = Vector2(4.83, 4.56)
 [node name="UnitPumpkin" instance=ExtResource("1_uj2tm")]
 script = ExtResource("2_6ldwq")
 roll_top_speed = 100.0
-hit_interval = 0.01
-unit_name = "Pumpkin Boulder"
-unit_type = 16
+roll_top_speed_time = 3.0
+accel_effect_max_slope = 0.3
+accel_affect_weight = 0.2
+unit_type = 6
 unit_move_type = 2
-move_accel = 10.0
-max_health = 50.0
-damage = 50.0
-knockback = 20.0
-reach_caster_damage = 2.0
 
 [node name="UnitAnimations" type="AnimationPlayer" parent="." index="0"]
 unique_name_in_owner = true
@@ -89,5 +85,7 @@ transform = Transform3D(1.695, 0, 0, 0, 1.695, 0, 0, 0, 1.695, 0, 0.451217, 0)
 max_forward_range = 1.0
 max_backward_range = 1.0
 max_vertical_range = 1.0
-target_scan_interval = 100.0
+target_scan_interval = 0.05
 max_targets = 500
+algorithm = 0
+targeting_mask = 255
