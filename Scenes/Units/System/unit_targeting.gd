@@ -129,19 +129,19 @@ func _on_timer():
 func internal_add_target(new_target : UnitBase):
 	if len(_current_targets) < max_targets:
 		_current_targets.append(new_target)
-		new_target.state_changed.connect(check_target_dead)
+		new_target.state_changed.connect(internal_check_target_dead)
 		target_acquired.emit(new_target, len(_current_targets))
 
 
 func internal_after_remove_target(removed_target : UnitBase):
-	removed_target.state_changed.disconnect(check_target_dead)
+	removed_target.state_changed.disconnect(internal_check_target_dead)
 	if is_instance_valid(removed_target) and (removed_target._state == UnitTypeDefs.UnitState.DEAD):
 		target_killed.emit(removed_target, len(_current_targets))
 	else:
 		target_lost.emit(removed_target, len(_current_targets))
 
 
-func check_target_dead(me : UnitBase, new_state : UnitTypeDefs.UnitState, _old_state : UnitTypeDefs.UnitState):
+func internal_check_target_dead(me : UnitBase, new_state : UnitTypeDefs.UnitState, _old_state : UnitTypeDefs.UnitState):
 	if new_state == UnitTypeDefs.UnitState.DEAD:
 		var target := me
 		var index := _current_targets.find(me)
@@ -151,28 +151,41 @@ func check_target_dead(me : UnitBase, new_state : UnitTypeDefs.UnitState, _old_s
 
 
 func find_targets_by_distance(candidates : Array[UnitBase], max_count := -1, farthest_first := false) -> Array[UnitBase]:
+	if _parent_unit == null or not is_instance_valid(_parent_unit): return candidates
 	var candidate_distances := [] as PackedFloat32Array
 	for unit in candidates:
-		var distance_squared := _parent_unit.global_position.distance_squared_to(unit.global_position)
-		candidate_distances.append(distance_squared)
+		if unit == null or not is_instance_valid(unit):
+			candidate_distances.append(NAN)
+		else:
+			var distance_squared := _parent_unit.global_position.distance_squared_to(unit.global_position)
+			candidate_distances.append(distance_squared)
 	return _find_targets_by_sorted_key(candidates, candidate_distances, max_count, farthest_first)
 
 
 func find_targets_by_health(candidates : Array[UnitBase], max_count := -1, highest_first := false) -> Array[UnitBase]:
+	if _parent_unit == null or not is_instance_valid(_parent_unit): return candidates
 	var candidate_healths := [] as PackedFloat32Array
 	for unit in candidates:
-		candidate_healths.append(unit._health)
+		if unit == null or not is_instance_valid(unit):
+			candidate_healths.append(NAN)
+		else:
+			candidate_healths.append(unit._health)
 	return _find_targets_by_sorted_key(candidates, candidate_healths, max_count, highest_first)
 
 
 func find_targets_by_damage(candidates : Array[UnitBase], max_count := -1, highest_first := false) -> Array[UnitBase]:
+	if _parent_unit == null or not is_instance_valid(_parent_unit): return candidates
 	var candidate_damages := [] as PackedFloat32Array
 	for unit in candidates:
-		candidate_damages.append(unit.damage)
+		if unit == null or not is_instance_valid(unit):
+			candidate_damages.append(NAN)
+		else:
+			candidate_damages.append(unit.damage)
 	return _find_targets_by_sorted_key(candidates, candidate_damages, max_count, highest_first)
 
 
 func find_targets_by_cluster_score(candidates : Array[UnitBase], max_count := -1, highest_first := false) -> Array[UnitBase]:
+	if _parent_unit == null or not is_instance_valid(_parent_unit): return candidates
 	var candidate_cluster_scores := [] as PackedFloat32Array
 	candidate_cluster_scores.resize(len(candidates))
 	candidate_cluster_scores.fill(1.0)
@@ -181,11 +194,16 @@ func find_targets_by_cluster_score(candidates : Array[UnitBase], max_count := -1
 	
 	for i in range(len(candidates)-1):
 		var candidate_i := candidates[i]
-		for j in range(i+1, len(candidates)):
-			var candidate_j := candidates[j]
-			if candidate_i.global_position.distance_squared_to(candidate_j.global_position) < splash_radius_squared:
-				candidate_cluster_scores[i] += 1.0
-				candidate_cluster_scores[j] += 1.0
+		if candidate_i == null or not is_instance_valid(candidate_i):
+			candidate_cluster_scores[i] = NAN
+		else:
+			for j in range(i+1, len(candidates)):
+				var candidate_j := candidates[j]
+				if candidate_j == null or not is_instance_valid(candidate_j):
+					candidate_cluster_scores[j] = NAN
+				elif candidate_i.global_position.distance_squared_to(candidate_j.global_position) < splash_radius_squared:
+					candidate_cluster_scores[i] += 1.0
+					candidate_cluster_scores[j] += 1.0
 	
 	return _find_targets_by_sorted_key(candidates, candidate_cluster_scores, max_count, highest_first)
 
@@ -193,18 +211,36 @@ func find_targets_by_cluster_score(candidates : Array[UnitBase], max_count := -1
 func _find_targets_by_sorted_key(candidates : Array[UnitBase], candidate_keys : PackedFloat32Array, max_count := -1, reverse_sort := false):
 	if len(candidates) == 0:
 		return [] as Array[UnitBase]
+	if max_count == -1: 
+		max_count = len(candidates)
 	
 	# Building an indices array
+	var nan_count := 0
 	var candidate_indices := [] as Array
 	for i in range(len(candidates)):
 		candidate_indices.append(i)
+		if is_nan(candidate_keys[i]):
+			nan_count += 1
+	
+	# Remove NANs from possible results
+	max_count = mini(max_count, len(candidates) - nan_count)
+	if max_count == 0: 
+		return [] as Array[UnitBase]
 	
 	# Sort indices by key
 	candidate_indices.sort_custom(
 		func custom_distance_sort(a, b) -> bool: 
 			if reverse_sort:
+				# NANs to the end
+				if is_nan(candidate_keys[a]): return false
+				if is_nan(candidate_keys[b]): return true
+				# Larger values first
 				return candidate_keys[a] > candidate_keys[b]
 			else:
+				# NANs to the end
+				if is_nan(candidate_keys[a]): return false
+				if is_nan(candidate_keys[b]): return true
+				# Smaller values first
 				return candidate_keys[a] < candidate_keys[b]
 	)
 	
@@ -228,6 +264,7 @@ func get_possible_targets() -> Array[UnitBase]:
 
 
 func clean_target_list():
+	if _parent_unit == null or not is_instance_valid(_parent_unit): return
 	var i := 0
 	while i < len(_current_targets):
 		var unit := _current_targets[i]
@@ -250,6 +287,7 @@ func _try_resume_targeting_timer():
 
 
 func is_valid_target(candidate : UnitBase) -> bool:
+	if _parent_unit == null or not is_instance_valid(_parent_unit): return false
 	if not is_instance_valid(candidate):
 		return false
 	
@@ -295,6 +333,7 @@ func is_valid_target(candidate : UnitBase) -> bool:
 
 
 func search_now():
+	if _parent_unit == null or not is_instance_valid(_parent_unit): return
 	clean_target_list()
 	
 	var max_target_count := max_targets - len(_current_targets)

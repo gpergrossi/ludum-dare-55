@@ -15,6 +15,8 @@ var eggCooldown := 0
 
 @export var patrol_margin = 10;  # If <= 0, the user can summon crows directly onto enemy building and they vanish.
 
+@onready var stat_block_egg : UnitStatsResource = preload("res://Scenes/Units/Combat/Stats/stats_crow_egg.tres")
+
 var flapHeight : float
 var flapMagnitude : float
 
@@ -22,18 +24,18 @@ func _virtual_ready() -> void:
 	selectIdiosyncracies();
 	state_changed.connect(_on_state_changed)
 	
-	_unit_targeting.target_acquired.connect(
-		func (new_target : UnitBase, new_target_count : int):  
-			print(name + ": Target acquired " + new_target.name + " (" + str(new_target_count) + ")")
-	)
-	_unit_targeting.target_lost.connect(
-		func (new_target : UnitBase, new_target_count : int):  
-			print(name + ": Target lost " + new_target.name + " (" + str(new_target_count) + ")")
-	)
-	_unit_targeting.target_killed.connect(
-		func (new_target : UnitBase, new_target_count : int):  
-			print(name + ": Target killed " + new_target.name + " (" + str(new_target_count) + ")")
-	)
+	#_unit_targeting.target_acquired.connect(
+		#func (new_target : UnitBase, new_target_count : int):  
+			#print(name + ": Target acquired " + new_target.name + " (" + str(new_target_count) + ")")
+	#)
+	#_unit_targeting.target_lost.connect(
+		#func (new_target : UnitBase, new_target_count : int):  
+			#print(name + ": Target lost " + new_target.name + " (" + str(new_target_count) + ")")
+	#)
+	#_unit_targeting.target_killed.connect(
+		#func (new_target : UnitBase, new_target_count : int):  
+			#print(name + ": Target killed " + new_target.name + " (" + str(new_target_count) + ")")
+	#)
 
 
 # Override
@@ -77,13 +79,18 @@ func process_unit(delta : float) -> void:
 			if (get_facing_x() < 0 && position.x < _manager.get_left_map_edge_x() + patrol_margin):
 				facing = UnitTypeDefs.UnitFacing.RIGHT
 			
-			var targets := _unit_targeting.get_targets()
-			
-			for target in _unit_targeting.find_targets_by_distance(targets, 1):
-				var target_x := target.position.x
-				if absf(position.x - target_x) < 2.0:
-					# Drop egg
-					var time := Time.get_ticks_msec()
-					if time > eggCooldown:
+			var time := Time.get_ticks_msec()
+			if time > eggCooldown:
+				var drop_dist := _position.y - get_ground_height(_position.x)
+				var drop_time := sqrt(drop_dist / stat_block_egg.gravity)
+				
+				var targets := _unit_targeting.get_targets()
+				for target in _unit_targeting.find_targets_by_distance(targets):
+					# Predict location when egg hits.
+					var future_x := target._position.x + target._velocity.x * drop_time
+					
+					# Drop an egg when it would hit.
+					if absf(future_x - _position.x) < 1.0:
 						eggCooldown = time + eggCooldownDurationMillis
 						_manager.summon(UnitTypeDefs.UnitType.CROW_EGG, {}, _position, team)
+						break
