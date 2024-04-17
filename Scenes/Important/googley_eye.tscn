@@ -29,12 +29,14 @@ material = SubResource("StandardMaterial3D_rlpac")
 radius = 0.25
 height = 0.085
 radial_segments = 36
-rings = 6
+rings = 1
 
 [sub_resource type="SphereMesh" id="SphereMesh_tj0mp"]
 material = SubResource("StandardMaterial3D_q2u6q")
 radius = 0.09
 height = 0.055
+radial_segments = 14
+rings = 1
 
 [node name="GoogleyEye" type="Node3D"]
 script = ExtResource("1_roj0n")

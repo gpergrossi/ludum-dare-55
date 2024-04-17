@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="UnitStatsResource" load_steps=2 format=3 uid="uid://63hd0jjrlgnw"]
+
+[ext_resource type="Script" path="res://Code/Scripts/unit_stats_resource.gd" id="1_wiwcb"]
+
+[resource]
+script = ExtResource("1_wiwcb")
+move_speed = 10.0
+move_acceleration = 100.0
+gravity = 40.0
+damage = 40
+knockback = 10
+reach_caster_damage = 0
+cleave_efficiency = 1.0
+max_health = 100
+damage_reduction = 0
+knockback_immunity = 0.0

@@ -6,7 +6,7 @@ const rory_victory_image : Texture2D = preload("res://Assets/Images/rorywinscred
 
 # Configuration constants
 const start_scroll_delay := 2000;
-const scroll_acceleration_duration := 8000;
+const scroll_acceleration_duration := 5000;
 const scroll_speed := 70; # pixels / sec
 
 # Derived constants
@@ -19,6 +19,8 @@ var scroll_end_y : float;
 var done := false;
 
 func _ready():
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	
 	var char_ = CharacterSelected.name;
 	var outcome = CharacterSelected.outcome;
 	

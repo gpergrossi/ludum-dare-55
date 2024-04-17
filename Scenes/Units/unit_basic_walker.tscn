@@ -1,0 +1,156 @@
+[gd_scene load_steps=17 format=3 uid="uid://cgnuyso8cokl4"]
+
+[ext_resource type="PackedScene" uid="uid://kkt6g2ery6vj" path="res://Scenes/Units/unit_base.tscn" id="1_hii5r"]
+[ext_resource type="Script" path="res://Scenes/Units/unit_basic_walker.gd" id="2_no53m"]
+[ext_resource type="PackedScene" uid="uid://bhp551sabqfag" path="res://Scenes/Units/System/team_sprite.tscn" id="3_8nlga"]
+[ext_resource type="Resource" uid="uid://jsv1yvyshv3k" path="res://Scenes/Units/Combat/Stats/stats_brocolli.tres" id="3_ho68t"]
+[ext_resource type="PackedScene" uid="uid://civ0qmljlf0kk" path="res://Scenes/Important/googley_eyes_pair.tscn" id="4_dnpj6"]
+[ext_resource type="AudioStream" uid="uid://x7l2850b4seo" path="res://Assets/sound/broccolispear.wav" id="5_sl5gj"]
+[ext_resource type="Texture2D" uid="uid://rdcuybv32pwq" path="res://Assets/mob/broccoli_green.png" id="6_ckyp2"]
+[ext_resource type="Shader" path="res://Code/Shaders/unit_sprite.gdshader" id="6_yjg32"]
+[ext_resource type="Texture2D" uid="uid://bd884vobgkga6" path="res://Assets/mob/broccolispear_green.png" id="7_fq8qe"]
+
+[sub_resource type="Animation" id="Animation_6yb6h"]
+resource_name = "attacking"
+loop_mode = 1
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("LaneOffset/FacingRotation/Sprites/WeaponTransform")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0, 1.176, 0, 0.6, 1, -0.494958, 1.176, 0, 0.8, 1, 0.641899, 1.176, 0, 1, 1, 0, 1.176, 0)
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.8),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"damage_targets"
+}]
+}
+tracks/2/type = "rotation_3d"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("LaneOffset/FacingRotation/Sprites/WeaponTransform")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1, 0.6, 1, 0, 0, -0.031, 1, 0.8, 1, 0, 0, 0.0745523, 0.997217, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="Animation" id="Animation_jau8h"]
+resource_name = "walking"
+loop_mode = 1
+tracks/0/type = "rotation_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("LaneOffset/FacingRotation/Sprites/BodyTransform")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1, 0.2, 1, 0, 0, -0.087, 0.996, 0.8, 1, 0, 0, 0.087, 0.996, 1, 1, 0, 0, 0, 1)
+tracks/1/type = "position_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("LaneOffset/FacingRotation/Sprites/WeaponTransform")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0, 1, 0, 1.176, 0, 0.2, 1, 0.177876, 1.16053, 0, 0.8, 1, -0.303548, 1.17213, 0, 1, 1, 0, 1.176, 0)
+tracks/2/type = "rotation_3d"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("LaneOffset/FacingRotation/Sprites/WeaponTransform")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1, 0.2, 1, 0, 0, 0.022, 1, 0.8, 1, 0, 0, -0.022, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_6y2rt"]
+_data = {
+"attacking": SubResource("Animation_6yb6h"),
+"walking": SubResource("Animation_jau8h")
+}
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2cdob"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("6_yjg32")
+shader_parameter/albedo = Color(1, 1, 1, 1)
+shader_parameter/roughness = null
+shader_parameter/specular = null
+shader_parameter/metallic = null
+shader_parameter/texture_albedo = ExtResource("6_ckyp2")
+
+[sub_resource type="QuadMesh" id="QuadMesh_lhb4s"]
+resource_local_to_scene = true
+material = SubResource("ShaderMaterial_2cdob")
+size = Vector2(2.85, 4.08)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5anee"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("6_yjg32")
+shader_parameter/albedo = Color(1, 1, 1, 1)
+shader_parameter/roughness = null
+shader_parameter/specular = null
+shader_parameter/metallic = null
+shader_parameter/texture_albedo = ExtResource("7_fq8qe")
+
+[sub_resource type="QuadMesh" id="QuadMesh_re7jt"]
+resource_local_to_scene = true
+material = SubResource("ShaderMaterial_5anee")
+size = Vector2(2.65, 0.87)
+
+[node name="UnitBrocolli" instance=ExtResource("1_hii5r")]
+script = ExtResource("2_no53m")
+attack_interval = 1.0
+stat_block = ExtResource("3_ho68t")
+
+[node name="UnitAnimations" type="AnimationPlayer" parent="." index="0"]
+unique_name_in_owner = true
+libraries = {
+"": SubResource("AnimationLibrary_6y2rt")
+}
+
+[node name="TargetingTimer" type="Timer" parent="." index="1"]
+unique_name_in_owner = true
+wait_time = 0.25
+
+[node name="BodyTransform" type="Node3D" parent="LaneOffset/FacingRotation/Sprites" index="0"]
+transform = Transform3D(0.998553, -0.0537857, 0, 0.0537857, 0.998553, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="BrocolliSprite" parent="LaneOffset/FacingRotation/Sprites/BodyTransform" index="0" instance=ExtResource("3_8nlga")]
+damage_flash_time = 0.5
+damage_flash_intensity = 0.5
+damage_flash_color = Color(0.815686, 0, 0, 1)
+
+[node name="dummy" parent="LaneOffset/FacingRotation/Sprites/BodyTransform/BrocolliSprite" index="0"]
+mesh = SubResource("QuadMesh_lhb4s")
+
+[node name="GoogleyEyesPair" parent="LaneOffset/FacingRotation/Sprites/BodyTransform" index="1" instance=ExtResource("4_dnpj6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00771965, 1.81159, 0)
+
+[node name="WeaponTransform" type="Node3D" parent="LaneOffset/FacingRotation/Sprites" index="1"]
+transform = Transform3D(0.999908, 0.0135867, 0, -0.0135867, 0.999908, 0, 0, 0, 1, -0.137175, 1.16812, 0)
+
+[node name="BrocolliSpearSprite" parent="LaneOffset/FacingRotation/Sprites/WeaponTransform" index="0" instance=ExtResource("3_8nlga")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.129062, -0.00628173, 0)
+asset_var_name = "brocolli_spear_sprite"
+sort_offset = 0.5
+
+[node name="dummy" parent="LaneOffset/FacingRotation/Sprites/WeaponTransform/BrocolliSpearSprite" index="0"]
+sorting_offset = 0.5
+mesh = SubResource("QuadMesh_re7jt")
+
+[node name="UnitTargeting" parent="." index="3"]
+target_scan_interval = 0.1
+
+[node name="Broccoli Spear Sound Player" type="AudioStreamPlayer" parent="." index="4"]
+unique_name_in_owner = true
+stream = ExtResource("5_sl5gj")
+volume_db = -15.0
+
+[editable path="LaneOffset/FacingRotation/Sprites/BodyTransform/BrocolliSprite"]
+[editable path="LaneOffset/FacingRotation/Sprites/WeaponTransform/BrocolliSpearSprite"]

@@ -41,7 +41,7 @@ var _avoid_spheres : Array[CollisionShape3D]
 var _target_count := 0
 var _fail_count := 0
 var _normalized_spawnable_odds : PackedFloat32Array
-var _spawning_done := false
+var _spawning_done := true
 var _spawned_object_count := 0
 
 # Called when the node enters the scene tree for the first time.
@@ -50,10 +50,9 @@ func _ready():
 
 
 func _physics_process(_delta : float):
-	if not Engine.is_editor_hint(): return
+	if _spawning_done: return
 	
 	if _spawned_object_count < _target_count and _fail_count < MAX_FAILS:
-		_spawning_done = false
 		var rays_this_cycle := 0
 		while rays_this_cycle < MAX_RAYS_PER_CYCLE and _spawned_object_count < _target_count and _fail_count < MAX_FAILS:
 			rays_this_cycle += 1
@@ -111,6 +110,8 @@ func spawn_stuff():
 	for i in range(len(spawnables)):
 		_normalized_spawnable_odds[i] /= total
 		print("Odds of " + str(spawnables[i]) + " is " + str(_normalized_spawnable_odds[i]))
+		
+	_spawning_done = false
  
 
 func try_spawn_shape(collider : CollisionShape3D, space_state : PhysicsDirectSpaceState3D) -> bool:

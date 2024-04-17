@@ -19,5 +19,5 @@ material = SubResource("ShaderMaterial_ln2i3")
 size = Vector2(1.66, 1.83)
 
 [node name="RedEggSplatSprite" type="MeshInstance3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.126426, -0.121934, 0)
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0.126426, -0.121934, 0)
 mesh = SubResource("QuadMesh_h0q2l")

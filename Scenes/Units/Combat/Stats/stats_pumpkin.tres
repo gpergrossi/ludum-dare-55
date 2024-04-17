@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="UnitStatsResource" load_steps=2 format=3 uid="uid://msns6od3v65p"]
+
+[ext_resource type="Script" path="res://Code/Scripts/unit_stats_resource.gd" id="1_mh1mk"]
+
+[resource]
+script = ExtResource("1_mh1mk")
+move_speed = 10.0
+move_acceleration = 100.0
+gravity = 40.0
+damage = 120
+knockback = 30
+reach_caster_damage = 20
+cleave_efficiency = 1.0
+max_health = 100
+damage_reduction = 0
+knockback_immunity = 1.0

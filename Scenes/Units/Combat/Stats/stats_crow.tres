@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="UnitStatsResource" load_steps=2 format=3 uid="uid://b75cmgss70fln"]
+
+[ext_resource type="Script" path="res://Code/Scripts/unit_stats_resource.gd" id="1_njgcc"]
+
+[resource]
+script = ExtResource("1_njgcc")
+move_speed = 10.0
+move_acceleration = 100.0
+gravity = 30.0
+damage = 30
+knockback = 10
+reach_caster_damage = 10
+cleave_efficiency = 0.0
+max_health = 50
+damage_reduction = 0
+knockback_immunity = 0.0

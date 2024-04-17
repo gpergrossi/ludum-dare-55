@@ -9,7 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://p614kctv6eve" path="res://Scenes/UI/progress_bar_3d.tscn" id="6_jfgym"]
 [ext_resource type="PackedScene" uid="uid://3w320yfp33fl" path="res://Scenes/UI/fader.tscn" id="6_mile2"]
 [ext_resource type="PackedScene" uid="uid://cnfygjo801chm" path="res://Scenes/Sigil/sigil.tscn" id="7_56svx"]
-[ext_resource type="Script" path="res://Scenes/Units/Manager/unit_manager.gd" id="8_ha0w3"]
+[ext_resource type="Script" path="res://Scenes/Units/System/unit_manager.gd" id="8_ha0w3"]
 [ext_resource type="PackedScene" uid="uid://dub5xj3whpcmw" path="res://Scenes/PositionSelector/position_selector.tscn" id="9_ypx28"]
 [ext_resource type="PackedScene" uid="uid://cwdsex7rj3xwg" path="res://Scenes/Props/caster_billboard.tscn" id="12_0id56"]
 [ext_resource type="AudioStream" uid="uid://b6pi35hy72g4r" path="res://Assets/sound/spellsuccess.wav" id="12_1q0wg"]
@@ -64,7 +64,6 @@ point_count = 2
 
 [node name="Main" type="Node3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00622559, 0.24205, -0.0444489)
-visible = false
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_e4w5b")
@@ -81,8 +80,8 @@ follow_target = NodePath("../CameraController/Camera Rotate/Camera Offset/Camera
 [node name="CameraController" type="Node3D" parent="." node_paths=PackedStringArray("left_edge", "right_edge")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0)
 script = ExtResource("5_046qu")
-left_edge = NodePath("../Left Side Things/Default Spawn Position")
-right_edge = NodePath("../Right Side Things/Default Spawn Position")
+left_edge = NodePath("../Left Side Things/LeftSpawn")
+right_edge = NodePath("../Right Side Things/RightSpawn")
 
 [node name="Camera Rotate" type="Node3D" parent="CameraController"]
 transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 0, 0)
@@ -188,7 +187,8 @@ metadata/_edit_lock_ = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -55, 0, 0)
 metadata/_edit_group_ = true
 
-[node name="Default Spawn Position" type="Node3D" parent="Left Side Things"]
+[node name="LeftSpawn" type="Node3D" parent="Left Side Things"]
+unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0)
 
 [node name="HealthBarLeft" parent="Left Side Things" instance=ExtResource("6_jfgym")]
@@ -206,7 +206,8 @@ is_left_side = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 55, 0, 0)
 metadata/_edit_group_ = true
 
-[node name="Default Spawn Position" type="Node3D" parent="Right Side Things"]
+[node name="RightSpawn" type="Node3D" parent="Right Side Things"]
+unique_name_in_owner = true
 
 [node name="HealthBarRight" parent="Right Side Things" instance=ExtResource("6_jfgym")]
 transform = Transform3D(15, 0, 0, 0, 15, 0, 0, 0, 15, 0, 20, 0)
@@ -219,10 +220,8 @@ texture = ExtResource("13_i6h6p")
 
 [node name="RedCastleRight" parent="Right Side Things" instance=ExtResource("14_dk7md")]
 
-[node name="UnitManager" type="Node3D" parent="." node_paths=PackedStringArray("summon_default_position_left", "summon_default_position_right")]
+[node name="UnitManager" type="Node3D" parent="."]
 script = ExtResource("8_ha0w3")
-summon_default_position_left = NodePath("../Left Side Things/Default Spawn Position")
-summon_default_position_right = NodePath("../Right Side Things/Default Spawn Position")
 
 [node name="PlayerController" type="Node" parent="." node_paths=PackedStringArray("healthBar")]
 unique_name_in_owner = true

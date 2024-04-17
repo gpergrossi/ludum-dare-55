@@ -53,7 +53,7 @@ func _physics_process(delta : float):
 	pupil_pos += pupil_vel * delta
 	
 	# Dampening
-	pupil_vel = pupil_vel * pow(dampening, delta)
+	pupil_vel = pupil_vel * pow(dampening, delta / 0.1)
 	
 	# Enforce position limit
 	var dist := pupil_pos.length()

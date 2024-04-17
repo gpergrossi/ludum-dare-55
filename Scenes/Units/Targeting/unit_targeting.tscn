@@ -1,8 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://bnwnixg1uue6h"]
-
-[ext_resource type="Script" path="res://Scenes/Units/Targeting/unit_targeting.gd" id="1_ar752"]
-
-[node name="UnitTargeting" type="Node3D"]
-script = ExtResource("1_ar752")
-
-[node name="Timer" type="Timer" parent="."]

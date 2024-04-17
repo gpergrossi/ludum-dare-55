@@ -1,0 +1,95 @@
+[gd_scene load_steps=13 format=3 uid="uid://bsdkwjs1f72r2"]
+
+[ext_resource type="PackedScene" uid="uid://kkt6g2ery6vj" path="res://Scenes/Units/unit_base.tscn" id="1_uj2tm"]
+[ext_resource type="Script" path="res://Scenes/Units/unit_pumpkin.gd" id="2_6ldwq"]
+[ext_resource type="Resource" uid="uid://msns6od3v65p" path="res://Scenes/Units/Combat/Stats/stats_pumpkin.tres" id="3_fspou"]
+[ext_resource type="PackedScene" uid="uid://bhp551sabqfag" path="res://Scenes/Units/System/team_sprite.tscn" id="3_yo68a"]
+[ext_resource type="Shader" path="res://Code/Shaders/unit_sprite.gdshader" id="5_annhe"]
+[ext_resource type="Texture2D" uid="uid://brw83d7inidir" path="res://Assets/mob/pumpkin_green.png" id="6_yir6e"]
+[ext_resource type="PackedScene" uid="uid://civ0qmljlf0kk" path="res://Scenes/Important/googley_eyes_pair.tscn" id="7_m2ifx"]
+
+[sub_resource type="Animation" id="Animation_6yb6h"]
+resource_name = "attacking"
+loop_mode = 1
+tracks/0/type = "rotation_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("LaneOffset/FacingRotation/Sprites/BodyTransform")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1, 0.2, 1, 0, 0, -0.707, 0.707, 0.5, 1, 0, 0, -1, 0, 0.8, 1, 0, 0, -0.707, -0.707, 1, 1, 0, 0, 0, -1)
+
+[sub_resource type="Animation" id="Animation_jau8h"]
+resource_name = "walking"
+loop_mode = 1
+tracks/0/type = "rotation_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("LaneOffset/FacingRotation/Sprites/BodyTransform")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1, 0.2, 1, 0, 0, -0.087, 0.996, 0.8, 1, 0, 0, 0.087, 0.996, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_6y2rt"]
+_data = {
+"attacking": SubResource("Animation_6yb6h"),
+"walking": SubResource("Animation_jau8h")
+}
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_y4iwj"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("5_annhe")
+shader_parameter/albedo = Color(1, 1, 1, 1)
+shader_parameter/roughness = null
+shader_parameter/specular = null
+shader_parameter/metallic = null
+shader_parameter/texture_albedo = ExtResource("6_yir6e")
+
+[sub_resource type="QuadMesh" id="QuadMesh_2hwoh"]
+resource_local_to_scene = true
+material = SubResource("ShaderMaterial_y4iwj")
+size = Vector2(4.83, 4.56)
+
+[node name="UnitPumpkin" instance=ExtResource("1_uj2tm")]
+script = ExtResource("2_6ldwq")
+roll_top_speed = 50.0
+roll_top_speed_time = 3.0
+accel_effect_max_slope = 0.3
+accel_affect_weight = 0.2
+unit_type = 6
+stat_block = ExtResource("3_fspou")
+unit_move_type = 2
+floor_snap_distance = 0.25
+
+[node name="UnitAnimations" type="AnimationPlayer" parent="." index="0"]
+unique_name_in_owner = true
+libraries = {
+"": SubResource("AnimationLibrary_6y2rt")
+}
+
+[node name="BodyTransform" type="Node3D" parent="LaneOffset/FacingRotation/Sprites" index="0"]
+transform = Transform3D(0.665, 0, 0, 0, 0.665, 0, 0, 0, 0.665, 0, 1.36, 0)
+
+[node name="PumpkinSprite" parent="LaneOffset/FacingRotation/Sprites/BodyTransform" index="0" instance=ExtResource("3_yo68a")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 0)
+asset_var_name = "pumpkin_sprite"
+damage_flash_time = 0.5
+damage_flash_intensity = 0.5
+damage_flash_color = Color(0.815686, 0, 0, 1)
+
+[node name="dummy" parent="LaneOffset/FacingRotation/Sprites/BodyTransform/PumpkinSprite" index="0"]
+mesh = SubResource("QuadMesh_2hwoh")
+
+[node name="GoogleyEyesPair" parent="LaneOffset/FacingRotation/Sprites/BodyTransform" index="1" instance=ExtResource("7_m2ifx")]
+transform = Transform3D(1.695, 0, 0, 0, 1.695, 0, 0, 0, 1.695, 0, 0.432183, 0)
+
+[node name="UnitTargeting" parent="." index="2"]
+max_forward_range = 3.0
+max_backward_range = 3.0
+max_vertical_range = 3.0
+target_scan_interval = 0.01
+max_targets = 500
+targeting_mask = 77
+
+[editable path="LaneOffset/FacingRotation/Sprites/BodyTransform/PumpkinSprite"]
